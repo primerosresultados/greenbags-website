@@ -215,6 +215,11 @@ $buyLabel      = $buyMode === 'quote'
     ? (string) getSetting('quote_button_label', 'Agregar a cotización')
     : 'Agregar al carrito';
 $hidePrices    = $buyMode === 'quote' && getSetting('quote_show_prices', '0') !== '1';
+
+// Display de variaciones: chips (default) vs select. Controlado por setting
+// global porque cuando un atributo tiene muchos valores (15+ tamaños), los
+// chips se desbordan y el cliente prefiere desplegables.
+$varDisplay = getSetting('variations_display_mode', 'swatches') === 'select' ? 'select' : 'swatches';
 ?>
 <main class="container shop-product">
     <nav class="shop-breadcrumb">
@@ -229,7 +234,10 @@ $hidePrices    = $buyMode === 'quote' && getSetting('quote_show_prices', '0') !=
         <div class="shop-product__grid">
 
             <!-- ===== Media: thumbs verticales + stage ===== -->
-            <div class="shop-product__media shop-gallery" id="shop-gallery">
+            <!-- Si hay 1 sola imagen, no se renderizan thumbs: agregamos
+                 modificador --solo para que el stage ocupe todo el ancho
+                 (sin el modificador queda atrapado en la columna de 76px). -->
+            <div class="shop-product__media shop-gallery<?= count($gallery) <= 1 ? ' shop-gallery--solo' : '' ?>" id="shop-gallery">
                 <?php if ($gallery): ?>
                     <?php if (count($gallery) > 1): ?>
                         <div class="shop-gallery__thumbs shop-gallery__thumbs--vertical">
@@ -330,21 +338,33 @@ $hidePrices    = $buyMode === 'quote' && getSetting('quote_show_prices', '0') !=
 
                         <?php foreach ($matrix['attributes'] as $a):
                             $isSize = $isSizeAttr((string) $a['name']);
+                            $groupClass = 'shop-swatchgroup'
+                                . ($isSize ? ' shop-swatchgroup--size' : '')
+                                . ($varDisplay === 'select' ? ' shop-swatchgroup--select' : '');
                         ?>
-                            <div class="shop-swatchgroup<?= $isSize ? ' shop-swatchgroup--size' : '' ?>" data-attr="<?= (int) $a['id'] ?>">
+                            <div class="<?= $groupClass ?>" data-attr="<?= (int) $a['id'] ?>">
                                 <div class="shop-swatchgroup__head">
                                     <span class="shop-swatchgroup__label"><?= $isSize ? 'Elige tu ' : '' ?><?= htmlspecialchars(mb_strtolower($a['name'])) ?></span>
                                     <?php if ($isSize): ?>
                                         <a href="#" class="shop-swatchgroup__guide" onclick="return false;">Guía de talles</a>
                                     <?php endif; ?>
                                 </div>
-                                <div class="shop-swatches" role="radiogroup" aria-label="<?= htmlspecialchars($a['name']) ?>">
-                                    <?php foreach ($a['values'] as $val): ?>
-                                        <button type="button" class="shop-swatch" data-val="<?= (int) $val['id'] ?>" role="radio" aria-checked="false">
-                                            <?= htmlspecialchars($val['value']) ?>
-                                        </button>
-                                    <?php endforeach; ?>
-                                </div>
+                                <?php if ($varDisplay === 'select'): ?>
+                                    <select class="shop-varselect" aria-label="<?= htmlspecialchars($a['name']) ?>">
+                                        <option value="">— Elegir <?= htmlspecialchars(mb_strtolower($a['name'])) ?> —</option>
+                                        <?php foreach ($a['values'] as $val): ?>
+                                            <option value="<?= (int) $val['id'] ?>"><?= htmlspecialchars($val['value']) ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                <?php else: ?>
+                                    <div class="shop-swatches" role="radiogroup" aria-label="<?= htmlspecialchars($a['name']) ?>">
+                                        <?php foreach ($a['values'] as $val): ?>
+                                            <button type="button" class="shop-swatch" data-val="<?= (int) $val['id'] ?>" role="radio" aria-checked="false">
+                                                <?= htmlspecialchars($val['value']) ?>
+                                            </button>
+                                        <?php endforeach; ?>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
 
@@ -375,8 +395,14 @@ $hidePrices    = $buyMode === 'quote' && getSetting('quote_show_prices', '0') !=
                         var btnLabel = btn.querySelector('span');
                         var hid = document.getElementById('variation_id');
                         var qty = document.getElementById('shop-qty');
-                        // Click → marcar swatch + actualizar todo.
+                        // Listeners por grupo: select.change o click en swatch.
+                        // Cada grupo puede ser swatches (botones) o un <select>.
                         groups.forEach(function(g){
+                            var sel = g.querySelector('select.shop-varselect');
+                            if (sel) {
+                                sel.addEventListener('change', update);
+                                return;
+                            }
                             g.addEventListener('click', function(e){
                                 var s = e.target.closest('.shop-swatch');
                                 if (!s) return;
@@ -393,11 +419,18 @@ $hidePrices    = $buyMode === 'quote' && getSetting('quote_show_prices', '0') !=
                                 qty.value = Math.max(min, (parseInt(qty.value,10) || min) + step);
                             });
                         });
+                        // Lee el valor activo de un grupo, sea select o chip.
+                        function groupValue(g){
+                            var s = g.querySelector('select.shop-varselect');
+                            if (s) return s.value || '';
+                            var a = g.querySelector('.shop-swatch.is-active');
+                            return a ? a.dataset.val : '';
+                        }
                         function current(){
                             var sel = {}, done = true;
                             groups.forEach(function(g){
-                                var a = g.querySelector('.shop-swatch.is-active');
-                                if (a) sel[g.dataset.attr] = a.dataset.val;
+                                var v = groupValue(g);
+                                if (v) sel[g.dataset.attr] = v;
                                 else done = false;
                             });
                             return done ? sel : null;
