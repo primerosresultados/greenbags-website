@@ -23,6 +23,8 @@ $SETTING_KEYS     = [
     'home_categories_layout',
     'home_story_title', 'home_story_body', 'home_story_cta_label', 'home_story_cta_url', 'home_story_image',
     'home_cta_title', 'home_cta_subtitle', 'home_cta_label', 'home_cta_url',
+    // Catálogo: cómo se muestran los atributos de variación en la ficha.
+    'variations_display_mode',
 ];
 // Settings exclusivas del módulo "Mailing" (separadas para no mezclarse con
 // los toggles generales).

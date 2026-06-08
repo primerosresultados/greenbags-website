@@ -503,6 +503,34 @@ textarea.form-control {
         </div>
     </div>
 
+    <!-- CATÁLOGO: DISPLAY DE VARIACIONES -->
+    <div class="card">
+        <h3 class="card__title">🧩 Variaciones de productos</h3>
+
+        <div class="settings-section-hint">
+            <strong>Cómo se muestran los atributos en la ficha del producto.</strong>
+            Si tus productos tienen muchos valores por atributo (ej. 15+ tamaños),
+            el desplegable evita que se desborde el layout.
+        </div>
+
+        <?php $vdm = $settings['variations_display_mode'] ?? 'swatches'; ?>
+        <div class="header-style-picker">
+            <?php foreach ([
+                ['key' => 'swatches', 'name' => 'Botones (chips)', 'desc' => 'Cada valor como un botón. Ideal con pocos valores por atributo.',
+                 'svg' => '<svg viewBox="0 0 220 90" preserveAspectRatio="none"><rect width="220" height="90" fill="#fff" stroke="#e5e7eb"/><rect x="14" y="14" width="40" height="4" rx="2" fill="#0f172a"/><rect x="14" y="26" width="38" height="22" rx="6" fill="#fff" stroke="#0f172a" stroke-width="1.6"/><rect x="58" y="26" width="38" height="22" rx="6" fill="#0f172a"/><rect x="102" y="26" width="38" height="22" rx="6" fill="#fff" stroke="#cbd5e1" stroke-width="1.6"/><rect x="146" y="26" width="38" height="22" rx="6" fill="#fff" stroke="#cbd5e1" stroke-width="1.6"/><rect x="14" y="58" width="38" height="22" rx="6" fill="#fff" stroke="#cbd5e1" stroke-width="1.6"/><rect x="58" y="58" width="38" height="22" rx="6" fill="#fff" stroke="#cbd5e1" stroke-width="1.6"/><rect x="102" y="58" width="38" height="22" rx="6" fill="#fff" stroke="#cbd5e1" stroke-width="1.6"/><rect x="146" y="58" width="38" height="22" rx="6" fill="#fff" stroke="#cbd5e1" stroke-width="1.6"/></svg>'],
+                ['key' => 'select',   'name' => 'Desplegable',     'desc' => 'Un select por atributo. Compacto y ordenado con muchos valores.',
+                 'svg' => '<svg viewBox="0 0 220 90" preserveAspectRatio="none"><rect width="220" height="90" fill="#fff" stroke="#e5e7eb"/><rect x="14" y="14" width="50" height="4" rx="2" fill="#0f172a"/><rect x="14" y="26" width="192" height="22" rx="6" fill="#fff" stroke="#0f172a" stroke-width="1.6"/><rect x="22" y="33" width="60" height="6" rx="2" fill="#0f172a"/><path d="M194 35 l5 6 l5 -6" stroke="#0f172a" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="14" y="58" width="36" height="4" rx="2" fill="#0f172a"/><rect x="14" y="68" width="192" height="14" rx="6" fill="#fff" stroke="#cbd5e1" stroke-width="1.6"/></svg>'],
+            ] as $opt): ?>
+                <label class="header-style-card<?= $vdm === $opt['key'] ? ' is-active' : '' ?>">
+                    <input type="radio" name="s[variations_display_mode]" value="<?= $opt['key'] ?>" <?= $vdm === $opt['key'] ? 'checked' : '' ?>>
+                    <span class="header-style-card__preview"><?= $opt['svg'] ?></span>
+                    <span class="header-style-card__name"><?= htmlspecialchars($opt['name']) ?></span>
+                    <span class="header-style-card__desc"><?= htmlspecialchars($opt['desc']) ?></span>
+                </label>
+            <?php endforeach; ?>
+        </div>
+    </div>
+
     <!-- LOGO -->
     <div class="card">
         <h3 class="card__title">📝 Logo del Header</h3>
