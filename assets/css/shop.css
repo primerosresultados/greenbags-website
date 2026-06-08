@@ -192,16 +192,32 @@
     color: #fff;
 }
 
-/* Tamaño / talle: grid compacta */
+/* Tamaño / talle: grid uniforme, tolerante a valores largos (ej: "500 ml 15x10x3"). */
 .shop-swatchgroup--size .shop-swatches {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
-    gap: .5rem;
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    gap: .45rem;
+    align-items: stretch;
 }
 .shop-swatchgroup--size .shop-swatch {
     text-align: center;
-    padding: .65rem .5rem;
+    padding: .55rem .5rem;
     min-width: 0;
+    min-height: 48px;
+    font-size: .82rem;
+    line-height: 1.2;
+    letter-spacing: -.005em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    word-break: break-word;
+    hyphens: auto;
+}
+@media (max-width: 520px) {
+    .shop-swatchgroup--size .shop-swatches {
+        grid-template-columns: repeat(auto-fill, minmax(82px, 1fr));
+    }
+    .shop-swatchgroup--size .shop-swatch { font-size: .78rem; min-height: 44px; padding: .5rem .4rem; }
 }
 
 /* ---- Botón Add to cart + qty stepper ---- */
