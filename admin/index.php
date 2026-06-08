@@ -232,6 +232,43 @@ if ($user) {
         redirect('/admin/?view=settings');
     }
 
+    if ($action === 'save_contact') {
+        csrfCheck();
+        $submitted = $_POST['c'] ?? [];
+        if (!is_array($submitted)) $submitted = [];
+
+        // Toggles (vacíos = 0).
+        foreach (['contact_show_methods','contact_show_form','contact_show_map','contact_show_branches'] as $sw) {
+            $submitted[$sw] = !empty($submitted[$sw]) ? '1' : '0';
+        }
+
+        // Settings de texto / toggles → tabla settings.
+        foreach (CONTACT_KEYS as $k) {
+            if (array_key_exists($k, $submitted)) {
+                setSetting($k, (string) $submitted[$k]);
+            }
+        }
+
+        // Entrada en `pages` (controla visibilidad en menú y el título del nav).
+        $pageTitle = trim((string) ($submitted['page_title'] ?? 'Contacto'));
+        if ($pageTitle === '') $pageTitle = 'Contacto';
+        $pagePub   = !empty($submitted['is_published']) ? 1 : 0;
+        try {
+            $stmt = getDB()->prepare(
+                'INSERT INTO pages (slug, title, body, meta_description, is_published, exclude_from_menu)
+                 VALUES ("contacto", ?, "", ?, ?, 0)
+                 ON DUPLICATE KEY UPDATE title = VALUES(title), is_published = VALUES(is_published), exclude_from_menu = 0'
+            );
+            $metaForPage = (string) ($submitted['contact_meta_description'] ?? '');
+            $stmt->execute([$pageTitle, $metaForPage, $pagePub]);
+        } catch (Throwable $e) {
+            error_log('save_contact pages upsert: ' . $e->getMessage());
+        }
+
+        flashSet('contact_success', 'Página de contacto actualizada.');
+        redirect('/admin/?view=contact');
+    }
+
     if ($action === 'save_business') {
         csrfCheck();
         $submitted = $_POST['b'] ?? [];
@@ -689,6 +726,15 @@ if ($user) {
         $branchEdit = null;
         $editId = (int) ($_GET['branch'] ?? 0);
         if ($editId > 0) $branchEdit = branchGet($editId);
+    } elseif ($view === 'contact') {
+        $settings = contactSettings();
+        try {
+            $stmt = $db->prepare('SELECT id, slug, title, is_published, exclude_from_menu FROM pages WHERE slug = ? LIMIT 1');
+            $stmt->execute(['contacto']);
+            $contactPage = $stmt->fetch() ?: null;
+        } catch (Throwable $e) {
+            $contactPage = null;
+        }
     } elseif ($view === 'pages') {
         $pages = $db->query('SELECT id, slug, title, is_published, updated_at FROM pages ORDER BY updated_at DESC')->fetchAll();
     } elseif ($view === 'page') {
@@ -763,7 +809,7 @@ if ($user) {
             $stmt->execute([$leadId]);
             $notes = $stmt->fetchAll();
         }
-    } elseif (!in_array($view, ['account', 'media', 'users', 'user', 'mailing', 'business', 'quotes', 'quote'], true)) {
+    } elseif (!in_array($view, ['account', 'media', 'users', 'user', 'mailing', 'business', 'contact', 'quotes', 'quote'], true)) {
         $stats['total']     = (int) $db->query('SELECT COUNT(*) FROM leads')->fetchColumn();
         $stats['today']     = (int) $db->query('SELECT COUNT(*) FROM leads WHERE DATE(created_at) = CURDATE()')->fetchColumn();
         $stats['this_week'] = (int) $db->query('SELECT COUNT(*) FROM leads WHERE created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)')->fetchColumn();
@@ -854,6 +900,8 @@ if ($faviconPath && @file_exists($faviconAbs)):
             require __DIR__ . '/../components/admin/payments.php';
         } elseif ($view === 'business') {
             require __DIR__ . '/../components/admin/business.php';
+        } elseif ($view === 'contact') {
+            require __DIR__ . '/../components/admin/contact.php';
         } elseif ($view === 'pages') {
             require __DIR__ . '/../components/admin/pages_list.php';
         } elseif ($view === 'page') {

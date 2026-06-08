@@ -38,6 +38,14 @@ if ($path !== '' && $_SERVER['REQUEST_METHOD'] === 'GET') {
             $cms = null; // tabla todavía no migrada (instalación vieja sin admin visita)
         }
         if (!empty($cms)) {
+            // /contacto usa un template a medida (cards + form + mapa + sucursales)
+            // que toma datos de settings business_* y contact_*. El body de la
+            // página en la tabla se ignora: la entrada existe solo para controlar
+            // la visibilidad en el menú (is_published / exclude_from_menu) y el
+            // título mostrado en el nav.
+            if ($slug === 'contacto' && function_exists('contactPageRender')) {
+                contactPageRender();
+            }
             layoutStart([
                 'title'        => (string) $cms['title'],
                 'description'  => (string) ($cms['meta_description'] ?? ''),
@@ -101,7 +109,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'submi
     $honeypotTripped = !empty($_POST['website']);
     $tooFast         = !isset($_POST['form_started']) || (time() - (int) $_POST['form_started']) < 2;
 
+    // Redirect destino para el lead form (la página de contacto vuelve a sí misma
+    // con flash; el resto sigue al /gracias clásico).
+    $source  = trim($_POST['source']  ?? 'website');
+    $fromContactPage = ($source === 'contact_page');
+
     if ($honeypotTripped || $tooFast) {
+        if ($fromContactPage) {
+            flashSet('contact_ok', '1');
+            redirect('/contacto?sent=1');
+        }
         redirect('/?sent=1');
     }
 
@@ -110,9 +127,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'submi
     $email   = trim($_POST['email']   ?? '');
     $phone   = trim($_POST['phone']   ?? '');
     $message = trim($_POST['message'] ?? '');
-    $source  = trim($_POST['source']  ?? 'website');
 
     if (!$name || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if ($fromContactPage) {
+            flashSet('contact_err', 'Nombre y email válido son requeridos.');
+            redirect('/contacto#contact-form');
+        }
         $error = 'Nombre y email válido son requeridos.';
     } else {
         // Duplicate check: mismo email en los últimos 5 minutos → fake success.
@@ -123,6 +143,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'submi
         $dupe->execute([$email]);
 
         if ((int) $dupe->fetchColumn() > 0) {
+            if ($fromContactPage) {
+                flashSet('contact_ok', '1');
+                redirect('/contacto?sent=1');
+            }
             redirect('/?sent=1');
         }
 
@@ -150,6 +174,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'submi
         try { notifyLeadCreated($lead); }   catch (Throwable $e) { error_log('notifyLead: ' . $e->getMessage()); }
         try { sendLeadAutoReply($lead); }   catch (Throwable $e) { error_log('autoReply: ' . $e->getMessage()); }
 
+        if ($fromContactPage) {
+            flashSet('contact_ok', '1');
+            redirect('/contacto?sent=1');
+        }
         redirect('/gracias');
     }
 }
