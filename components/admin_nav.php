@@ -36,6 +36,11 @@ $activeLeads = $view === '' || $view === 'leads';
         <span>Páginas</span>
     </a>
 
+    <a class="admin-sidebar__link<?= $is('contact') ? ' admin-sidebar__link--active' : '' ?>" href="/admin/?view=contact">
+        <svg class="admin-sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>Contacto</span>
+    </a>
+
     <a class="admin-sidebar__link<?= $is('media') ? ' admin-sidebar__link--active' : '' ?>" href="/admin/?view=media">
         <svg class="admin-sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
         <span>Medios</span>
