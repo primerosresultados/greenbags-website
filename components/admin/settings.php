@@ -425,6 +425,31 @@ textarea.form-control {
             <?php endforeach; ?>
         </div>
 
+        <h4 style="margin:2rem 0 0.8rem; font-size:.95rem; font-weight:600; color:#1f2937;">🧱 Layout de Categorías</h4>
+        <div class="settings-section-hint">
+            Cómo se muestran las "Categorías destacadas" en el home.
+        </div>
+        <?php $cl = $settings['home_categories_layout'] ?? 'bento'; ?>
+        <div class="header-style-picker">
+            <?php foreach ([
+                ['key' => 'bento',    'name' => 'Muro (bento)', 'desc' => 'Mosaico con un tile grande + tiles medianos. El default.',
+                 'svg' => '<svg viewBox="0 0 220 90" preserveAspectRatio="none"><rect width="220" height="90" fill="#fff" stroke="#e5e7eb"/><rect x="8"  y="8"  width="100" height="74" rx="6" fill="#0f172a"/><rect x="116" y="8"  width="46"  height="34" rx="6" fill="#475569"/><rect x="170" y="8"  width="42"  height="34" rx="6" fill="#475569"/><rect x="116" y="50" width="60"  height="32" rx="6" fill="#94a3b8"/><rect x="184" y="50" width="28"  height="32" rx="6" fill="#94a3b8"/></svg>'],
+                ['key' => 'grid',     'name' => 'Cuadros',      'desc' => 'Grilla uniforme: todos los tiles del mismo tamaño.',
+                 'svg' => '<svg viewBox="0 0 220 90" preserveAspectRatio="none"><rect width="220" height="90" fill="#fff" stroke="#e5e7eb"/><rect x="8"   y="8"  width="48" height="34" rx="6" fill="#0f172a"/><rect x="62"  y="8"  width="48" height="34" rx="6" fill="#475569"/><rect x="116" y="8"  width="48" height="34" rx="6" fill="#0f172a"/><rect x="170" y="8"  width="42" height="34" rx="6" fill="#475569"/><rect x="8"   y="48" width="48" height="34" rx="6" fill="#94a3b8"/><rect x="62"  y="48" width="48" height="34" rx="6" fill="#0f172a"/><rect x="116" y="48" width="48" height="34" rx="6" fill="#475569"/><rect x="170" y="48" width="42" height="34" rx="6" fill="#94a3b8"/></svg>'],
+                ['key' => 'carousel', 'name' => 'Carrusel infinito', 'desc' => 'Desliza horizontal con snap. Ideal para muchas categorías.',
+                 'svg' => '<svg viewBox="0 0 220 90" preserveAspectRatio="none"><rect width="220" height="90" fill="#fff" stroke="#e5e7eb"/><rect x="8"   y="14" width="58" height="62" rx="6" fill="#0f172a"/><rect x="74"  y="14" width="58" height="62" rx="6" fill="#475569"/><rect x="140" y="14" width="58" height="62" rx="6" fill="#94a3b8"/><rect x="206" y="14" width="12" height="62" rx="6" fill="#cbd5e1"/><circle cx="14" cy="45" r="6" fill="#fff" stroke="#0f172a" stroke-width="1.4"/><circle cx="206" cy="45" r="6" fill="#fff" stroke="#0f172a" stroke-width="1.4"/></svg>'],
+                ['key' => 'masonry',  'name' => 'Mosaico',      'desc' => 'Alturas variables tipo Pinterest. Pierde de vista la simetría.',
+                 'svg' => '<svg viewBox="0 0 220 90" preserveAspectRatio="none"><rect width="220" height="90" fill="#fff" stroke="#e5e7eb"/><rect x="8"   y="8"  width="48" height="50" rx="6" fill="#0f172a"/><rect x="8"   y="62" width="48" height="20" rx="6" fill="#94a3b8"/><rect x="62"  y="8"  width="48" height="30" rx="6" fill="#475569"/><rect x="62"  y="42" width="48" height="40" rx="6" fill="#0f172a"/><rect x="116" y="8"  width="48" height="42" rx="6" fill="#94a3b8"/><rect x="116" y="54" width="48" height="28" rx="6" fill="#475569"/><rect x="170" y="8"  width="42" height="24" rx="6" fill="#0f172a"/><rect x="170" y="36" width="42" height="46" rx="6" fill="#94a3b8"/></svg>'],
+            ] as $opt): ?>
+                <label class="header-style-card<?= $cl === $opt['key'] ? ' is-active' : '' ?>">
+                    <input type="radio" name="s[home_categories_layout]" value="<?= $opt['key'] ?>" <?= $cl === $opt['key'] ? 'checked' : '' ?>>
+                    <span class="header-style-card__preview"><?= $opt['svg'] ?></span>
+                    <span class="header-style-card__name"><?= htmlspecialchars($opt['name']) ?></span>
+                    <span class="header-style-card__desc"><?= htmlspecialchars($opt['desc']) ?></span>
+                </label>
+            <?php endforeach; ?>
+        </div>
+
         <h4 style="margin:2rem 0 0.8rem; font-size:.95rem; font-weight:600; color:#1f2937;">👥 Bloque de Marca / Storytelling</h4>
 
         <div class="form-group">
@@ -569,19 +594,18 @@ textarea.form-control {
                 <?php endif; ?>
             </div>
 
-            <form method="post" enctype="multipart/form-data" style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;margin:0;">
-                <input type="hidden" name="action" value="favicon_upload">
-                <input type="hidden" name="csrf" value="<?= csrfToken() ?>">
-                <input type="file" name="favicon" accept="image/png,image/svg+xml,image/x-icon,.png,.svg,.ico" required>
-                <button type="submit" class="btn">Subir favicon</button>
-            </form>
+            <?php /* OJO: los <form> de favicon NO pueden anidarse dentro del form
+                     principal de settings (HTML5 cierra el form padre al ver un
+                     form anidado y rompe el botón "Guardar todos los cambios").
+                     Por eso los inputs/botones usan el atributo HTML5 form="..."
+                     para asociarse a forms declarados fuera, al final del archivo. */ ?>
+            <div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;">
+                <input type="file" name="favicon" form="favicon-upload-form" accept="image/png,image/svg+xml,image/x-icon,.png,.svg,.ico" required>
+                <button type="submit" class="btn" form="favicon-upload-form">Subir favicon</button>
+            </div>
 
             <?php if ($faviconExists): ?>
-                <form method="post" style="margin:0;" onsubmit="return confirm('¿Eliminar el favicon actual?');">
-                    <input type="hidden" name="action" value="favicon_remove">
-                    <input type="hidden" name="csrf" value="<?= csrfToken() ?>">
-                    <button type="submit" class="btn btn--ghost">Eliminar</button>
-                </form>
+                <button type="submit" class="btn btn--ghost" form="favicon-remove-form" onclick="return confirm('¿Eliminar el favicon actual?');">Eliminar</button>
             <?php endif; ?>
         </div>
 
@@ -598,12 +622,29 @@ textarea.form-control {
     </div>
 </form>
 
+<?php /* Forms del favicon, declarados fuera del form principal de settings.
+         Los inputs/botones del bloque favicon se asocian con form="<id>". */ ?>
+<form id="favicon-upload-form" method="post" enctype="multipart/form-data" style="display:none;">
+    <input type="hidden" name="action" value="favicon_upload">
+    <input type="hidden" name="csrf" value="<?= csrfToken() ?>">
+</form>
+<?php if ($faviconExists): ?>
+<form id="favicon-remove-form" method="post" style="display:none;">
+    <input type="hidden" name="action" value="favicon_remove">
+    <input type="hidden" name="csrf" value="<?= csrfToken() ?>">
+</form>
+<?php endif; ?>
+
 <script>
-// Selector de estilo de header
+// Activación visual de los radio-cards (header, layout de categorías, etc.)
+// Limita el toggle a los cards del MISMO picker para que no se desactiven
+// los de otro grupo en la misma página.
 (function(){
     document.querySelectorAll('.header-style-card input[type="radio"]').forEach(function(r){
         r.addEventListener('change', function(){
-            document.querySelectorAll('.header-style-card').forEach(function(c){ c.classList.remove('is-active'); });
+            var picker = r.closest('.header-style-picker');
+            if (!picker) return;
+            picker.querySelectorAll('.header-style-card').forEach(function(c){ c.classList.remove('is-active'); });
             r.closest('.header-style-card').classList.add('is-active');
         });
     });

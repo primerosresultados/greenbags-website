@@ -193,7 +193,12 @@ main.home + .site-footer { margin-top: 0; }
 .home-cats__bento {
     display: grid; gap: 1.2rem;
     grid-template-columns: repeat(6, 1fr);
-    grid-auto-rows: clamp(240px, 20vw, 320px);
+    /* Filas con tope absoluto para que en monitores anchos no se
+     * conviertan en bloques gigantes (rompía el equilibrio visual). */
+    grid-auto-rows: clamp(200px, 18vw, 260px);
+    /* Truco anti-celdas-vacías: cualquier hueco que deje el patrón se rellena
+     * con el siguiente tile (evita columnas fantasmas a la derecha). */
+    grid-auto-flow: dense;
 }
 /* Patrón bento: 1 grande, 2 medianas, 2 anchas. Hace foco en la 1ra y 4ta. */
 .home-cat--0 { grid-column: span 3; grid-row: span 2; }
@@ -202,6 +207,33 @@ main.home + .site-footer { margin-top: 0; }
 .home-cat--3 { grid-column: span 2; grid-row: span 2; }
 .home-cat--4 { grid-column: span 2; grid-row: span 1; }
 .home-cat--5 { grid-column: span 2; grid-row: span 1; }
+
+/* Buckets para < 6 categorías: el patrón estándar deja huecos enormes.
+ * Cada bucket ajusta los spans para llenar la grilla sin desborde. */
+.home-cats__bento--n1 { grid-template-columns: repeat(2, 1fr); }
+.home-cats__bento--n1 .home-cat--0 { grid-column: span 2; grid-row: span 2; }
+
+.home-cats__bento--n2 { grid-template-columns: repeat(2, 1fr); }
+.home-cats__bento--n2 .home-cat--0,
+.home-cats__bento--n2 .home-cat--1 { grid-column: span 1; grid-row: span 2; }
+
+.home-cats__bento--n3 { grid-template-columns: repeat(4, 1fr); }
+.home-cats__bento--n3 .home-cat--0 { grid-column: span 2; grid-row: span 2; }
+.home-cats__bento--n3 .home-cat--1,
+.home-cats__bento--n3 .home-cat--2 { grid-column: span 2; grid-row: span 1; }
+
+.home-cats__bento--n4 { grid-template-columns: repeat(4, 1fr); }
+.home-cats__bento--n4 .home-cat--0 { grid-column: span 2; grid-row: span 2; }
+.home-cats__bento--n4 .home-cat--1 { grid-column: span 2; grid-row: span 1; }
+.home-cats__bento--n4 .home-cat--2 { grid-column: span 1; grid-row: span 1; }
+.home-cats__bento--n4 .home-cat--3 { grid-column: span 1; grid-row: span 1; }
+
+.home-cats__bento--n5 { grid-template-columns: repeat(6, 1fr); }
+.home-cats__bento--n5 .home-cat--0 { grid-column: span 3; grid-row: span 2; }
+.home-cats__bento--n5 .home-cat--1 { grid-column: span 3; grid-row: span 1; }
+.home-cats__bento--n5 .home-cat--2 { grid-column: span 3; grid-row: span 1; }
+.home-cats__bento--n5 .home-cat--3 { grid-column: span 3; grid-row: span 1; }
+.home-cats__bento--n5 .home-cat--4 { grid-column: span 3; grid-row: span 1; }
 
 .home-cat {
     position: relative;
@@ -286,6 +318,88 @@ main.home + .site-footer { margin-top: 0; }
 }
 .home-cat:hover .home-cat__cta { opacity: 1; transform: translateY(0); }
 
+/* ---- Layout: Cuadros (grid uniforme) ---- */
+.home-cats__grid {
+    display: grid; gap: 1.2rem;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+.home-cat--grid {
+    /* Cuadrados perfectos: lucen "modernos" y son predecibles. */
+    aspect-ratio: 1 / 1;
+}
+
+/* ---- Layout: Masonry (mosaico Pinterest) ----
+ * Usa CSS columns (soporte universal). Cada tile mantiene su alto natural
+ * y "varía" según su orden (patrón 3-tier de alturas). */
+.home-cats__masonry {
+    column-count: 4;
+    column-gap: 1.2rem;
+}
+/* El <a> sigue siendo flex (heredado de .home-cat) — sólo nos aseguramos de
+ * que no se parta entre columnas y que tenga espacio inferior. */
+.home-cat--masonry {
+    width: 100%;
+    margin: 0 0 1.2rem;
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    height: 240px;
+}
+/* Alturas variables: ciclo de 3 para crear ritmo visual. */
+.home-cats__masonry > .home-cat--masonry:nth-child(3n+1) { height: 320px; }
+.home-cats__masonry > .home-cat--masonry:nth-child(3n+2) { height: 220px; }
+.home-cats__masonry > .home-cat--masonry:nth-child(3n+3) { height: 280px; }
+
+/* ---- Layout: Carrusel infinito ---- */
+.home-cats__carousel {
+    /* Wrapper relativo para anclar las flechas. */
+    position: relative;
+}
+.home-cats__track {
+    display: flex; gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    /* Aire lateral para que el primer/último tile no quede pegado al borde. */
+    padding: .25rem .25rem 1.2rem;
+    /* OJO: NO usar scroll-behavior:smooth aquí; rompería el "salto invisible"
+     * que da la ilusión de scroll infinito (animaría el reposicionado). */
+}
+.home-cats__track::-webkit-scrollbar { display: none; }
+.home-cat--carousel {
+    flex: 0 0 280px;
+    height: 320px;
+    scroll-snap-align: start;
+}
+.home-cat--carousel .home-cat__cta { display: none; }
+
+.home-cats__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .92);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(15, 23, 42, .08);
+    color: #0f172a;
+    cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, .15);
+    transition: transform .15s ease, background .15s ease;
+    z-index: 3;
+}
+.home-cats__nav:hover { background: #fff; transform: translateY(-50%) scale(1.05); }
+.home-cats__nav--prev { left: -.4rem; }
+.home-cats__nav--next { right: -.4rem; }
+/* En táctil, las flechas estorban: se accede deslizando. */
+@media (hover: none) {
+    .home-cats__nav { display: none; }
+}
+
 /* Responsive: 4 col en tablet, 2 en mobile, todo span 1. */
 @media (max-width: 960px) {
     .home-cats__bento { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 160px; }
@@ -293,6 +407,24 @@ main.home + .site-footer { margin-top: 0; }
     .home-cat--1, .home-cat--2 { grid-column: span 2; grid-row: span 1; }
     .home-cat--3 { grid-column: span 4; grid-row: span 1; }
     .home-cat--4, .home-cat--5 { grid-column: span 2; grid-row: span 1; }
+    /* Buckets parciales en tablet: n2 se queda con sus 2 columnas, n3+ pasan a
+     * 4 columnas con un destacado arriba + el resto en fila. */
+    .home-cats__bento--n3,
+    .home-cats__bento--n4,
+    .home-cats__bento--n5 { grid-template-columns: repeat(4, 1fr); }
+    .home-cats__bento--n3 .home-cat--0,
+    .home-cats__bento--n4 .home-cat--0,
+    .home-cats__bento--n5 .home-cat--0 { grid-column: span 4; grid-row: span 2; }
+    .home-cats__bento--n3 .home-cat--1,
+    .home-cats__bento--n3 .home-cat--2,
+    .home-cats__bento--n4 .home-cat--1,
+    .home-cats__bento--n4 .home-cat--2,
+    .home-cats__bento--n4 .home-cat--3,
+    .home-cats__bento--n5 .home-cat--1,
+    .home-cats__bento--n5 .home-cat--2,
+    .home-cats__bento--n5 .home-cat--3,
+    .home-cats__bento--n5 .home-cat--4 { grid-column: span 2; grid-row: span 1; }
+    .home-cats__masonry { column-count: 3; }
 }
 @media (max-width: 600px) {
     .home-cats__bento { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 150px; gap: .7rem; }
@@ -301,6 +433,31 @@ main.home + .site-footer { margin-top: 0; }
     .home-cat__icon { width: 56px !important; height: 56px !important; }
     .home-cat__body { padding: .9rem 1rem 1rem; }
     .home-cat__cta { opacity: 1; transform: none; }
+    /* Buckets parciales en mobile: full width. */
+    .home-cats__bento--n1,
+    .home-cats__bento--n2,
+    .home-cats__bento--n3,
+    .home-cats__bento--n4,
+    .home-cats__bento--n5 { grid-template-columns: repeat(2, 1fr); }
+    .home-cats__bento--n1 .home-cat--0,
+    .home-cats__bento--n2 .home-cat--0,
+    .home-cats__bento--n2 .home-cat--1,
+    .home-cats__bento--n3 .home-cat--0,
+    .home-cats__bento--n3 .home-cat--1,
+    .home-cats__bento--n3 .home-cat--2,
+    .home-cats__bento--n4 .home-cat--0,
+    .home-cats__bento--n4 .home-cat--1,
+    .home-cats__bento--n4 .home-cat--2,
+    .home-cats__bento--n4 .home-cat--3,
+    .home-cats__bento--n5 .home-cat--0,
+    .home-cats__bento--n5 .home-cat--1,
+    .home-cats__bento--n5 .home-cat--2,
+    .home-cats__bento--n5 .home-cat--3,
+    .home-cats__bento--n5 .home-cat--4 { grid-column: span 2; grid-row: span 1; }
+    .home-cats__grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .7rem; }
+    .home-cats__masonry { column-count: 2; column-gap: .7rem; }
+    .home-cat--masonry { height: 180px !important; margin-bottom: .7rem; }
+    .home-cat--carousel { flex-basis: 220px; height: 260px; }
 }
 
 /* ============ Productos destacados ============

@@ -20,6 +20,7 @@ $SETTING_KEYS     = [
     'home_hero_eyebrow', 'home_hero_title', 'home_hero_subtitle',
     'home_hero_cta_label', 'home_hero_cta_url', 'home_hero_image',
     'home_show_benefits', 'home_show_categories', 'home_show_featured', 'home_show_story',
+    'home_categories_layout',
     'home_story_title', 'home_story_body', 'home_story_cta_label', 'home_story_cta_url', 'home_story_image',
     'home_cta_title', 'home_cta_subtitle', 'home_cta_label', 'home_cta_url',
 ];
