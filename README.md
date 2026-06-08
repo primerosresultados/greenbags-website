@@ -23,6 +23,7 @@ Sitio para clientes chicos sobre PHP + MySQL en hosting compartido (Hostinger / 
 | Doc | Para qué |
 |---|---|
 | [docs/QUOTES_MODULE.md](docs/QUOTES_MODULE.md) | Cómo funciona, activa y extiende el módulo de cotizaciones (RFQ) |
+| [docs/MENU_STANDARD.md](docs/MENU_STANDARD.md) | Qué páginas entran al menú principal, cómo evitar duplicados (`home` vs Inicio, `sobre-nosotros` vs `sobre-greenbags`) |
 | [docs/FORK_NEW_CLIENT.md](docs/FORK_NEW_CLIENT.md) | Workflow para usar esta base con un cliente nuevo (qué tocar, qué dejar) |
 | [docs/clients/GREENBAGS.md](docs/clients/GREENBAGS.md) | Registro del primer cliente: decisiones, settings aplicados, pendientes |
 | [DEPLOY.md](DEPLOY.md) | Deploy en cPanel con SSH deploy key + flujo diario |

@@ -26,6 +26,7 @@ fábrica para este proyecto".
 | Prefijo de cotización | `GB-` (ej. `GB-2026-0001`) | Branding |
 | Paleta | verde corporativo `#2f7a3a` / `#a8c896` | Coherente con "Green" + sustentable |
 | Página de gracias | `/gracias-cotizacion` (CMS, oculta de menú) | Generada por el seed |
+| Páginas en menú principal | `sobre-greenbags`, `sustentabilidad` | Mapa canónico en [MENU_STANDARD.md](../MENU_STANDARD.md#mapa-canónico-para-greenbags) |
 
 ## Qué hay en la migración del cliente
 
