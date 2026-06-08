@@ -68,7 +68,7 @@ INSERT INTO settings (setting_key, setting_value) VALUES
     ('home_story_cta_label',    'Conocer GreenBags'),
     ('home_story_cta_url',      '/sobre-greenbags'),
     ('home_cta_title',          '¿Listo para conocer nuestras soluciones?'),
-    ('home_cta_subtitle',       'Pedí una cotización personalizada o descargá nuestro catálogo.'),
+    ('home_cta_subtitle',       'Pide una cotización personalizada o descarga nuestro catálogo.'),
     ('home_cta_label',          'Solicitar cotización'),
     ('home_cta_url',            '/cotizacion')
 ON DUPLICATE KEY UPDATE setting_key = setting_key;
