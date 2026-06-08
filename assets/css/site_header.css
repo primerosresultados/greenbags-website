@@ -425,6 +425,149 @@
     .site-navbar__burger.is-open span:nth-child(3) { top: 18px; }
 }
 
+/* ============ Menú: ítem alineado a la derecha (Contacto) ============
+ * Cuando hay un ítem ".site-navbar__menu-right", el menú deja de centrarse
+ * (margin: 0 auto) y ocupa el espacio disponible para que margin-left: auto
+ * pueda empujar ese ítem al borde derecho. */
+.site-navbar__menu:has(.site-navbar__menu-right) {
+    flex: 1;
+    margin: 0;
+}
+.site-navbar__menu-right {
+    color: var(--sh-fg);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: .92rem;
+    padding: .55rem .9rem;
+    border-radius: 10px;
+    transition: background .18s, color .18s;
+    margin-left: auto;
+}
+.site-navbar__menu-right:hover { background: var(--sh-active-bg); }
+.site-navbar__menu-right.is-active {
+    background: var(--sh-active-bg);
+    color: var(--sh-fg);
+    font-weight: 600;
+}
+
+/* En centered, el menú vive en su propia fila con acciones absolutas a la
+ * derecha → reservamos espacio para que Contacto no quede tapado. */
+.site-navbar--centered .site-navbar__menu:has(.site-navbar__menu-right) {
+    padding-right: 140px;
+}
+
+/* ============ Dropdown "Categorías" (desktop) ============ */
+.site-navbar__dropdown {
+    position: relative;
+    display: inline-flex;
+}
+.site-navbar__dropdown-toggle {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    color: var(--sh-fg);
+    font: inherit;
+    font-weight: 500;
+    font-size: .92rem;
+    padding: .55rem .8rem .55rem .9rem;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    transition: background .18s, color .18s;
+}
+.site-navbar__dropdown-toggle:hover { background: var(--sh-active-bg); }
+.site-navbar__dropdown-toggle.is-active,
+.site-navbar__dropdown.is-open .site-navbar__dropdown-toggle {
+    background: var(--sh-active-bg);
+    font-weight: 600;
+}
+.site-navbar__dropdown-caret {
+    transition: transform .18s ease;
+}
+.site-navbar__dropdown.is-open .site-navbar__dropdown-caret {
+    transform: rotate(180deg);
+}
+.site-navbar__dropdown-panel {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    min-width: 220px;
+    max-height: 70vh;
+    overflow-y: auto;
+    background: var(--sh-bg);
+    border: 1px solid var(--sh-border-strong);
+    border-radius: 12px;
+    box-shadow: 0 14px 32px rgba(15, 23, 42, .14);
+    padding: .4rem;
+    display: none;
+    z-index: 50;
+}
+.site-navbar__dropdown.is-open .site-navbar__dropdown-panel { display: block; }
+.site-navbar__dropdown-panel a {
+    display: block;
+    padding: .55rem .8rem;
+    border-radius: 8px;
+    color: var(--sh-fg);
+    text-decoration: none;
+    font-size: .9rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background .15s;
+}
+.site-navbar__dropdown-panel a:hover { background: var(--sh-active-bg); }
+
+/* En hamburger el dropdown inline también se oculta (todo va al drawer). */
+.site-header[data-style="hamburger"] .site-navbar__dropdown { display: none; }
+
+/* ============ Drawer: grupo colapsable "Categorías" (mobile) ============ */
+.site-drawer__sub {
+    border-radius: 10px;
+    overflow: hidden;
+}
+.site-drawer__sub > summary {
+    list-style: none;
+    cursor: pointer;
+    color: var(--sh-fg);
+    padding: .9rem 1.1rem;
+    font-weight: 500;
+    font-size: 1.02rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background .15s;
+}
+.site-drawer__sub > summary::-webkit-details-marker { display: none; }
+.site-drawer__sub > summary:hover { background: #f1f5f9; }
+.site-drawer__sub > summary svg { transition: transform .2s ease; flex-shrink: 0; }
+.site-drawer__sub[open] > summary svg { transform: rotate(180deg); }
+.site-drawer__sub-list {
+    display: flex;
+    flex-direction: column;
+    padding: .2rem 0 .4rem .8rem;
+    gap: .1rem;
+}
+.site-drawer__sub-list a {
+    color: var(--sh-muted);
+    text-decoration: none;
+    padding: .65rem 1rem;
+    font-size: .95rem;
+    border-radius: 8px;
+    transition: background .15s, color .15s;
+}
+.site-drawer__sub-list a:hover { background: #f1f5f9; color: var(--sh-fg); }
+
+/* ============ Responsive del menú con item a la derecha ============ */
+@media (max-width: 860px) {
+    /* Móvil: el menú inline está oculto; resetear el padding-right del
+     * centered no afecta porque .site-navbar__menu ya está display:none. */
+    .site-navbar--centered .site-navbar__menu:has(.site-navbar__menu-right) {
+        padding-right: 0;
+    }
+}
+
 /* ============ Site footer ============ */
 .site-footer {
     background: #0f172a;
