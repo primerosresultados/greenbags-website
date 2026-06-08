@@ -471,31 +471,36 @@
 .site-navbar--centered .site-navbar__menu:has(.site-navbar__menu-right) {
     margin: 0 auto;
 }
-/* Contacto como botón: borde sutil + texto fuerte. Separación visible del
- * resto de los ítems para que se lea como acción y no como link más. */
+/* Contacto como CTA verde marca: lleva el rol que antes tenía el botón de
+ * WhatsApp en el header (filled brand + sombra sutil + lift en hover). Es la
+ * acción primaria del nav. */
 .site-navbar__menu-right {
     margin-left: .9rem;
     padding: .55rem 1.1rem;
-    border: 1.5px solid var(--sh-fg);
+    border: 1.5px solid var(--brand-primary, var(--sh-accent));
     border-radius: 999px;
-    color: var(--sh-fg);
+    background: var(--brand-primary, var(--sh-accent));
+    color: #fff;
     text-decoration: none;
     font-weight: 600;
     font-size: .9rem;
     line-height: 1;
     display: inline-flex;
     align-items: center;
-    transition: background .18s, color .18s, border-color .18s, transform .15s;
+    box-shadow: 0 6px 14px -4px rgba(115, 191, 109, .35);
+    transition: background .18s, color .18s, border-color .18s, transform .15s, box-shadow .18s;
 }
 .site-navbar__menu-right:hover {
-    background: var(--sh-fg);
+    background: var(--brand-primary-hover, var(--sh-accent-hover));
+    border-color: var(--brand-primary-hover, var(--sh-accent-hover));
     color: #fff;
     transform: translateY(-1px);
+    box-shadow: 0 10px 22px -6px rgba(115, 191, 109, .45);
 }
 .site-navbar__menu-right.is-active {
-    background: var(--sh-fg);
+    background: var(--brand-primary-hover, var(--sh-accent-hover));
+    border-color: var(--brand-primary-hover, var(--sh-accent-hover));
     color: #fff;
-    border-color: var(--sh-fg);
 }
 
 /* En centered, el menú vive en su propia fila con acciones absolutas a la
