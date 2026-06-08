@@ -23,14 +23,12 @@
 
 /* ==========================================================
    Site footer (público)
+   --------------------------------------------------------
+   El styling completo vive en site_header.css (footer minimalista
+   con fondo oscuro). Acá no agregamos border-top: cuando la home
+   cierra con la banda CTA oscura, ese borde generaba una línea
+   horrible entre suscripción y footer.
    ========================================================== */
-.site-footer {
-    padding: var(--space-xl) 0;
-    margin-top: var(--space-2xl);
-    border-top: 1px solid var(--color-border);
-    color: var(--color-text-muted);
-    font-size: 0.9rem;
-}
 
 /* ==========================================================
    Main content
