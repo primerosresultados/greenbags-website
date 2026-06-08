@@ -15,50 +15,269 @@
     <div class="auth-alert auth-alert--error"><span><?= htmlspecialchars($msg) ?></span></div>
 <?php endif; ?>
 
+<style>
+/* Modernización de formularios */
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.form-control:focus {
+  outline: 0;
+  border-color: #0f172a;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.1);
+}
+
+.form-control:disabled {
+  background: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 100px;
+  font-family: 'Monaco', 'Menlo', monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+  color: #1f2937;
+  font-size: 0.95rem;
+}
+
+.form-hint {
+  display: block;
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-top: 0.4rem;
+  line-height: 1.5;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-row {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.form-row--full { grid-template-columns: 1fr; }
+
+/* Color pickers */
+.color-picker-group {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.color-picker-col {
+  flex: 1;
+  min-width: 280px;
+}
+
+.color-input-wrapper {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.color-picker-input {
+  width: 56px;
+  height: 48px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.2s;
+}
+
+.color-picker-input:hover {
+  border-color: #d1d5db;
+}
+
+.color-hex-input {
+  flex: 1;
+  font-family: 'Monaco', 'Menlo', monospace;
+}
+
+.color-preview {
+  margin-top: 0.8rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.color-preview-swatch {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  flex-shrink: 0;
+}
+
+.color-preview-btn {
+  padding: 0.6rem 1.25rem;
+  border-radius: 6px;
+  border: 0;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex: 1;
+}
+
+.color-preview-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Checkboxes */
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #0f172a;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.checkbox-wrapper label {
+  cursor: pointer;
+  user-select: none;
+  font-weight: 500;
+}
+
+/* Grid de checks */
+.checkbox-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+/* Section helper */
+.settings-section-hint {
+  padding: 0.75rem 1rem;
+  background: #f0f9ff;
+  border-left: 3px solid #0f172a;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #1f2937;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.settings-section-hint strong {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.header-style-picker { display: grid; gap: .9rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 1rem; }
+.header-style-card { display: flex; flex-direction: column; gap: .5rem; padding: 1rem; border: 2px solid #e5e7eb; border-radius: 12px; cursor: pointer; background: #fff; transition: border-color .15s, box-shadow .15s, transform .15s; }
+.header-style-card:hover { border-color: #94a3b8; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(15,23,42,.06); }
+.header-style-card.is-active { border-color: #0f172a; box-shadow: 0 6px 18px rgba(15,23,42,.10); }
+.header-style-card input { position: absolute; opacity: 0; pointer-events: none; }
+.header-style-card__preview { display: block; border-radius: 8px; overflow: hidden; background: #f8fafc; }
+.header-style-card__preview svg { width: 100%; height: auto; display: block; }
+.header-style-card__name { font-weight: 600; font-size: .95rem; }
+.header-style-card__desc { font-size: .82rem; color: #64748b; line-height: 1.4; }
+
+/* Submit button area */
+.settings-submit { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid #e5e7eb; }
+</style>
+
 <form method="post">
     <input type="hidden" name="action" value="save_settings">
     <input type="hidden" name="csrf" value="<?= csrfToken() ?>">
 
+    <!-- GENERAL -->
     <div class="card">
-        <h3 class="card__title">General</h3>
-        <p class="form__field"><label>Nombre del sitio
-            <input name="s[site_name]" value="<?= htmlspecialchars($settings['site_name'] ?? '') ?>" required>
-        </label></p>
-        <p class="form__field" style="margin:0;"><label>Timezone
-            <input name="s[timezone]" value="<?= htmlspecialchars($settings['timezone'] ?? 'America/Santiago') ?>">
-        </label></p>
+        <h3 class="card__title">⚙️ Configuración General</h3>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Nombre del sitio</label>
+                <input class="form-control" type="text" name="s[site_name]" value="<?= htmlspecialchars($settings['site_name'] ?? '') ?>" required>
+                <span class="form-hint">Aparece en el navegador, meta tags y JSON-LD</span>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Zona horaria</label>
+                <input class="form-control" type="text" name="s[timezone]" value="<?= htmlspecialchars($settings['timezone'] ?? 'America/Santiago') ?>">
+                <span class="form-hint">Ej: America/Santiago, America/New_York</span>
+            </div>
+        </div>
     </div>
 
+    <!-- COLORES DE MARCA -->
     <div class="card">
-        <h3 class="card__title">Colores de marca</h3>
-        <p class="text-muted" style="margin:0 0 1rem;font-size:.9rem;">El primario se usa en botones, links activos y badges. El secundario en el CTA destacado (ej. WhatsApp). Deja en blanco para usar los colores por defecto.</p>
+        <h3 class="card__title">🎨 Colores de Marca</h3>
+
+        <div class="settings-section-hint">
+            <strong>Qué es cada color:</strong>
+            El primario se usa en botones, links y badges. El secundario en CTAs destacados (ej. WhatsApp).
+        </div>
+
         <?php $tP = $settings['theme_primary'] ?? ''; $tS = $settings['theme_secondary'] ?? ''; ?>
-        <div style="display:grid;gap:1rem;grid-template-columns:1fr 1fr;align-items:end;">
-            <div>
-                <label style="display:block;font-size:.85rem;font-weight:600;margin-bottom:.4rem;">Color primario</label>
-                <div style="display:flex;gap:.5rem;align-items:center;">
-                    <input type="color" name="s[theme_primary]" value="<?= htmlspecialchars($tP ?: '#0f172a') ?>" style="height:46px;width:64px;padding:.2rem;border-radius:8px;border:1px solid #d1d5db;cursor:pointer;" id="tp">
-                    <input type="text" value="<?= htmlspecialchars($tP) ?>" placeholder="#0f172a" style="flex:1;" id="tp-hex" oninput="document.getElementById('tp').value = this.value;">
+
+        <div class="color-picker-group">
+            <div class="color-picker-col">
+                <label class="form-label">Color Primario</label>
+                <div class="color-input-wrapper">
+                    <input type="color" class="color-picker-input" name="s[theme_primary]" value="<?= htmlspecialchars($tP ?: '#0f172a') ?>" id="tp">
+                    <input type="text" class="form-control color-hex-input" value="<?= htmlspecialchars($tP) ?>" placeholder="#0f172a" id="tp-hex" oninput="document.getElementById('tp').value = this.value;">
                 </div>
-                <div class="theme-preview" style="margin-top:.7rem;display:flex;gap:.5rem;align-items:center;">
-                    <span style="display:inline-block;width:80px;height:32px;border-radius:6px;background:<?= htmlspecialchars($tP ?: '#0f172a') ?>;" id="tp-swatch"></span>
-                    <button type="button" style="background:<?= htmlspecialchars($tP ?: '#0f172a') ?>;color:#fff;border:0;padding:.5rem 1rem;border-radius:8px;font-weight:600;" id="tp-btn">Botón primario</button>
+                <div class="color-preview">
+                    <span class="color-preview-swatch" id="tp-swatch" style="background:<?= htmlspecialchars($tP ?: '#0f172a') ?>;"></span>
+                    <button type="button" class="color-preview-btn" id="tp-btn" style="background:<?= htmlspecialchars($tP ?: '#0f172a') ?>;">Botón primario</button>
                 </div>
             </div>
-            <div>
-                <label style="display:block;font-size:.85rem;font-weight:600;margin-bottom:.4rem;">Color secundario</label>
-                <div style="display:flex;gap:.5rem;align-items:center;">
-                    <input type="color" name="s[theme_secondary]" value="<?= htmlspecialchars($tS ?: '#25d366') ?>" style="height:46px;width:64px;padding:.2rem;border-radius:8px;border:1px solid #d1d5db;cursor:pointer;" id="ts">
-                    <input type="text" value="<?= htmlspecialchars($tS) ?>" placeholder="#25d366" style="flex:1;" id="ts-hex" oninput="document.getElementById('ts').value = this.value;">
+
+            <div class="color-picker-col">
+                <label class="form-label">Color Secundario</label>
+                <div class="color-input-wrapper">
+                    <input type="color" class="color-picker-input" name="s[theme_secondary]" value="<?= htmlspecialchars($tS ?: '#25d366') ?>" id="ts">
+                    <input type="text" class="form-control color-hex-input" value="<?= htmlspecialchars($tS) ?>" placeholder="#25d366" id="ts-hex" oninput="document.getElementById('ts').value = this.value;">
                 </div>
-                <div class="theme-preview" style="margin-top:.7rem;display:flex;gap:.5rem;align-items:center;">
-                    <span style="display:inline-block;width:80px;height:32px;border-radius:6px;background:<?= htmlspecialchars($tS ?: '#25d366') ?>;" id="ts-swatch"></span>
-                    <button type="button" style="background:<?= htmlspecialchars($tS ?: '#25d366') ?>;color:#fff;border:0;padding:.5rem 1rem;border-radius:8px;font-weight:600;" id="ts-btn">CTA secundario</button>
+                <div class="color-preview">
+                    <span class="color-preview-swatch" id="ts-swatch" style="background:<?= htmlspecialchars($tS ?: '#25d366') ?>;"></span>
+                    <button type="button" class="color-preview-btn" id="ts-btn" style="background:<?= htmlspecialchars($tS ?: '#25d366') ?>;">CTA secundario</button>
                 </div>
             </div>
         </div>
+
         <script>
-        // Live preview de los color pickers (sin esperar a guardar).
         (function(){
             function sync(colorId, swatchId, btnId, hexId){
                 var c = document.getElementById(colorId);
@@ -75,47 +294,65 @@
         </script>
     </div>
 
+    <!-- ANNOUNCE BAR -->
     <div class="card">
-        <h3 class="card__title">Announce bar (barra superior)</h3>
-        <p class="text-muted" style="margin:0 0 1rem;font-size:.9rem;">Banda fina arriba del header para promos, envíos gratis, anuncios importantes. Si desactivás esta opción no se renderiza.</p>
-        <p class="form__field">
-            <label style="display:flex;align-items:center;gap:.5rem;">
-                <input type="checkbox" name="s[announce_enabled]" value="1" <?= (($settings['announce_enabled'] ?? '0') === '1') ? 'checked' : '' ?> style="width:auto;">
-                <span>Mostrar announce bar</span>
-            </label>
-        </p>
-        <p class="form__field"><label>Texto principal
-            <input name="s[announce_text]" value="<?= htmlspecialchars($settings['announce_text'] ?? '') ?>" placeholder="🚚 Envío gratis en compras +$50.000">
-        </label></p>
-        <div style="display:grid;gap:.8rem;grid-template-columns:1fr 1fr;">
-            <p class="form__field"><label>Texto del link (opcional)
-                <input name="s[announce_link_label]" value="<?= htmlspecialchars($settings['announce_link_label'] ?? '') ?>" placeholder="Ver condiciones">
-            </label></p>
-            <p class="form__field"><label>URL del link (opcional)
-                <input name="s[announce_link_url]" value="<?= htmlspecialchars($settings['announce_link_url'] ?? '') ?>" placeholder="/envios">
-            </label></p>
+        <h3 class="card__title">📢 Barra de Anuncios (Announce Bar)</h3>
+
+        <div class="settings-section-hint">
+            Banda fina en el top del header para promos, envío gratis o avisos importantes.
         </div>
-        <div style="display:grid;gap:.8rem;grid-template-columns:1fr 1fr;">
-            <p class="form__field"><label>Color de fondo
-                <input type="color" name="s[announce_bg]" value="<?= htmlspecialchars($settings['announce_bg'] ?: '#0f172a') ?>" style="height:42px;padding:.2rem;width:120px;">
-            </label></p>
-            <p class="form__field" style="margin:0;"><label>Color del texto
-                <input type="color" name="s[announce_fg]" value="<?= htmlspecialchars($settings['announce_fg'] ?: '#ffffff') ?>" style="height:42px;padding:.2rem;width:120px;">
-            </label></p>
+
+        <div class="form-group">
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="announce_enabled" name="s[announce_enabled]" value="1" <?= (($settings['announce_enabled'] ?? '0') === '1') ? 'checked' : '' ?>>
+                <label for="announce_enabled">Mostrar announce bar</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Texto principal</label>
+            <input class="form-control" type="text" name="s[announce_text]" value="<?= htmlspecialchars($settings['announce_text'] ?? '') ?>" placeholder="🚚 Envío gratis en compras +$50.000">
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Texto del link (opcional)</label>
+                <input class="form-control" type="text" name="s[announce_link_label]" value="<?= htmlspecialchars($settings['announce_link_label'] ?? '') ?>" placeholder="Ver condiciones">
+            </div>
+            <div class="form-group">
+                <label class="form-label">URL del link (opcional)</label>
+                <input class="form-control" type="text" name="s[announce_link_url]" value="<?= htmlspecialchars($settings['announce_link_url'] ?? '') ?>" placeholder="/envios">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Color de fondo</label>
+                <input type="color" class="form-control" style="height:48px;" name="s[announce_bg]" value="<?= htmlspecialchars($settings['announce_bg'] ?: '#0f172a') ?>">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Color del texto</label>
+                <input type="color" class="form-control" style="height:48px;" name="s[announce_fg]" value="<?= htmlspecialchars($settings['announce_fg'] ?: '#ffffff') ?>">
+            </div>
         </div>
     </div>
 
+    <!-- ESTILO DE CABECERA -->
     <div class="card">
-        <h3 class="card__title">Estilo de cabecera</h3>
-        <p class="text-muted" style="margin:0 0 1rem;font-size:.9rem;">Tres variantes modernas. La de hamburguesa muestra el menú lateral incluso en desktop (estilo agencia / marca premium).</p>
+        <h3 class="card__title">🎯 Estilo de Cabecera</h3>
+
+        <div class="settings-section-hint">
+            Elige el layout del header. La hamburguesa muestra el menú lateral (agencia / premium).
+        </div>
+
         <?php $hs = $settings['header_style'] ?? 'classic'; ?>
         <div class="header-style-picker">
             <?php foreach ([
-                ['key' => 'classic',   'name' => 'Clásico moderno', 'desc' => 'Logo izquierda, menú horizontal, acciones a la derecha.',
+                ['key' => 'classic',   'name' => 'Clásico Moderno', 'desc' => 'Logo izquierda, menú horizontal, acciones a la derecha.',
                  'svg' => '<svg viewBox="0 0 220 56" preserveAspectRatio="none"><rect width="220" height="56" fill="#fff" stroke="#e5e7eb"/><rect x="14" y="22" width="42" height="12" rx="2" fill="#0f172a"/><rect x="86" y="26" width="20" height="4" rx="1" fill="#94a3b8"/><rect x="114" y="26" width="20" height="4" rx="1" fill="#94a3b8"/><rect x="142" y="26" width="20" height="4" rx="1" fill="#0f172a"/><circle cx="184" cy="28" r="8" fill="#f1f5f9"/><rect x="196" y="20" width="14" height="16" rx="8" fill="#25d366"/></svg>'],
-                ['key' => 'centered',  'name' => 'Centrado',        'desc' => 'Logo grande arriba, menú horizontal centrado debajo.',
+                ['key' => 'centered',  'name' => 'Centrado',        'desc' => 'Logo grande arriba, menú centrado debajo.',
                  'svg' => '<svg viewBox="0 0 220 70" preserveAspectRatio="none"><rect width="220" height="70" fill="#fff" stroke="#e5e7eb"/><rect x="90" y="10" width="40" height="14" rx="2" fill="#0f172a"/><rect x="64" y="44" width="18" height="4" rx="1" fill="#94a3b8"/><rect x="90" y="44" width="18" height="4" rx="1" fill="#0f172a"/><rect x="116" y="44" width="18" height="4" rx="1" fill="#94a3b8"/><rect x="142" y="44" width="18" height="4" rx="1" fill="#94a3b8"/><circle cx="14" cy="36" r="7" fill="#f1f5f9"/><rect x="190" y="30" width="14" height="14" rx="7" fill="#25d366"/></svg>'],
-                ['key' => 'hamburger', 'name' => 'Hamburguesa',     'desc' => 'Sólo logo, carrito y menú lateral. Mínimo y elegante en cualquier viewport.',
+                ['key' => 'hamburger', 'name' => 'Hamburguesa',     'desc' => 'Solo logo, carrito y menú. Minimalista y elegante.',
                  'svg' => '<svg viewBox="0 0 220 56" preserveAspectRatio="none"><rect width="220" height="56" fill="#fff" stroke="#e5e7eb"/><rect x="14" y="22" width="42" height="12" rx="2" fill="#0f172a"/><circle cx="174" cy="28" r="8" fill="#f1f5f9"/><rect x="190" y="20" width="18" height="2.5" rx="1" fill="#0f172a"/><rect x="190" y="27" width="18" height="2.5" rx="1" fill="#0f172a"/><rect x="190" y="34" width="18" height="2.5" rx="1" fill="#0f172a"/></svg>'],
             ] as $opt): ?>
                 <label class="header-style-card<?= $hs === $opt['key'] ? ' is-active' : '' ?>">
@@ -126,41 +363,45 @@
                 </label>
             <?php endforeach; ?>
         </div>
-        <style>
-        .header-style-picker { display: grid; gap: .9rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-        .header-style-card { display: flex; flex-direction: column; gap: .5rem; padding: 1rem; border: 2px solid #e5e7eb; border-radius: 12px; cursor: pointer; background: #fff; transition: border-color .15s, box-shadow .15s, transform .15s; }
-        .header-style-card:hover { border-color: #94a3b8; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(15,23,42,.06); }
-        .header-style-card.is-active { border-color: #0f172a; box-shadow: 0 6px 18px rgba(15,23,42,.10); }
-        .header-style-card input { position: absolute; opacity: 0; pointer-events: none; }
-        .header-style-card__preview { display: block; border-radius: 8px; overflow: hidden; background: #f8fafc; }
-        .header-style-card__preview svg { width: 100%; height: auto; display: block; }
-        .header-style-card__name { font-weight: 600; font-size: .95rem; }
-        .header-style-card__desc { font-size: .82rem; color: #64748b; line-height: 1.4; }
-        </style>
     </div>
 
+    <!-- PÁGINA DE INICIO -->
     <div class="card">
-        <h3 class="card__title">Página de inicio</h3>
-        <p class="text-muted" style="margin:0 0 1rem;font-size:.9rem;">Personalizá los bloques de tu home. Si dejás un campo vacío se usan los textos por defecto.</p>
+        <h3 class="card__title">🏠 Página de Inicio</h3>
 
-        <h4 style="margin:.4rem 0 .6rem;font-size:.9rem;text-transform:uppercase;letter-spacing:.05em;color:#64748b;">Hero (banner principal)</h4>
-        <p class="form__field"><label>Eyebrow (texto pequeño arriba del título)
-            <input name="s[home_hero_eyebrow]" value="<?= htmlspecialchars($settings['home_hero_eyebrow'] ?? '') ?>" placeholder="Nueva colección">
-        </label></p>
-        <p class="form__field"><label>Título
-            <input name="s[home_hero_title]" value="<?= htmlspecialchars($settings['home_hero_title'] ?? '') ?>" placeholder="Bienvenidos a la tienda">
-        </label></p>
-        <p class="form__field"><label>Subtítulo
-            <textarea name="s[home_hero_subtitle]" rows="2"><?= htmlspecialchars($settings['home_hero_subtitle'] ?? '') ?></textarea>
-        </label></p>
-        <div style="display:grid;gap:.8rem;grid-template-columns:1fr 1fr;">
-            <p class="form__field"><label>Texto del botón principal
-                <input name="s[home_hero_cta_label]" value="<?= htmlspecialchars($settings['home_hero_cta_label'] ?? '') ?>" placeholder="Ver tienda">
-            </label></p>
-            <p class="form__field"><label>URL del botón principal
-                <input name="s[home_hero_cta_url]" value="<?= htmlspecialchars($settings['home_hero_cta_url'] ?? '') ?>" placeholder="/tienda">
-            </label></p>
+        <div class="settings-section-hint">
+            Personaliza los textos y bloques del home. Si dejas vacío se usan los default.
         </div>
+
+        <h4 style="margin:1.5rem 0 0.8rem; font-size:.95rem; font-weight:600; color:#1f2937;">🎬 Hero (Banner Principal)</h4>
+
+        <div class="form-group">
+            <label class="form-label">Eyebrow (pequeño arriba del título)</label>
+            <input class="form-control" type="text" name="s[home_hero_eyebrow]" value="<?= htmlspecialchars($settings['home_hero_eyebrow'] ?? '') ?>" placeholder="Nueva colección">
+            <span class="form-hint">Texto pequeño y destacado encima del título principal</span>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Título principal</label>
+            <input class="form-control" type="text" name="s[home_hero_title]" value="<?= htmlspecialchars($settings['home_hero_title'] ?? '') ?>" placeholder="Bienvenidos a la tienda">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Subtítulo o descripción</label>
+            <textarea class="form-control" name="s[home_hero_subtitle]"><?= htmlspecialchars($settings['home_hero_subtitle'] ?? '') ?></textarea>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Texto del botón principal</label>
+                <input class="form-control" type="text" name="s[home_hero_cta_label]" value="<?= htmlspecialchars($settings['home_hero_cta_label'] ?? '') ?>" placeholder="Ver tienda">
+            </div>
+            <div class="form-group">
+                <label class="form-label">URL del botón principal</label>
+                <input class="form-control" type="text" name="s[home_hero_cta_url]" value="<?= htmlspecialchars($settings['home_hero_cta_url'] ?? '') ?>" placeholder="/tienda">
+            </div>
+        </div>
+
         <?php
             $sifName  = 's[home_hero_image]';
             $sifValue = (string) ($settings['home_hero_image'] ?? '');
@@ -169,8 +410,8 @@
             require __DIR__ . '/_single_image_field.php';
         ?>
 
-        <h4 style="margin:1.4rem 0 .6rem;font-size:.9rem;text-transform:uppercase;letter-spacing:.05em;color:#64748b;">Bloques visibles</h4>
-        <div style="display:grid;gap:.5rem;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));">
+        <h4 style="margin:2rem 0 0.8rem; font-size:.95rem; font-weight:600; color:#1f2937;">📋 Bloques Visibles en Home</h4>
+        <div class="checkbox-grid">
             <?php foreach ([
                 'home_show_benefits'   => 'Beneficios (envío/pago/etc.)',
                 'home_show_categories' => 'Categorías destacadas',
@@ -178,28 +419,36 @@
                 'home_show_story'      => 'Bloque de marca',
                 'home_show_contact'    => 'Formulario de contacto',
             ] as $key => $lbl): $on = ($settings[$key] ?? '1') === '1'; ?>
-                <label style="display:flex;align-items:center;gap:.5rem;font-size:.9rem;">
-                    <input type="checkbox" name="s[<?= $key ?>]" value="1" <?= $on ? 'checked' : '' ?> style="width:auto;">
-                    <span><?= htmlspecialchars($lbl) ?></span>
-                </label>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="<?= $key ?>" name="s[<?= $key ?>]" value="1" <?= $on ? 'checked' : '' ?>>
+                    <label for="<?= $key ?>"><?= htmlspecialchars($lbl) ?></label>
+                </div>
             <?php endforeach; ?>
         </div>
 
-        <h4 style="margin:1.4rem 0 .6rem;font-size:.9rem;text-transform:uppercase;letter-spacing:.05em;color:#64748b;">Bloque de marca / storytelling</h4>
-        <p class="form__field"><label>Título
-            <input name="s[home_story_title]" value="<?= htmlspecialchars($settings['home_story_title'] ?? '') ?>" placeholder="Hechos con dedicación">
-        </label></p>
-        <p class="form__field"><label>Texto
-            <textarea name="s[home_story_body]" rows="4"><?= htmlspecialchars($settings['home_story_body'] ?? '') ?></textarea>
-        </label></p>
-        <div style="display:grid;gap:.8rem;grid-template-columns:1fr 1fr;">
-            <p class="form__field"><label>Texto del botón
-                <input name="s[home_story_cta_label]" value="<?= htmlspecialchars($settings['home_story_cta_label'] ?? '') ?>" placeholder="Conócenos">
-            </label></p>
-            <p class="form__field"><label>URL del botón
-                <input name="s[home_story_cta_url]" value="<?= htmlspecialchars($settings['home_story_cta_url'] ?? '') ?>" placeholder="/nosotros">
-            </label></p>
+        <h4 style="margin:2rem 0 0.8rem; font-size:.95rem; font-weight:600; color:#1f2937;">👥 Bloque de Marca / Storytelling</h4>
+
+        <div class="form-group">
+            <label class="form-label">Título</label>
+            <input class="form-control" type="text" name="s[home_story_title]" value="<?= htmlspecialchars($settings['home_story_title'] ?? '') ?>" placeholder="Hechos con dedicación">
         </div>
+
+        <div class="form-group">
+            <label class="form-label">Texto de la historia</label>
+            <textarea class="form-control" name="s[home_story_body]"><?= htmlspecialchars($settings['home_story_body'] ?? '') ?></textarea>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Texto del botón</label>
+                <input class="form-control" type="text" name="s[home_story_cta_label]" value="<?= htmlspecialchars($settings['home_story_cta_label'] ?? '') ?>" placeholder="Conócenos">
+            </div>
+            <div class="form-group">
+                <label class="form-label">URL del botón</label>
+                <input class="form-control" type="text" name="s[home_story_cta_url]" value="<?= htmlspecialchars($settings['home_story_cta_url'] ?? '') ?>" placeholder="/nosotros">
+            </div>
+        </div>
+
         <?php
             $sifName  = 's[home_story_image]';
             $sifValue = (string) ($settings['home_story_image'] ?? '');
@@ -208,22 +457,34 @@
             require __DIR__ . '/_single_image_field.php';
         ?>
 
-        <h4 style="margin:1.4rem 0 .6rem;font-size:.9rem;text-transform:uppercase;letter-spacing:.05em;color:#64748b;">Banda final (newsletter)</h4>
-        <p class="text-muted" style="margin:0 0 .6rem;font-size:.85rem;">Banda al final de la home con form de suscripción. Los emails quedan en Leads con origen <code>newsletter</code>.</p>
-        <p class="form__field"><label>Título
-            <input name="s[home_cta_title]" value="<?= htmlspecialchars($settings['home_cta_title'] ?? '') ?>" placeholder="Suscríbete y recibe nuestras novedades">
-        </label></p>
-        <p class="form__field"><label>Subtítulo (descripción breve)
-            <input name="s[home_cta_subtitle]" value="<?= htmlspecialchars($settings['home_cta_subtitle'] ?? '') ?>" placeholder="Ofertas exclusivas, descuentos y lanzamientos en tu correo.">
-        </label></p>
-        <p class="form__field" style="margin:0;"><label>Texto del botón
-            <input name="s[home_cta_label]" value="<?= htmlspecialchars($settings['home_cta_label'] ?? '') ?>" placeholder="Suscríbete">
-        </label></p>
+        <h4 style="margin:2rem 0 0.8rem; font-size:.95rem; font-weight:600; color:#1f2937;">📧 Banda Final (Newsletter)</h4>
+
+        <div class="settings-section-hint">
+            Banda al final del home con formulario de suscripción. Los emails quedan en Leads.
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Título</label>
+            <input class="form-control" type="text" name="s[home_cta_title]" value="<?= htmlspecialchars($settings['home_cta_title'] ?? '') ?>" placeholder="Suscríbete y recibe nuestras novedades">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Subtítulo o descripción</label>
+            <input class="form-control" type="text" name="s[home_cta_subtitle]" value="<?= htmlspecialchars($settings['home_cta_subtitle'] ?? '') ?>" placeholder="Ofertas exclusivas, descuentos y lanzamientos en tu correo.">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Texto del botón</label>
+            <input class="form-control" type="text" name="s[home_cta_label]" value="<?= htmlspecialchars($settings['home_cta_label'] ?? '') ?>" placeholder="Suscríbete">
+        </div>
     </div>
 
+    <!-- LOGO -->
     <div class="card">
-        <h3 class="card__title">Logo del header</h3>
-        <p class="text-muted" style="margin:0 0 .8rem;font-size:.88rem;">Imagen que aparece en el sidebar del admin y se puede usar en el front. Idealmente PNG o SVG con fondo transparente.</p>
+        <h3 class="card__title">📝 Logo del Header</h3>
+        <div class="settings-section-hint">
+            <strong>Recomendación:</strong> PNG o SVG con fondo transparente. Se mostrará en el sidebar del admin.
+        </div>
         <?php
             $sifName  = 's[logo_image]';
             $sifValue = (string) ($settings['logo_image'] ?? '');
@@ -233,80 +494,113 @@
         ?>
     </div>
 
+    <!-- NOTIFICACIONES -->
     <div class="card">
-        <h3 class="card__title">Notificaciones de leads</h3>
-        <p class="form__field"><label>Email destino (recibe los leads)
-            <input type="email" name="s[notification_email]" value="<?= htmlspecialchars($settings['notification_email'] ?? '') ?>">
-        </label></p>
-        <p class="form__field"><label>From: (remitente — debe ser de tu dominio)
-            <input type="email" name="s[notification_from]" value="<?= htmlspecialchars($settings['notification_from'] ?? '') ?>" placeholder="no-reply@tudominio.com">
-        </label></p>
+        <h3 class="card__title">💌 Notificaciones de Leads</h3>
 
-        <p class="form__field">
-            <label style="display:flex;align-items:center;gap:.5rem;">
-                <input type="checkbox" name="s[autoreply_enabled]" value="1" style="width:auto;" <?= ($settings['autoreply_enabled'] ?? '0') === '1' ? 'checked' : '' ?>>
-                <span>Enviar auto-respuesta al lead</span>
-            </label>
-        </p>
-        <p class="form__field"><label>Asunto auto-respuesta
-            <input name="s[autoreply_subject]" value="<?= htmlspecialchars($settings['autoreply_subject'] ?? '') ?>">
-        </label></p>
-        <p class="form__field" style="margin:0;"><label>Cuerpo auto-respuesta (variables: <code>{{name}}</code>, <code>{{email}}</code>)
-            <textarea name="s[autoreply_body]" rows="5"><?= htmlspecialchars($settings['autoreply_body'] ?? '') ?></textarea>
-        </label></p>
+        <div class="form-group">
+            <label class="form-label">Email destino (recibe los leads)</label>
+            <input class="form-control" type="email" name="s[notification_email]" value="<?= htmlspecialchars($settings['notification_email'] ?? '') ?>" placeholder="admin@tudominio.com">
+            <span class="form-hint">Aquí llegarán todos los leads del formulario de contacto</span>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">From: (remitente del email)</label>
+            <input class="form-control" type="email" name="s[notification_from]" value="<?= htmlspecialchars($settings['notification_from'] ?? '') ?>" placeholder="no-reply@tudominio.com">
+            <span class="form-hint">Debe ser un email de tu dominio para evitar spam</span>
+        </div>
+
+        <div style="border-top: 1px solid #e5e7eb; padding-top: 1.5rem; margin-top: 1.5rem;">
+            <h4 style="margin:0 0 1rem; font-size:.95rem; font-weight:600; color:#1f2937;">🤖 Auto-respuesta a Leads</h4>
+
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="autoreply_enabled" name="s[autoreply_enabled]" value="1" style="width:auto;" <?= ($settings['autoreply_enabled'] ?? '0') === '1' ? 'checked' : '' ?>>
+                <label for="autoreply_enabled">Enviar auto-respuesta automática</label>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Asunto de la auto-respuesta</label>
+                <input class="form-control" type="text" name="s[autoreply_subject]" value="<?= htmlspecialchars($settings['autoreply_subject'] ?? '') ?>" placeholder="Hemos recibido tu mensaje">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Cuerpo de la auto-respuesta</label>
+                <textarea class="form-control" name="s[autoreply_body]"><?= htmlspecialchars($settings['autoreply_body'] ?? '') ?></textarea>
+                <span class="form-hint">Puedes usar: <code>{{name}}</code>, <code>{{email}}</code></span>
+            </div>
+        </div>
     </div>
 
+    <!-- TRACKING -->
     <div class="card">
-        <h3 class="card__title">Tracking</h3>
-        <p class="form__field"><label>Google Analytics ID (G-XXXXXXX)
-            <input name="s[ga_id]" value="<?= htmlspecialchars($settings['ga_id'] ?? '') ?>">
-        </label></p>
-        <p class="form__field" style="margin:0;"><label>Facebook Pixel ID
-            <input name="s[pixel_id]" value="<?= htmlspecialchars($settings['pixel_id'] ?? '') ?>">
-        </label></p>
+        <h3 class="card__title">📊 Tracking y Análisis</h3>
+
+        <div class="form-group">
+            <label class="form-label">Google Analytics ID</label>
+            <input class="form-control" type="text" name="s[ga_id]" value="<?= htmlspecialchars($settings['ga_id'] ?? '') ?>" placeholder="G-XXXXXXX">
+            <span class="form-hint">Ej: G-ABC123DEF456 (sin las comillas)</span>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Facebook Pixel ID</label>
+            <input class="form-control" type="text" name="s[pixel_id]" value="<?= htmlspecialchars($settings['pixel_id'] ?? '') ?>" placeholder="123456789012345">
+            <span class="form-hint">El ID numérico de tu Meta Pixel</span>
+        </div>
     </div>
 
-    <p style="margin-top:1.5rem;"><button type="submit" class="btn">Guardar cambios</button></p>
-</form>
+    <!-- FAVICON -->
+    <?php
+    $faviconPath   = trim((string) ($settings['favicon_image'] ?? ''));
+    $faviconAbs    = $faviconPath ? (__DIR__ . '/../..' . $faviconPath) : '';
+    $faviconExists = $faviconPath !== '' && @file_exists($faviconAbs);
+    $faviconHref   = $faviconExists ? ($faviconPath . '?v=' . @filemtime($faviconAbs)) : '';
+    ?>
+    <div class="card">
+        <h3 class="card__title">🔗 Favicon</h3>
+        <div class="settings-section-hint">
+            El ícono que aparece en la pestaña del navegador. PNG, SVG o ICO (recomendado: PNG 512×512).
+        </div>
 
-<?php
-$faviconPath   = trim((string) ($settings['favicon_image'] ?? ''));
-$faviconAbs    = $faviconPath ? (__DIR__ . '/../..' . $faviconPath) : '';
-$faviconExists = $faviconPath !== '' && @file_exists($faviconAbs);
-$faviconHref   = $faviconExists ? ($faviconPath . '?v=' . @filemtime($faviconAbs)) : '';
-?>
-<div class="card">
-    <h3 class="card__title">Favicon</h3>
-    <p class="text-muted" style="margin:0 0 1rem;font-size:.9rem;">El ícono que aparece en la pestaña del navegador. PNG, SVG o ICO (recomendado: PNG cuadrado 512×512 o SVG).</p>
-    <div style="display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap;">
-        <div style="width:64px;height:64px;border:1px solid #e5e7eb;background:#f9fafb;display:flex;align-items:center;justify-content:center;flex-shrink:0;border-radius:6px;">
+        <div style="display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;margin-bottom:1.5rem;">
+            <div style="width:72px;height:72px;border:2px solid #e5e7eb;background:#f9fafb;display:flex;align-items:center;justify-content:center;border-radius:8px;flex-shrink:0;">
+                <?php if ($faviconExists): ?>
+                    <img src="<?= htmlspecialchars($faviconHref) ?>" alt="" style="max-width:100%;max-height:100%;object-fit:contain;">
+                <?php else: ?>
+                    <span style="font-size:.75rem;color:#9ca3af;">Sin favicon</span>
+                <?php endif; ?>
+            </div>
+
+            <form method="post" enctype="multipart/form-data" style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;margin:0;">
+                <input type="hidden" name="action" value="favicon_upload">
+                <input type="hidden" name="csrf" value="<?= csrfToken() ?>">
+                <input type="file" name="favicon" accept="image/png,image/svg+xml,image/x-icon,.png,.svg,.ico" required>
+                <button type="submit" class="btn">Subir favicon</button>
+            </form>
+
             <?php if ($faviconExists): ?>
-                <img src="<?= htmlspecialchars($faviconHref) ?>" alt="" style="max-width:100%;max-height:100%;object-fit:contain;">
-            <?php else: ?>
-                <span class="text-muted" style="font-size:.7rem;">sin favicon</span>
+                <form method="post" style="margin:0;" onsubmit="return confirm('¿Eliminar el favicon actual?');">
+                    <input type="hidden" name="action" value="favicon_remove">
+                    <input type="hidden" name="csrf" value="<?= csrfToken() ?>">
+                    <button type="submit" class="btn btn--ghost">Eliminar</button>
+                </form>
             <?php endif; ?>
         </div>
-        <form method="post" enctype="multipart/form-data" style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin:0;">
-            <input type="hidden" name="action" value="favicon_upload">
-            <input type="hidden" name="csrf" value="<?= csrfToken() ?>">
-            <input type="file" name="favicon" accept="image/png,image/svg+xml,image/x-icon,.png,.svg,.ico" required>
-            <button type="submit" class="btn">Subir favicon</button>
-        </form>
+
         <?php if ($faviconExists): ?>
-            <form method="post" style="margin:0;" onsubmit="return confirm('¿Eliminar el favicon actual?');">
-                <input type="hidden" name="action" value="favicon_remove">
-                <input type="hidden" name="csrf" value="<?= csrfToken() ?>">
-                <button type="submit" class="btn btn--ghost">Eliminar</button>
-            </form>
+            <div style="padding:.75rem 1rem; background:#f0f9ff; border-radius:6px; border-left:3px solid #0f172a;">
+                <span style="font-size:.85rem;color:#1f2937;">Archivo actual: <code style="background:#fff;padding:.2rem .4rem;border-radius:3px;font-family:monospace;"><?= htmlspecialchars($faviconPath) ?></code></span>
+            </div>
         <?php endif; ?>
     </div>
-    <?php if ($faviconExists): ?>
-        <p class="text-muted" style="margin:.9rem 0 0;font-size:.82rem;">Archivo actual: <code><?= htmlspecialchars($faviconPath) ?></code></p>
-    <?php endif; ?>
-</div>
+
+    <!-- SUBMIT -->
+    <div class="settings-submit">
+        <button type="submit" class="btn" style="padding: 0.85rem 2rem; font-size: 0.95rem; font-weight: 600;">Guardar todos los cambios</button>
+    </div>
+</form>
 
 <script>
-// Selector de estilo de header: marca visualmente la tarjeta activa al cambiar el radio.
+// Selector de estilo de header
 (function(){
     document.querySelectorAll('.header-style-card input[type="radio"]').forEach(function(r){
         r.addEventListener('change', function(){
