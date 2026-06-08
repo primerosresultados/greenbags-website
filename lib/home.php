@@ -27,7 +27,6 @@ function homeSettings(): array {
         'show_categories'=> getSetting('home_show_categories', '1') === '1',
         'show_featured' => getSetting('home_show_featured', '1') === '1',
         'show_story'    => getSetting('home_show_story', '1') === '1',
-        'show_contact'  => getSetting('home_show_contact', '0') === '1',
         'story_title'   => trim((string) getSetting('home_story_title', 'Hechos con dedicación')),
         'story_body'    => trim((string) getSetting('home_story_body', 'Atendemos cada pedido como si fuera para nosotros. Productos seleccionados, envíos rápidos y atención cercana.')),
         'story_cta_label'=> trim((string) getSetting('home_story_cta_label', 'Conócenos')),
@@ -384,22 +383,6 @@ function homeRender(string $error = ''): void {
             <?php endif; ?>
         </div>
     </section>
-
-    <?php if ($s['show_contact']): ?>
-    <!-- ============ Contacto rápido ============ -->
-    <section class="home-contact container" id="contacto">
-        <div class="home-contact__copy">
-            <h2 class="home-section__title">Escríbenos</h2>
-            <p class="home-contact__desc">¿Tienes una consulta o necesitas asesoría? Deja tu mensaje y te respondemos a la brevedad.</p>
-        </div>
-        <div class="home-contact__form">
-            <?php if ($error): ?>
-                <p class="alert alert--error"><?= htmlspecialchars($error) ?></p>
-            <?php endif; ?>
-            <?php require __DIR__ . '/../components/lead_form.php'; ?>
-        </div>
-    </section>
-    <?php endif; ?>
 
 </main>
     <?php

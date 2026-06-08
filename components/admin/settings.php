@@ -417,7 +417,6 @@ textarea.form-control {
                 'home_show_categories' => 'Categorías destacadas',
                 'home_show_featured'   => 'Productos destacados',
                 'home_show_story'      => 'Bloque de marca',
-                'home_show_contact'    => 'Formulario de contacto',
             ] as $key => $lbl): $on = ($settings[$key] ?? '1') === '1'; ?>
                 <div class="checkbox-wrapper">
                     <input type="checkbox" id="<?= $key ?>" name="s[<?= $key ?>]" value="1" <?= $on ? 'checked' : '' ?>>

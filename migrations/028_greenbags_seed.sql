@@ -63,7 +63,6 @@ INSERT INTO settings (setting_key, setting_value) VALUES
     ('home_show_categories',    '1'),
     ('home_show_featured',      '0'),
     ('home_show_story',         '1'),
-    ('home_show_contact',       '0'),
     ('home_story_title',        'Más de 15 años junto a empresas chilenas'),
     ('home_story_body',         'Somos una empresa chilena dedicada a entregar soluciones de packaging, higiene y aseo a empresas que valoran la rapidez, la atención personalizada y la responsabilidad ambiental. Atendidos directamente por sus dueños, garantizamos respuestas concretas y entregas confiables. Acompañamos a Horeca, retail, industria y emprendedores con productos certificados y opciones sustentables que se adaptan a su escala.'),
     ('home_story_cta_label',    'Conocer GreenBags'),
