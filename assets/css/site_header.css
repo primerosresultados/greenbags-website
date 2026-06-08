@@ -265,8 +265,8 @@
     position: fixed;
     inset: 0;
     background: rgba(15, 23, 42, .55);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
     opacity: 0;
     pointer-events: none;
     transition: opacity .25s;
@@ -277,7 +277,7 @@
     position: fixed;
     top: 0; right: 0;
     height: 100dvh;
-    width: min(90vw, 380px);
+    width: min(92vw, 400px);
     background: var(--sh-bg);
     z-index: 100;
     transform: translateX(100%);
@@ -285,14 +285,20 @@
     display: flex;
     flex-direction: column;
     box-shadow: -18px 0 40px rgba(15, 23, 42, .25);
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 .site-drawer.is-open { transform: translateX(0); }
 .site-drawer__head {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.05rem 1.3rem;
+    padding: 1.1rem 1.3rem;
     border-bottom: 1px solid var(--sh-border-strong);
+    position: sticky;
+    top: 0;
+    background: var(--sh-bg);
+    z-index: 2;
 }
 .site-drawer__brand {
     color: var(--sh-fg);
@@ -305,31 +311,32 @@
     background: transparent;
     border: 1px solid var(--sh-border-strong);
     border-radius: 50%;
-    width: 38px; height: 38px;
+    width: 42px; height: 42px;
     color: var(--sh-muted);
     cursor: pointer;
     display: inline-flex; align-items: center; justify-content: center;
-    transition: background .15s, color .15s;
+    transition: background .15s, color .15s, border-color .15s;
 }
-.site-drawer__close:hover { background: #f1f5f9; color: var(--sh-fg); }
+.site-drawer__close:hover { background: #f1f5f9; color: var(--sh-fg); border-color: var(--sh-fg); }
 
 .site-drawer__menu {
     display: flex;
     flex-direction: column;
-    padding: .8rem .6rem;
-    gap: .15rem;
+    padding: 1rem .7rem .5rem;
+    gap: .1rem;
 }
 .site-drawer__menu a {
     color: var(--sh-fg);
     text-decoration: none;
-    padding: .9rem 1.1rem;
+    padding: .95rem 1.1rem;
     font-weight: 500;
     font-size: 1.02rem;
-    border-radius: 10px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    transition: background .15s;
+    transition: background .15s, color .15s;
+    min-height: 44px;
 }
 .site-drawer__menu a:hover { background: #f1f5f9; }
 .site-drawer__menu a.is-active {
@@ -338,7 +345,7 @@
     font-weight: 600;
 }
 .site-drawer__cart {
-    margin-top: .4rem;
+    margin-top: .6rem;
     border-top: 1px dashed var(--sh-border-strong);
     padding-top: 1.1rem !important;
 }
@@ -355,15 +362,16 @@
 .site-drawer__contact {
     display: flex;
     flex-direction: column;
-    gap: .55rem;
-    padding: 1.1rem 1.3rem;
+    gap: .6rem;
+    padding: 1.2rem 1.3rem 1rem;
     border-top: 1px solid var(--sh-border-strong);
     margin-top: auto;
 }
 .site-drawer__contact a {
     color: var(--sh-fg);
     text-decoration: none;
-    font-size: .94rem;
+    font-size: .95rem;
+    padding: .3rem 0;
     transition: opacity .15s;
 }
 .site-drawer__contact a:hover { opacity: .7; }
@@ -371,29 +379,31 @@
     background: var(--sh-accent);
     color: #fff !important;
     text-align: center;
-    padding: .8rem 1rem;
-    border-radius: var(--sh-radius);
+    padding: .95rem 1rem;
+    border-radius: 12px;
     font-weight: 600;
     box-shadow: 0 6px 14px rgba(37, 211, 102, .25);
+    margin-bottom: .3rem;
 }
 .site-drawer__cta:hover { background: var(--sh-accent-hover); }
 
 .site-drawer__socials {
     display: flex;
-    gap: 1rem;
-    padding: .9rem 1.3rem 1.5rem;
+    gap: .8rem;
+    padding: 1rem 1.3rem 1.6rem;
     border-top: 1px solid var(--sh-border-strong);
+    justify-content: center;
 }
 .site-drawer__socials a {
     color: var(--sh-muted);
     display: inline-flex;
-    width: 38px; height: 38px;
+    width: 42px; height: 42px;
     align-items: center; justify-content: center;
     border-radius: 50%;
     border: 1px solid var(--sh-border-strong);
-    transition: color .15s, background .15s, transform .15s;
+    transition: color .15s, background .15s, transform .15s, border-color .15s;
 }
-.site-drawer__socials a:hover { color: var(--sh-fg); background: #f1f5f9; transform: translateY(-1px); }
+.site-drawer__socials a:hover { color: var(--sh-fg); background: #f1f5f9; border-color: var(--sh-fg); transform: translateY(-1px); }
 .site-drawer__socials svg { width: 18px; height: 18px; }
 
 /* ---- Responsive (mobile siempre con drawer) ---- */
@@ -402,6 +412,8 @@
     .site-navbar__burger { display: inline-flex; }
     .site-topbar__contact { font-size: .78rem; gap: .9rem; }
     .site-topbar__hours { display: none; }
+    /* En mobile el logo + acciones se empujan a los extremos. */
+    .site-navbar__inner { justify-content: space-between; gap: .6rem; }
     /* En centered mobile, las acciones vuelven a flujo normal. */
     .site-navbar--centered .site-navbar__actions {
         position: static;
@@ -410,44 +422,80 @@
     .site-navbar--centered .site-navbar__inner { padding-top: .8rem; padding-bottom: .8rem; }
     .site-navbar--centered .site-navbar__row--menu { padding-bottom: 0; justify-content: flex-end; }
 }
+@media (max-width: 640px) {
+    /* Mobile compacto: topbar opcional → solo email/teléfono más chico, sin redes. */
+    .site-topbar { font-size: .75rem; }
+    .site-topbar__inner { padding: .4rem .9rem; gap: .5rem; }
+    .site-topbar__contact { gap: .8rem; flex: 1; min-width: 0; }
+    .site-topbar__contact a { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .site-topbar__socials { gap: .55rem; }
+    .site-topbar__socials svg { width: 14px; height: 14px; }
+}
 @media (max-width: 540px) {
-    .site-topbar__inner { padding: .5rem .9rem; }
-    .site-navbar__inner { padding: .7rem 1rem; gap: .7rem; }
+    .site-topbar__inner { padding: .45rem .9rem; }
+    .site-topbar__socials { display: none; }
+    .site-navbar__inner { padding: .6rem 1rem; gap: .55rem; min-height: 60px; }
+    .site-navbar__brand img { max-height: 34px; }
+    .site-navbar__brand-text { font-size: 1rem; }
+    .site-navbar__actions { gap: .25rem; }
     .site-navbar__cta span { display: none; }
-    .site-navbar__cta { padding: .55rem .7rem; box-shadow: none; }
-    .site-navbar__brand img { max-height: 36px; }
-    .site-navbar__cart { width: 38px; height: 38px; }
-    .site-navbar__burger { width: 38px; height: 38px; }
-    .site-navbar__burger span:nth-child(1) { top: 12px; }
-    .site-navbar__burger span:nth-child(2) { top: 18px; }
-    .site-navbar__burger span:nth-child(3) { top: 24px; }
+    .site-navbar__cta { padding: 0; width: 40px; height: 40px; justify-content: center; box-shadow: none; border-radius: 50%; }
+    .site-navbar__cta svg { width: 18px; height: 18px; }
+    .site-navbar__cart { width: 40px; height: 40px; }
+    .site-navbar__cart-badge { top: 1px; right: -2px; min-width: 16px; height: 16px; font-size: .62rem; }
+    .site-navbar__burger { width: 40px; height: 40px; }
+    .site-navbar__burger span:nth-child(1) { top: 13px; }
+    .site-navbar__burger span:nth-child(2) { top: 19px; }
+    .site-navbar__burger span:nth-child(3) { top: 25px; }
     .site-navbar__burger.is-open span:nth-child(1),
-    .site-navbar__burger.is-open span:nth-child(3) { top: 18px; }
+    .site-navbar__burger.is-open span:nth-child(3) { top: 19px; }
+}
+@media (max-width: 380px) {
+    /* Pantallas muy chicas: priorizar carrito + burger; sacar el CTA del header. */
+    .site-navbar__cta { display: none; }
+    .site-navbar__inner { padding: .55rem .8rem; gap: .35rem; }
 }
 
-/* ============ Menú: ítem alineado a la derecha (Contacto) ============
- * Cuando hay un ítem ".site-navbar__menu-right", el menú deja de centrarse
- * (margin: 0 auto) y ocupa el espacio disponible para que margin-left: auto
- * pueda empujar ese ítem al borde derecho. */
+/* ============ Menú: ítems agrupados a la derecha + botón Contacto ============
+ * Cuando hay un ítem ".site-navbar__menu-right", el menú entero deja de
+ * centrarse y se empuja hacia la derecha (margin-left: auto) para que quede
+ * pegado al botón de Contacto, en vez de centrado entre el logo y el botón.
+ * En la variante "centered" el menú vive en su propia fila → se mantiene
+ * centrado (override más abajo). */
 .site-navbar__menu:has(.site-navbar__menu-right) {
-    flex: 1;
-    margin: 0;
+    margin: 0 0 0 auto;
+    gap: .15rem;
+    align-items: center;
 }
+/* Centered: menú centrado en su propia fila, no pegado a la derecha. */
+.site-navbar--centered .site-navbar__menu:has(.site-navbar__menu-right) {
+    margin: 0 auto;
+}
+/* Contacto como botón: borde sutil + texto fuerte. Separación visible del
+ * resto de los ítems para que se lea como acción y no como link más. */
 .site-navbar__menu-right {
+    margin-left: .9rem;
+    padding: .55rem 1.1rem;
+    border: 1.5px solid var(--sh-fg);
+    border-radius: 999px;
     color: var(--sh-fg);
     text-decoration: none;
-    font-weight: 500;
-    font-size: .92rem;
-    padding: .55rem .9rem;
-    border-radius: 10px;
-    transition: background .18s, color .18s;
-    margin-left: auto;
-}
-.site-navbar__menu-right:hover { background: var(--sh-active-bg); }
-.site-navbar__menu-right.is-active {
-    background: var(--sh-active-bg);
-    color: var(--sh-fg);
     font-weight: 600;
+    font-size: .9rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    transition: background .18s, color .18s, border-color .18s, transform .15s;
+}
+.site-navbar__menu-right:hover {
+    background: var(--sh-fg);
+    color: #fff;
+    transform: translateY(-1px);
+}
+.site-navbar__menu-right.is-active {
+    background: var(--sh-fg);
+    color: #fff;
+    border-color: var(--sh-fg);
 }
 
 /* En centered, el menú vive en su propia fila con acciones absolutas a la
@@ -568,7 +616,12 @@
     }
 }
 
-/* ============ Site footer (minimalista: logo blanco + redes) ============ */
+/* ============ Site footer (brand + contacto + redes) ============
+ * Layout vertical centrado en 3 zonas:
+ *   1. Brand: logo (forzado a blanco) + tagline en blanco.
+ *   2. Contact: pildoras con teléfono/email/dirección/horario (wrap natural).
+ *   3. Bottom: redes sociales y copyright sobre una línea separadora sutil.
+ */
 .site-footer {
     background: #0f172a;
     color: #cbd5e1;
@@ -577,12 +630,21 @@
 .site-footer__inner {
     max-width: var(--container-max, 1200px);
     margin: 0 auto;
-    padding: 2.5rem 1.2rem;
+    padding: 3.5rem 1.4rem 2.2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.25rem;
+    gap: 2rem;
     text-align: center;
+}
+
+/* ── Brand zone ── */
+.site-footer__brand-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .9rem;
+    max-width: 560px;
 }
 .site-footer__brand {
     display: inline-flex;
@@ -591,20 +653,76 @@
     text-decoration: none;
 }
 .site-footer__brand img {
-    max-height: 64px;
+    max-height: 70px;
     width: auto;
     /* Capa que fuerza el logo a blanco sin importar sus colores originales. */
     filter: brightness(0) invert(1);
 }
 .site-footer__brand-text {
     color: #fff;
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     font-weight: 700;
     letter-spacing: .02em;
 }
+.site-footer__tagline {
+    margin: 0;
+    color: #fff;
+    font-size: 1rem;
+    line-height: 1.55;
+    font-weight: 400;
+    max-width: 480px;
+}
+
+/* ── Contact zone ── */
+.site-footer__contact {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: .6rem 1.6rem;
+    color: #cbd5e1;
+    font-size: .92rem;
+}
+.site-footer__contact-item {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    line-height: 1.4;
+}
+.site-footer__contact-item a {
+    color: inherit;
+    text-decoration: none;
+    transition: color .15s;
+}
+.site-footer__contact-item a:hover { color: #fff; }
+.site-footer__contact-ico {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .06);
+    border: 1px solid rgba(255, 255, 255, .12);
+    color: #fff;
+    flex-shrink: 0;
+}
+
+/* ── Social zone + copyright ── */
+.site-footer__bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    width: 100%;
+    padding-top: 1.8rem;
+    border-top: 1px solid rgba(255, 255, 255, .08);
+}
 .site-footer__socials {
     display: flex;
-    gap: 1.1rem;
+    gap: .9rem;
     align-items: center;
     justify-content: center;
 }
@@ -613,12 +731,45 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-    transition: color .18s, transform .18s;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .05);
+    border: 1px solid rgba(255, 255, 255, .1);
+    transition: color .18s, background .18s, border-color .18s, transform .18s;
 }
-.site-footer__socials a:hover { color: #fff; transform: translateY(-1px); }
-.site-footer__socials svg { width: 22px; height: 22px; }
+.site-footer__socials a:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, .12);
+    border-color: rgba(255, 255, 255, .25);
+    transform: translateY(-2px);
+}
+.site-footer__socials svg { width: 18px; height: 18px; }
+.site-footer__copyright {
+    margin: 0;
+    color: #94a3b8;
+    font-size: .82rem;
+    letter-spacing: .015em;
+}
+
+@media (max-width: 720px) {
+    .site-footer__inner { padding: 2.8rem 1.2rem 1.8rem; gap: 1.6rem; }
+    .site-footer__brand img { max-height: 56px; }
+    .site-footer__tagline { font-size: .95rem; }
+    .site-footer__contact {
+        flex-direction: column;
+        gap: .9rem;
+        font-size: .9rem;
+        width: 100%;
+        max-width: 320px;
+    }
+    .site-footer__contact-item {
+        justify-content: flex-start;
+        text-align: left;
+        width: 100%;
+    }
+    .site-footer__bottom { gap: 1rem; padding-top: 1.4rem; }
+}
 
 /* ============ WhatsApp floating button ============ */
 .wa-float {
