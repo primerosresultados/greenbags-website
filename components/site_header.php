@@ -38,6 +38,33 @@ $cartCount = $quotesOn
     ? (function_exists('quoteCount') ? quoteCount() : 0)
     : (function_exists('cartCount') ? cartCount() : 0);
 
+// Categorías activas para el dropdown del menú (flat). Si la tabla no existe
+// todavía (instalación nueva sin tienda), categoryList lanza y devolvemos []
+// para no romper el header.
+$cats = [];
+if (function_exists('categoryList')) {
+    try { $cats = categoryList(true); } catch (Throwable $e) { $cats = []; }
+}
+
+// "Contacto" se renderiza alineado a la derecha. Lo separamos del resto para
+// que no quede mezclado entre las páginas alfabéticas.
+$pageContact = null;
+$pagesMain   = [];
+foreach ($menu as $p) {
+    if ($pageContact === null && (string) $p['slug'] === 'contacto') {
+        $pageContact = $p;
+    } else {
+        $pagesMain[] = $p;
+    }
+}
+
+// Path actual para marcar "activo" en items que no usan $currentSlug (Tienda
+// y categorías viven en /tienda y /categoria/{slug} y shop_front no setea
+// current_slug).
+$reqPathActive = trim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/', '/');
+$isShopActive  = $reqPathActive === 'tienda';
+$isCatActive   = str_starts_with($reqPathActive, 'categoria/');
+
 $socialIcon = function (string $key): string {
     return [
         'social_facebook'  => '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 2.9h-2.2v7A10 10 0 0 0 22 12z"/></svg>',
@@ -71,14 +98,41 @@ $renderBrand = function (string $cls = 'site-navbar__brand') use ($logoExists, $
     echo '</a>';
 };
 
-$renderMenu = function () use ($menu, $currentSlug) {
+$renderMenu = function () use ($pagesMain, $pageContact, $cats, $currentSlug, $isShopActive, $isCatActive) {
+    $isHome = $currentSlug === '' && !$isShopActive && !$isCatActive;
     echo '<nav class="site-navbar__menu" aria-label="Principal">';
-    echo '<a href="/" class="' . ($currentSlug === '' ? 'is-active' : '') . '">Inicio</a>';
-    foreach ($menu as $p) {
+    echo '<a href="/" class="' . ($isHome ? 'is-active' : '') . '">Inicio</a>';
+    echo '<a href="/tienda" class="' . ($isShopActive ? 'is-active' : '') . '">Tienda</a>';
+
+    if ($cats) {
+        echo '<div class="site-navbar__dropdown" data-dropdown>'
+           . '<button type="button" class="site-navbar__dropdown-toggle' . ($isCatActive ? ' is-active' : '') . '"'
+           . ' aria-haspopup="true" aria-expanded="false">'
+           . 'Categorías'
+           . '<svg class="site-navbar__dropdown-caret" viewBox="0 0 24 24" width="14" height="14" fill="none"'
+           . ' stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+           . '<polyline points="6 9 12 15 18 9"/></svg>'
+           . '</button>'
+           . '<div class="site-navbar__dropdown-panel" role="menu">';
+        foreach ($cats as $cat) {
+            echo '<a href="/categoria/' . htmlspecialchars($cat['slug']) . '" role="menuitem">'
+               . htmlspecialchars($cat['name']) . '</a>';
+        }
+        echo '</div></div>';
+    }
+
+    foreach ($pagesMain as $p) {
         echo '<a href="/' . htmlspecialchars($p['slug']) . '" class="'
            . ($currentSlug === $p['slug'] ? 'is-active' : '') . '">'
            . htmlspecialchars($p['title']) . '</a>';
     }
+
+    if ($pageContact) {
+        $cls = 'site-navbar__menu-right' . ($currentSlug === $pageContact['slug'] ? ' is-active' : '');
+        echo '<a href="/' . htmlspecialchars($pageContact['slug']) . '" class="' . $cls . '">'
+           . htmlspecialchars($pageContact['title']) . '</a>';
+    }
+
     echo '</nav>';
 };
 
@@ -195,12 +249,31 @@ $annFg    = trim((string) getSetting('announce_fg', '#ffffff'));
         </div>
 
         <nav class="site-drawer__menu" aria-label="Principal (mobile)">
-            <a href="/" class="<?= $currentSlug === '' ? 'is-active' : '' ?>">Inicio</a>
-            <?php foreach ($menu as $p): ?>
+            <a href="/" class="<?= ($currentSlug === '' && !$isShopActive && !$isCatActive) ? 'is-active' : '' ?>">Inicio</a>
+            <a href="/tienda" class="<?= $isShopActive ? 'is-active' : '' ?>">Tienda</a>
+            <?php if ($cats): ?>
+                <details class="site-drawer__sub"<?= $isCatActive ? ' open' : '' ?>>
+                    <summary>
+                        <span>Categorías</span>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                    </summary>
+                    <div class="site-drawer__sub-list">
+                        <?php foreach ($cats as $cat): ?>
+                            <a href="/categoria/<?= htmlspecialchars($cat['slug']) ?>"><?= htmlspecialchars($cat['name']) ?></a>
+                        <?php endforeach; ?>
+                    </div>
+                </details>
+            <?php endif; ?>
+            <?php foreach ($pagesMain as $p): ?>
                 <a href="/<?= htmlspecialchars($p['slug']) ?>" class="<?= $currentSlug === $p['slug'] ? 'is-active' : '' ?>">
                     <?= htmlspecialchars($p['title']) ?>
                 </a>
             <?php endforeach; ?>
+            <?php if ($pageContact): ?>
+                <a href="/<?= htmlspecialchars($pageContact['slug']) ?>" class="<?= $currentSlug === $pageContact['slug'] ? 'is-active' : '' ?>">
+                    <?= htmlspecialchars($pageContact['title']) ?>
+                </a>
+            <?php endif; ?>
             <a href="<?= htmlspecialchars($cartHref) ?>" class="site-drawer__cart" id="<?= htmlspecialchars($drawerBtnId) ?>">
                 <span><?= htmlspecialchars($drawerLabel) ?></span>
                 <?php if ($cartCount > 0): ?><span class="site-drawer__cart-badge"><?= (int) $cartCount ?></span><?php endif; ?>
@@ -251,12 +324,29 @@ $annFg    = trim((string) getSetting('announce_fg', '#ffffff'));
         window.addEventListener('scroll', onScroll, { passive: true });
     }
 
-    if (!b || !d || !bk) return;
-    function open(){ d.classList.add('is-open'); bk.classList.add('is-open'); b.classList.add('is-open'); b.setAttribute('aria-expanded','true'); d.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
-    function close(){ d.classList.remove('is-open'); bk.classList.remove('is-open'); b.classList.remove('is-open'); b.setAttribute('aria-expanded','false'); d.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
-    b.addEventListener('click', function(){ d.classList.contains('is-open') ? close() : open(); });
-    bk.addEventListener('click', close);
-    if (cl) cl.addEventListener('click', close);
-    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+    if (b && d && bk) {
+        var open  = function(){ d.classList.add('is-open'); bk.classList.add('is-open'); b.classList.add('is-open'); b.setAttribute('aria-expanded','true'); d.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; };
+        var close = function(){ d.classList.remove('is-open'); bk.classList.remove('is-open'); b.classList.remove('is-open'); b.setAttribute('aria-expanded','false'); d.setAttribute('aria-hidden','true'); document.body.style.overflow=''; };
+        b.addEventListener('click', function(){ d.classList.contains('is-open') ? close() : open(); });
+        bk.addEventListener('click', close);
+        if (cl) cl.addEventListener('click', close);
+        document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+    }
+
+    // Dropdown "Categorías" (desktop): toggle por click, cierra fuera/Escape.
+    document.querySelectorAll('[data-dropdown]').forEach(function(dd){
+        var t = dd.querySelector('.site-navbar__dropdown-toggle');
+        if (!t) return;
+        var closeDd = function(){ dd.classList.remove('is-open'); t.setAttribute('aria-expanded','false'); };
+        var openDd  = function(){ dd.classList.add('is-open');    t.setAttribute('aria-expanded','true');  };
+        t.addEventListener('click', function(e){
+            e.stopPropagation();
+            dd.classList.contains('is-open') ? closeDd() : openDd();
+        });
+        document.addEventListener('click', function(e){
+            if (!dd.contains(e.target)) closeDd();
+        });
+        document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeDd(); });
+    });
 })();
 </script>
