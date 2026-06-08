@@ -70,9 +70,21 @@ function checkoutRenderForm(?array $formData = null, ?string $error = null): voi
     $totals  = cartTotals();
     if (!$items) {
         layoutStart(['title' => 'Finalizar compra', 'canonical' => '/checkout']);
-        echo '<main class="container shop shop-checkout"><h1>Finalizar compra</h1>'
-           . '<p class="shop-cart__empty">Tu carrito está vacío. Volvé a la tienda para elegir productos.</p>'
-           . '<p><a href="/tienda" class="btn">Ir a la tienda</a></p></main>';
+        ?>
+<main class="container shop shop-checkout shop-checkout--empty">
+    <div class="shop-checkout__empty">
+        <div class="shop-checkout__empty-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/>
+            </svg>
+        </div>
+        <h1>Tu carrito está vacío</h1>
+        <p>Todavía no agregaste productos. Volvé a la tienda y empezamos de cero.</p>
+        <a href="/tienda" class="btn shop-checkout__empty-cta">Ir a la tienda</a>
+    </div>
+</main>
+        <?php
         layoutEnd();
         return;
     }
@@ -82,19 +94,36 @@ function checkoutRenderForm(?array $formData = null, ?string $error = null): voi
         return htmlspecialchars((string) ($formData[$k] ?? $default));
     };
     $selectedMethod = (string) ($formData['payment_method'] ?? array_key_first($methods) ?? '');
+    $itemCount = 0;
+    foreach ($items as $it) { $itemCount += (int) $it['qty']; }
 
     layoutStart(['title' => 'Finalizar compra', 'canonical' => '/checkout']);
     ?>
 <main class="container shop shop-checkout">
-    <h1>Finalizar compra</h1>
+    <header class="shop-checkout__header">
+        <a href="/carrito" class="shop-checkout__crumb">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+            Volver al carrito
+        </a>
+        <h1>Finalizar compra</h1>
+        <ol class="shop-checkout__steps" aria-label="Pasos del checkout">
+            <li class="shop-checkout__step is-active"><span>1</span> Contacto</li>
+            <li class="shop-checkout__step is-active"><span>2</span> Envío</li>
+            <li class="shop-checkout__step is-active"><span>3</span> Pago</li>
+        </ol>
+    </header>
 
     <?php if ($error): ?>
-        <p class="alert alert--error shop-cart__alert"><?= htmlspecialchars($error) ?></p>
+        <div class="shop-checkout__alert shop-checkout__alert--error" role="alert">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span><?= htmlspecialchars($error) ?></span>
+        </div>
     <?php endif; ?>
 
     <?php if (!$methods): ?>
-        <div class="alert alert--error shop-cart__alert">
-            No hay métodos de pago disponibles. Pedí al administrador del sitio que active al menos uno desde <strong>Pagos</strong>.
+        <div class="shop-checkout__alert shop-checkout__alert--warn" role="alert">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span>No hay métodos de pago disponibles. Pedí al administrador del sitio que active al menos uno desde <strong>Pagos</strong>.</span>
         </div>
     <?php endif; ?>
 
@@ -104,63 +133,98 @@ function checkoutRenderForm(?array $formData = null, ?string $error = null): voi
 
         <div class="shop-checkout__grid">
             <div class="shop-checkout__col">
-                <section class="card">
-                    <h3 class="card__title">Datos de contacto</h3>
-                    <div class="shop-checkout__row2">
-                        <p class="form__field"><label>Nombre *
-                            <input type="text" name="first_name" required value="<?= $f('first_name') ?>">
-                        </label></p>
-                        <p class="form__field"><label>Apellido *
-                            <input type="text" name="last_name" required value="<?= $f('last_name') ?>">
-                        </label></p>
+                <section class="shop-checkout__card">
+                    <header class="shop-checkout__card-head">
+                        <span class="shop-checkout__num">1</span>
+                        <div>
+                            <h2 class="shop-checkout__card-title">Datos de contacto</h2>
+                            <p class="shop-checkout__card-sub">Para enviarte la confirmación del pedido</p>
+                        </div>
+                    </header>
+                    <div class="shop-checkout__fields">
+                        <div class="shop-checkout__row2">
+                            <div class="shop-checkout__field">
+                                <label for="co-firstname">Nombre <span aria-hidden="true">*</span></label>
+                                <input id="co-firstname" type="text" name="first_name" required autocomplete="given-name" value="<?= $f('first_name') ?>">
+                            </div>
+                            <div class="shop-checkout__field">
+                                <label for="co-lastname">Apellido <span aria-hidden="true">*</span></label>
+                                <input id="co-lastname" type="text" name="last_name" required autocomplete="family-name" value="<?= $f('last_name') ?>">
+                            </div>
+                        </div>
+                        <div class="shop-checkout__field">
+                            <label for="co-email">Email <span aria-hidden="true">*</span></label>
+                            <input id="co-email" type="email" name="email" required autocomplete="email" inputmode="email" value="<?= $f('email') ?>" placeholder="tu@email.com">
+                        </div>
+                        <div class="shop-checkout__field">
+                            <label for="co-phone">Teléfono <span aria-hidden="true">*</span></label>
+                            <input id="co-phone" type="tel" name="phone" required autocomplete="tel" inputmode="tel" value="<?= $f('phone') ?>" placeholder="+56 9 1234 5678">
+                            <small class="shop-checkout__field-hint">Lo usamos para coordinar la entrega.</small>
+                        </div>
                     </div>
-                    <p class="form__field"><label>Email *
-                        <input type="email" name="email" required value="<?= $f('email') ?>">
-                    </label></p>
-                    <p class="form__field" style="margin:0;"><label>Teléfono *
-                        <input type="tel" name="phone" required value="<?= $f('phone') ?>" placeholder="+56 9 1234 5678">
-                    </label></p>
                 </section>
 
-                <section class="card">
-                    <h3 class="card__title">Dirección de envío</h3>
-                    <p class="form__field"><label>Dirección *
-                        <input type="text" name="address_line1" required value="<?= $f('address_line1') ?>" placeholder="Calle y número">
-                    </label></p>
-                    <p class="form__field"><label>Departamento, piso, referencia
-                        <input type="text" name="address_line2" value="<?= $f('address_line2') ?>">
-                    </label></p>
-                    <div class="shop-checkout__row2">
-                        <p class="form__field"><label>Ciudad / comuna *
-                            <input type="text" name="city" required value="<?= $f('city') ?>">
-                        </label></p>
-                        <p class="form__field"><label>Región
-                            <input type="text" name="region" value="<?= $f('region') ?>">
-                        </label></p>
+                <section class="shop-checkout__card">
+                    <header class="shop-checkout__card-head">
+                        <span class="shop-checkout__num">2</span>
+                        <div>
+                            <h2 class="shop-checkout__card-title">Dirección de envío</h2>
+                            <p class="shop-checkout__card-sub">Coordinamos el despacho por separado.</p>
+                        </div>
+                    </header>
+                    <div class="shop-checkout__fields">
+                        <div class="shop-checkout__field">
+                            <label for="co-addr1">Dirección <span aria-hidden="true">*</span></label>
+                            <input id="co-addr1" type="text" name="address_line1" required autocomplete="address-line1" value="<?= $f('address_line1') ?>" placeholder="Calle y número">
+                        </div>
+                        <div class="shop-checkout__field">
+                            <label for="co-addr2">Departamento, piso, referencia</label>
+                            <input id="co-addr2" type="text" name="address_line2" autocomplete="address-line2" value="<?= $f('address_line2') ?>" placeholder="Opcional">
+                        </div>
+                        <div class="shop-checkout__row2">
+                            <div class="shop-checkout__field">
+                                <label for="co-city">Ciudad / comuna <span aria-hidden="true">*</span></label>
+                                <input id="co-city" type="text" name="city" required autocomplete="address-level2" value="<?= $f('city') ?>">
+                            </div>
+                            <div class="shop-checkout__field">
+                                <label for="co-region">Región</label>
+                                <input id="co-region" type="text" name="region" autocomplete="address-level1" value="<?= $f('region') ?>">
+                            </div>
+                        </div>
+                        <div class="shop-checkout__row2">
+                            <div class="shop-checkout__field">
+                                <label for="co-zip">Código postal</label>
+                                <input id="co-zip" type="text" name="postal_code" autocomplete="postal-code" inputmode="numeric" value="<?= $f('postal_code') ?>">
+                            </div>
+                            <div class="shop-checkout__field">
+                                <label for="co-country">País</label>
+                                <input id="co-country" type="text" name="country" autocomplete="country" value="<?= $f('country', (string) getSetting('store_country', 'CL')) ?>" maxlength="2">
+                            </div>
+                        </div>
+                        <div class="shop-checkout__field">
+                            <label for="co-note">Notas para el pedido <small>(opcional)</small></label>
+                            <textarea id="co-note" name="customer_note" rows="2" placeholder="Indicaciones para la entrega, datos extra…"><?= $f('customer_note') ?></textarea>
+                        </div>
                     </div>
-                    <div class="shop-checkout__row2">
-                        <p class="form__field"><label>Código postal
-                            <input type="text" name="postal_code" value="<?= $f('postal_code') ?>">
-                        </label></p>
-                        <p class="form__field"><label>País
-                            <input type="text" name="country" value="<?= $f('country', (string) getSetting('store_country', 'CL')) ?>" maxlength="2">
-                        </label></p>
-                    </div>
-                    <p class="form__field" style="margin:0;"><label>Notas para el pedido (opcional)
-                        <textarea name="customer_note" rows="2" placeholder="Indicaciones para la entrega, datos extra…"><?= $f('customer_note') ?></textarea>
-                    </label></p>
                 </section>
 
-                <section class="card">
-                    <h3 class="card__title">Método de pago</h3>
+                <section class="shop-checkout__card">
+                    <header class="shop-checkout__card-head">
+                        <span class="shop-checkout__num">3</span>
+                        <div>
+                            <h2 class="shop-checkout__card-title">Método de pago</h2>
+                            <p class="shop-checkout__card-sub">Elegí cómo querés pagar tu pedido.</p>
+                        </div>
+                    </header>
                     <?php if ($methods): ?>
-                        <div class="shop-checkout__methods">
+                        <div class="shop-checkout__methods" role="radiogroup" aria-label="Método de pago">
                             <?php foreach ($methods as $key => $m):
                                 $id = 'pm-' . $key;
                                 $checked = $selectedMethod === $key;
                             ?>
                                 <label class="shop-checkout__method<?= $checked ? ' is-selected' : '' ?>" for="<?= $id ?>">
                                     <input type="radio" id="<?= $id ?>" name="payment_method" value="<?= htmlspecialchars($key) ?>" <?= $checked ? 'checked' : '' ?> required>
+                                    <span class="shop-checkout__method-dot" aria-hidden="true"></span>
                                     <span class="shop-checkout__method-body">
                                         <strong><?= htmlspecialchars($m['label']) ?></strong>
                                         <small><?= htmlspecialchars($m['description']) ?></small>
@@ -168,38 +232,65 @@ function checkoutRenderForm(?array $formData = null, ?string $error = null): voi
                                 </label>
                             <?php endforeach; ?>
                         </div>
+                    <?php else: ?>
+                        <p class="shop-checkout__methods-empty">Sin métodos de pago activos.</p>
                     <?php endif; ?>
                 </section>
             </div>
 
             <aside class="shop-checkout__sidebar">
-                <section class="card">
-                    <h3 class="card__title">Tu pedido</h3>
+                <section class="shop-checkout__summary">
+                    <header class="shop-checkout__summary-head">
+                        <h2 class="shop-checkout__card-title">Tu pedido</h2>
+                        <span class="shop-checkout__summary-count"><?= (int) $itemCount ?> <?= $itemCount === 1 ? 'producto' : 'productos' ?></span>
+                    </header>
                     <ul class="shop-checkout__items">
                         <?php foreach ($items as $it): ?>
                             <li class="shop-checkout__item">
+                                <span class="shop-checkout__item-qty"><?= (int) $it['qty'] ?></span>
                                 <span class="shop-checkout__item-name">
                                     <?= htmlspecialchars($it['name']) ?>
                                     <?php if ($it['variation_label']): ?>
-                                        <small> · <?= htmlspecialchars($it['variation_label']) ?></small>
+                                        <small><?= htmlspecialchars($it['variation_label']) ?></small>
                                     <?php endif; ?>
-                                    <small> × <?= (int) $it['qty'] ?></small>
                                 </span>
                                 <span class="shop-checkout__item-total"><?= shopFormatPrice($it['line_total']) ?></span>
                             </li>
                         <?php endforeach; ?>
                     </ul>
-                    <div class="shop-checkout__totline">
-                        <span>Subtotal</span>
-                        <strong><?= shopFormatPrice($totals['subtotal']) ?></strong>
-                    </div>
-                    <div class="shop-checkout__totline shop-checkout__totline--big">
-                        <span>Total a pagar</span>
-                        <strong><?= shopFormatPrice($totals['subtotal']) ?></strong>
-                    </div>
-                    <p class="shop-checkout__hint">Los impuestos están incluidos. El costo de envío se coordina por separado.</p>
-                    <button type="submit" class="btn shop-checkout__submit" <?= $methods ? '' : 'disabled' ?>>Confirmar compra</button>
-                    <a href="/carrito" class="shop-checkout__back">← Volver al carrito</a>
+                    <dl class="shop-checkout__totals">
+                        <div class="shop-checkout__totline">
+                            <dt>Subtotal</dt>
+                            <dd><?= shopFormatPrice($totals['subtotal']) ?></dd>
+                        </div>
+                        <div class="shop-checkout__totline">
+                            <dt>Envío</dt>
+                            <dd class="shop-checkout__muted">A coordinar</dd>
+                        </div>
+                        <div class="shop-checkout__totline shop-checkout__totline--big">
+                            <dt>Total a pagar</dt>
+                            <dd><?= shopFormatPrice($totals['subtotal']) ?></dd>
+                        </div>
+                    </dl>
+                    <p class="shop-checkout__hint">Impuestos incluidos. El costo de envío se coordina por separado.</p>
+                    <button type="submit" class="btn shop-checkout__submit" <?= $methods ? '' : 'disabled' ?>>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        Confirmar compra
+                    </button>
+                    <ul class="shop-checkout__trust">
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            Compra protegida
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                            Despachos en 24-48 hs
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                            Datos encriptados
+                        </li>
+                    </ul>
                 </section>
             </aside>
         </div>
@@ -247,55 +338,91 @@ function checkoutRenderConfirmation(string $orderNumber): void {
     $isPaid = ($order['payment_status'] ?? '') === 'paid';
     $isFailed = in_array($order['payment_status'] ?? '', ['failed'], true);
 
+    $statusClass = $isPaid ? 'is-paid' : ($isFailed ? 'is-failed' : 'is-pending');
     layoutStart(['title' => 'Orden ' . $orderNumber, 'canonical' => '/orden/' . $orderNumber]);
     ?>
-<main class="container shop shop-order">
-    <h1>
-        <?php if ($isPaid): ?>¡Gracias por tu compra!
-        <?php elseif ($isFailed): ?>Hubo un problema con el pago
-        <?php else: ?>Orden creada
-        <?php endif; ?>
-    </h1>
-    <p class="shop-order__num">Número: <strong><?= htmlspecialchars($order['order_number']) ?></strong></p>
+<main class="container shop shop-order <?= $statusClass ?>">
+    <div class="shop-order__hero">
+        <div class="shop-order__hero-icon" aria-hidden="true">
+            <?php if ($isPaid): ?>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <?php elseif ($isFailed): ?>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            <?php else: ?>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <?php endif; ?>
+        </div>
+        <h1>
+            <?php if ($isPaid): ?>¡Gracias por tu compra!
+            <?php elseif ($isFailed): ?>Hubo un problema con el pago
+            <?php else: ?>Orden creada
+            <?php endif; ?>
+        </h1>
+        <p class="shop-order__num">Número de orden: <strong><?= htmlspecialchars($order['order_number']) ?></strong></p>
+    </div>
 
     <?php if ($isPaid): ?>
-        <p class="alert alert--ok">Tu pago fue confirmado. Te enviamos un email con el detalle.</p>
-    <?php elseif ($isFailed): ?>
-        <p class="alert alert--error">El pago no se pudo completar. Podés volver a intentarlo desde el carrito.</p>
-    <?php elseif ($method === 'flow'): ?>
-        <p class="alert">Estamos esperando la confirmación de Flow. Si ya completaste el pago, podés actualizar esta página en unos segundos.</p>
-    <?php elseif ($instructions !== ''): ?>
-        <div class="card shop-order__instructions">
-            <h3 class="card__title">Instrucciones para completar el pago — <?= htmlspecialchars($methodLabel) ?></h3>
-            <pre><?= htmlspecialchars($instructions) ?></pre>
-            <p class="text-muted" style="margin:.5rem 0 0;font-size:.9rem;">Indicá el número de orden <strong><?= htmlspecialchars($order['order_number']) ?></strong> al momento de pagar.</p>
+        <div class="shop-checkout__alert shop-checkout__alert--ok">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Tu pago fue confirmado. Te enviamos un email con el detalle.</span>
         </div>
+    <?php elseif ($isFailed): ?>
+        <div class="shop-checkout__alert shop-checkout__alert--error">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span>El pago no se pudo completar. Podés volver a intentarlo desde el carrito.</span>
+        </div>
+    <?php elseif ($method === 'flow'): ?>
+        <div class="shop-checkout__alert shop-checkout__alert--info">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Estamos esperando la confirmación de Flow. Si ya completaste el pago, actualizá esta página en unos segundos.</span>
+        </div>
+    <?php elseif ($instructions !== ''): ?>
+        <section class="shop-checkout__card shop-order__instructions">
+            <header class="shop-checkout__card-head">
+                <span class="shop-checkout__num">i</span>
+                <div>
+                    <h2 class="shop-checkout__card-title">Instrucciones de pago — <?= htmlspecialchars($methodLabel) ?></h2>
+                    <p class="shop-checkout__card-sub">Indicá el número <strong><?= htmlspecialchars($order['order_number']) ?></strong> al momento de pagar.</p>
+                </div>
+            </header>
+            <pre><?= htmlspecialchars($instructions) ?></pre>
+        </section>
     <?php else: ?>
-        <p class="alert">Tu orden quedó registrada como pendiente. Nos pondremos en contacto para coordinar el pago.</p>
+        <div class="shop-checkout__alert shop-checkout__alert--info">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Tu orden quedó registrada como pendiente. Nos pondremos en contacto para coordinar el pago.</span>
+        </div>
     <?php endif; ?>
 
-    <section class="card">
-        <h3 class="card__title">Detalle</h3>
-        <table class="shop-cart__table">
-            <thead>
-                <tr><th>Producto</th><th class="shop-cart__th-num">Cant.</th><th class="shop-cart__th-num">Subtotal</th></tr>
-            </thead>
-            <tbody>
-                <?php foreach ($items as $i): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($i['name']) ?><?php if ($i['sku']): ?> <small class="text-muted">(<?= htmlspecialchars($i['sku']) ?>)</small><?php endif; ?></td>
-                        <td class="shop-cart__price"><?= (int) $i['qty'] ?></td>
-                        <td class="shop-cart__line"><?= shopFormatPrice($i['line_total']) ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-            <tfoot>
-                <tr><td colspan="2" class="shop-cart__totlbl">Total</td><td class="shop-cart__tot"><?= shopFormatPrice($order['grand_total']) ?></td></tr>
-            </tfoot>
-        </table>
+    <section class="shop-checkout__card">
+        <header class="shop-checkout__card-head">
+            <span class="shop-checkout__num"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
+            <div>
+                <h2 class="shop-checkout__card-title">Detalle del pedido</h2>
+                <p class="shop-checkout__card-sub"><?= count($items) ?> <?= count($items) === 1 ? 'producto' : 'productos' ?> · Total <strong><?= shopFormatPrice($order['grand_total']) ?></strong></p>
+            </div>
+        </header>
+        <ul class="shop-order__items">
+            <?php foreach ($items as $i): ?>
+                <li class="shop-order__item">
+                    <span class="shop-order__item-qty"><?= (int) $i['qty'] ?></span>
+                    <span class="shop-order__item-name">
+                        <?= htmlspecialchars($i['name']) ?>
+                        <?php if ($i['sku']): ?><small>SKU: <?= htmlspecialchars($i['sku']) ?></small><?php endif; ?>
+                    </span>
+                    <span class="shop-order__item-total"><?= shopFormatPrice($i['line_total']) ?></span>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <div class="shop-order__total">
+            <span>Total</span>
+            <strong><?= shopFormatPrice($order['grand_total']) ?></strong>
+        </div>
     </section>
 
-    <p style="margin-top:1.4rem;"><a href="/tienda" class="btn btn--ghost">← Seguir comprando</a></p>
+    <div class="shop-order__actions">
+        <a href="/tienda" class="btn">Seguir comprando</a>
+    </div>
 </main>
     <?php
     layoutEnd();
