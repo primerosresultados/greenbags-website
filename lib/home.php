@@ -16,6 +16,10 @@
  */
 
 function homeSettings(): array {
+    $layout = (string) getSetting('home_categories_layout', 'bento');
+    if (!in_array($layout, ['bento', 'grid', 'carousel', 'masonry'], true)) {
+        $layout = 'bento';
+    }
     return [
         'hero_eyebrow'  => trim((string) getSetting('home_hero_eyebrow', 'Nueva colección')),
         'hero_title'    => trim((string) getSetting('home_hero_title', '')) ?: (string) getSetting('site_name', 'Bienvenidos'),
@@ -25,6 +29,7 @@ function homeSettings(): array {
         'hero_image'    => trim((string) getSetting('home_hero_image', '')),
         'show_benefits' => getSetting('home_show_benefits', '1') === '1',
         'show_categories'=> getSetting('home_show_categories', '1') === '1',
+        'categories_layout' => $layout,
         'show_featured' => getSetting('home_show_featured', '1') === '1',
         'show_story'    => getSetting('home_show_story', '1') === '1',
         'story_title'   => trim((string) getSetting('home_story_title', 'Hechos con dedicación')),
@@ -115,7 +120,9 @@ function homeTopCategories(int $limit = 6): array {
 function homeRender(string $error = ''): void {
     $s          = homeSettings();
     $featured   = $s['show_featured']   ? homeFeaturedProducts(8) : [];
-    $categories = $s['show_categories'] ? homeTopCategories(6)    : [];
+    // Carrusel y masonry lucen mejor con más tiles; bento/grid se quedan en 6.
+    $catLimit   = in_array($s['categories_layout'], ['carousel', 'masonry'], true) ? 12 : 6;
+    $categories = $s['show_categories'] ? homeTopCategories($catLimit) : [];
     $waUrl      = whatsappLink((string) getSetting('business_whatsapp', ''), (string) getSetting('business_whatsapp_text', ''));
     $siteName   = (string) getSetting('site_name', 'Mi Sitio');
 
@@ -256,34 +263,123 @@ function homeRender(string $error = ''): void {
     </section>
     <?php endif; ?>
 
-    <?php if ($s['show_categories'] && $categories): ?>
-    <!-- ============ Categorías (bento) ============ -->
-    <section class="home-cats container">
+    <?php if ($s['show_categories'] && $categories):
+        $layout    = $s['categories_layout'];
+        $catCount  = count($categories);
+        // Para bento usamos los modificadores de span; para otros layouts no.
+        $sectionMod = 'home-cats--' . $layout;
+        // Bento ajusta su patrón según cuántos tiles hay (evita celdas gigantes
+        // cuando hay menos de 6 categorías). Con >= 6 usamos el patrón base.
+        $bentoBucket = ($layout === 'bento' && $catCount < 6)
+            ? 'home-cats__bento--n' . $catCount
+            : '';
+        // En carrusel duplicamos la lista para el efecto de marquesina infinita.
+        $renderList  = $layout === 'carousel' ? array_merge($categories, $categories) : $categories;
+    ?>
+    <!-- ============ Categorías ============ -->
+    <section class="home-cats <?= $sectionMod ?> container" data-layout="<?= htmlspecialchars($layout) ?>">
         <header class="home-section__head">
             <h2 class="home-section__title">Compra por categoría</h2>
             <a href="/tienda" class="home-section__link">Ver tienda →</a>
         </header>
-        <div class="home-cats__bento">
-            <?php foreach ($categories as $idx => $c):
-                $hue   = homeCategoryHue((string) $c['slug']);
-                $hasImg = !empty($c['img']);
-                $tile  = 'home-cat home-cat--' . ($idx % 6); // patrón bento
+
+        <?php if ($layout === 'carousel'): ?>
+            <div class="home-cats__carousel">
+                <div class="home-cats__track" tabindex="0" role="region" aria-label="Categorías (deslizar)">
+                    <?php foreach ($renderList as $idx => $c):
+                        $hue    = homeCategoryHue((string) $c['slug']);
+                        $hasImg = !empty($c['img']);
+                        $dup    = $idx >= $catCount;
+                    ?>
+                        <a href="/categoria/<?= htmlspecialchars($c['slug']) ?>" class="home-cat home-cat--carousel<?= $hasImg ? ' home-cat--has-img' : ' home-cat--no-img' ?>"
+                            style="--cat-hue: <?= $hue ?>;"<?= $dup ? ' aria-hidden="true" tabindex="-1"' : '' ?>>
+                            <?php if ($hasImg): ?>
+                                <img class="home-cat__img" src="<?= htmlspecialchars($c['img']) ?>" alt="<?= htmlspecialchars($c['img_alt'] ?: $c['name']) ?>" loading="lazy">
+                            <?php else: ?>
+                                <span class="home-cat__icon" aria-hidden="true"><?= homeCategoryIcon((string) $c['name']) ?></span>
+                            <?php endif; ?>
+                            <div class="home-cat__body">
+                                <span class="home-cat__kicker">Categoría</span>
+                                <span class="home-cat__name"><?= htmlspecialchars($c['name']) ?></span>
+                            </div>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+                <button type="button" class="home-cats__nav home-cats__nav--prev" aria-label="Anterior">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 6 9 12 15 18"/></svg>
+                </button>
+                <button type="button" class="home-cats__nav home-cats__nav--next" aria-label="Siguiente">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+                </button>
+            </div>
+
+            <script>
+            (function(){
+                var root  = document.currentScript.parentElement;
+                var car   = root.querySelector('.home-cats__carousel');
+                var track = car && car.querySelector('.home-cats__track');
+                if (!car || !track) return;
+                var prev  = car.querySelector('.home-cats__nav--prev');
+                var next  = car.querySelector('.home-cats__nav--next');
+                function step(){
+                    var item = track.querySelector('.home-cat');
+                    if (!item) return track.clientWidth * 0.9;
+                    var w = item.getBoundingClientRect().width;
+                    var gap = parseFloat(getComputedStyle(track).gap) || 0;
+                    return (w + gap) * Math.max(1, Math.floor(track.clientWidth / (w + gap)) - 1);
+                }
+                if (prev) prev.addEventListener('click', function(){ track.scrollBy({ left: -step(), behavior: 'smooth' }); });
+                if (next) next.addEventListener('click', function(){ track.scrollBy({ left:  step(), behavior: 'smooth' }); });
+                // Loop infinito: la lista está duplicada (1ª y 2ª mitad iguales).
+                // Cuando el scroll llega al final, saltamos al equivalente de la
+                // 1ª mitad sin animación (el contenido es idéntico, así que el
+                // salto pasa desapercibido).
+                var jumping = false;
+                track.addEventListener('scroll', function(){
+                    if (jumping) return;
+                    var max  = track.scrollWidth - track.clientWidth;
+                    var half = Math.floor(track.scrollWidth / 2);
+                    if (track.scrollLeft >= max - 2) {
+                        jumping = true;
+                        track.scrollLeft = track.scrollLeft - half;
+                        requestAnimationFrame(function(){ jumping = false; });
+                    } else if (track.scrollLeft <= 0) {
+                        jumping = true;
+                        track.scrollLeft = half;
+                        requestAnimationFrame(function(){ jumping = false; });
+                    }
+                }, { passive: true });
+            })();
+            </script>
+        <?php else: ?>
+            <?php
+                $containerCls = 'home-cats__bento';
+                if ($layout === 'grid')    $containerCls = 'home-cats__grid';
+                if ($layout === 'masonry') $containerCls = 'home-cats__masonry';
             ?>
-                <a href="/categoria/<?= htmlspecialchars($c['slug']) ?>" class="<?= $tile ?><?= $hasImg ? ' home-cat--has-img' : ' home-cat--no-img' ?>"
-                    style="--cat-hue: <?= $hue ?>;">
-                    <?php if ($hasImg): ?>
-                        <img class="home-cat__img" src="<?= htmlspecialchars($c['img']) ?>" alt="<?= htmlspecialchars($c['img_alt'] ?: $c['name']) ?>" loading="lazy">
-                    <?php else: ?>
-                        <span class="home-cat__icon" aria-hidden="true"><?= homeCategoryIcon((string) $c['name']) ?></span>
-                    <?php endif; ?>
-                    <div class="home-cat__body">
-                        <span class="home-cat__kicker">Categoría</span>
-                        <span class="home-cat__name"><?= htmlspecialchars($c['name']) ?></span>
-                        <span class="home-cat__cta">Explorar <span aria-hidden="true">→</span></span>
-                    </div>
-                </a>
-            <?php endforeach; ?>
-        </div>
+            <div class="<?= $containerCls ?> <?= $bentoBucket ?>">
+                <?php foreach ($categories as $idx => $c):
+                    $hue   = homeCategoryHue((string) $c['slug']);
+                    $hasImg = !empty($c['img']);
+                    // Sólo el bento usa los modificadores de span.
+                    $tileMod = $layout === 'bento' ? ' home-cat--' . ($idx % 6) : ' home-cat--' . $layout;
+                ?>
+                    <a href="/categoria/<?= htmlspecialchars($c['slug']) ?>" class="home-cat<?= $tileMod ?><?= $hasImg ? ' home-cat--has-img' : ' home-cat--no-img' ?>"
+                        style="--cat-hue: <?= $hue ?>;">
+                        <?php if ($hasImg): ?>
+                            <img class="home-cat__img" src="<?= htmlspecialchars($c['img']) ?>" alt="<?= htmlspecialchars($c['img_alt'] ?: $c['name']) ?>" loading="lazy">
+                        <?php else: ?>
+                            <span class="home-cat__icon" aria-hidden="true"><?= homeCategoryIcon((string) $c['name']) ?></span>
+                        <?php endif; ?>
+                        <div class="home-cat__body">
+                            <span class="home-cat__kicker">Categoría</span>
+                            <span class="home-cat__name"><?= htmlspecialchars($c['name']) ?></span>
+                            <span class="home-cat__cta">Explorar <span aria-hidden="true">→</span></span>
+                        </div>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
     </section>
     <?php endif; ?>
 
