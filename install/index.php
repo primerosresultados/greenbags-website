@@ -140,13 +140,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $preflightOk) {
             );
             foreach ($defaults as $k => $v) $stmt->execute([$k, $v]);
 
+            // Páginas de ejemplo. NO se siembra una con slug `home`: el home
+            // real es `/`, renderizado desde lib/home.php, así que una página
+            // publicada con ese slug ensucia el menú duplicando "Inicio".
             $seedPages = [
-                [
-                    'slug'  => 'home',
-                    'title' => 'Bienvenido a ' . $siteName,
-                    'body'  => '<p>Esta es la página de inicio de ejemplo. Edítala desde <a href="/admin/?view=pages">Páginas</a> en el panel admin.</p>',
-                    'meta'  => 'Sitio oficial de ' . $siteName . '.',
-                ],
                 [
                     'slug'  => 'sobre-nosotros',
                     'title' => 'Sobre nosotros',

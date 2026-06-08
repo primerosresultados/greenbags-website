@@ -430,18 +430,6 @@ main.home + .site-footer { margin-top: 0; }
     .home-cta__btn { width: 100%; }
 }
 
-/* ============ Contacto ============ */
-.home-contact {
-    display: grid; gap: 2.5rem;
-    grid-template-columns: 1fr 1fr; align-items: start;
-}
-@media (max-width: 800px) { .home-contact { grid-template-columns: 1fr; } }
-.home-contact__desc { color: #64748b; line-height: 1.6; max-width: 45ch; }
-.home-contact__form { background: #f8fafc; border: 1px solid #eef0f2; padding: 1.5rem; border-radius: 16px; }
-.home-contact__form .lead-form input,
-.home-contact__form .lead-form textarea,
-.home-contact__form .lead-form select { background: #fff; }
-
 /* ============ Responsive tweaks ============ */
 @media (max-width: 720px) {
     .home { gap: 3rem; }
