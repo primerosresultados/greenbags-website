@@ -27,9 +27,6 @@ if (!in_array($headerStyle, ['classic', 'centered', 'hamburger'], true)) $header
 $bizPhone     = trim((string) getSetting('business_phone', ''));
 $bizEmail     = trim((string) getSetting('business_email', ''));
 $bizHours     = trim((string) getSetting('business_hours', ''));
-$bizWhatsRaw  = trim((string) getSetting('business_whatsapp', ''));
-$bizWhatsText = trim((string) getSetting('business_whatsapp_text', ''));
-$waUrl        = whatsappLink($bizWhatsRaw, $bizWhatsText);
 
 $menu      = publishedPagesMenu();
 $socials   = socialLinks();
@@ -76,7 +73,7 @@ $socialIcon = function (string $key): string {
     ][$key] ?? '';
 };
 
-// SVGs reutilizables (carrito / cotización + WhatsApp).
+// SVGs reutilizables (carrito / cotización).
 $cartSvg = $quotesOn
     ? '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="14" x2="15" y2="14"/><line x1="9" y1="18" x2="13" y2="18"/></svg>'
     : '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>';
@@ -85,7 +82,6 @@ $cartBtnId = $quotesOn ? 'header-quote-btn' : 'header-cart-btn';
 $cartLabel = $quotesOn ? 'Ver cotización' : 'Ver carrito';
 $drawerBtnId = $quotesOn ? 'drawer-quote-btn' : 'drawer-cart-btn';
 $drawerLabel = $quotesOn ? 'Cotización' : 'Carrito';
-$waSvg   = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M20 3.5A11 11 0 0 0 3.6 18.2L2 22l3.9-1.6A11 11 0 1 0 20 3.5zm-8 18a9 9 0 0 1-4.6-1.3l-.3-.2-2.3 1 .8-2.3-.2-.3a9 9 0 1 1 6.6 3zm5-7c-.3-.1-1.7-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.2-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4a8.6 8.6 0 0 1-1.5-2c-.2-.3 0-.4.1-.6.1-.1.3-.4.4-.5.1-.2.2-.3.3-.5 0-.2 0-.4 0-.5 0-.1-.6-1.4-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-.9.9-.9 2.2 0 1.3.9 2.6 1 2.8.1.2 1.8 2.8 4.5 3.9a15 15 0 0 0 1.6.6c.7.2 1.3.2 1.7.1.5-.1 1.7-.7 2-1.4.2-.6.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/></svg>';
 
 // Marca + acciones se reusan entre variantes via render helpers locales.
 $renderBrand = function (string $cls = 'site-navbar__brand') use ($logoExists, $logoPath, $siteName) {
@@ -136,16 +132,20 @@ $renderMenu = function () use ($pagesMain, $pageContact, $cats, $currentSlug, $i
     echo '</nav>';
 };
 
-$renderActions = function () use ($cartCount, $cartSvg, $waUrl, $waSvg, $cartHref, $cartBtnId, $cartLabel) {
+// SVGs reutilizables (favoritos + cuenta) — quedan a la izquierda del carrito.
+$favSvg = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+$accSvg = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+
+$renderActions = function () use ($cartCount, $cartSvg, $cartHref, $cartBtnId, $cartLabel, $favSvg, $accSvg) {
     echo '<div class="site-navbar__actions">';
+    echo '<a href="/favoritos" class="site-navbar__iconbtn site-navbar__iconbtn--fav" aria-label="Mis favoritos">'
+       . $favSvg . '</a>';
+    echo '<a href="/mi-cuenta" class="site-navbar__iconbtn site-navbar__iconbtn--acc" aria-label="Mi cuenta">'
+       . $accSvg . '</a>';
     echo '<a href="' . $cartHref . '" id="' . $cartBtnId . '" class="site-navbar__cart" aria-label="' . htmlspecialchars($cartLabel) . ' (' . (int) $cartCount . ' ítems)">'
        . $cartSvg
        . ($cartCount > 0 ? '<span class="site-navbar__cart-badge">' . (int) $cartCount . '</span>' : '')
        . '</a>';
-    if ($waUrl) {
-        echo '<a href="' . htmlspecialchars($waUrl) . '" target="_blank" rel="noopener" class="site-navbar__cta">'
-           . $waSvg . '<span>WhatsApp</span></a>';
-    }
     echo '<button type="button" class="site-navbar__burger" id="site-burger" aria-label="Abrir menú" aria-controls="site-drawer" aria-expanded="false">'
        . '<span></span><span></span><span></span></button>';
     echo '</div>';
@@ -274,17 +274,16 @@ $annFg    = trim((string) getSetting('announce_fg', '#ffffff'));
                     <?= htmlspecialchars($pageContact['title']) ?>
                 </a>
             <?php endif; ?>
+            <a href="/favoritos" class="<?= $currentSlug === 'favoritos' ? 'is-active' : '' ?>">Favoritos</a>
+            <a href="/mi-cuenta" class="<?= $currentSlug === 'mi-cuenta' ? 'is-active' : '' ?>">Mi cuenta</a>
             <a href="<?= htmlspecialchars($cartHref) ?>" class="site-drawer__cart" id="<?= htmlspecialchars($drawerBtnId) ?>">
                 <span><?= htmlspecialchars($drawerLabel) ?></span>
                 <?php if ($cartCount > 0): ?><span class="site-drawer__cart-badge"><?= (int) $cartCount ?></span><?php endif; ?>
             </a>
         </nav>
 
-        <?php if ($bizPhone || $bizEmail || $waUrl): ?>
+        <?php if ($bizPhone || $bizEmail): ?>
             <div class="site-drawer__contact">
-                <?php if ($waUrl): ?>
-                    <a href="<?= htmlspecialchars($waUrl) ?>" target="_blank" rel="noopener" class="site-drawer__cta">WhatsApp</a>
-                <?php endif; ?>
                 <?php if ($bizPhone): ?>
                     <a href="tel:<?= htmlspecialchars(preg_replace('/\s+/', '', $bizPhone)) ?>"><?= htmlspecialchars($bizPhone) ?></a>
                 <?php endif; ?>

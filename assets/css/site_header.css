@@ -22,13 +22,20 @@
 
 .site-header {
     background: var(--sh-bg);
-    border-bottom: 1px solid var(--sh-border);
+    transition: box-shadow .25s ease, border-color .25s ease;
+}
+/* Solo el navbar blanco queda sticky — la announce y el topbar pueden
+ * desaparecer al hacer scroll para ganar pantalla, pero la barra de
+ * navegación con marca + menú se mantiene siempre accesible. */
+.site-navbar {
     position: sticky;
     top: 0;
     z-index: 80;
+    background: var(--sh-bg);
+    border-bottom: 1px solid var(--sh-border);
     transition: box-shadow .25s ease, border-color .25s ease;
 }
-.site-header.is-scrolled {
+.site-header.is-scrolled .site-navbar {
     box-shadow: var(--sh-shadow-scrolled);
     border-bottom-color: transparent;
 }
@@ -154,8 +161,24 @@
     font-weight: 600;
 }
 
-/* ---- Acciones (cart + WA + burger) ---- */
-.site-navbar__actions { display: flex; align-items: center; gap: .55rem; }
+/* ---- Acciones (favoritos + cuenta + cart + burger) ---- */
+.site-navbar__actions { display: flex; align-items: center; gap: .35rem; }
+
+/* Botones de icono a la izquierda del carrito (favoritos + mi cuenta). Misma
+ * altura y mismo radio que el carrito para mantener línea visual. */
+.site-navbar__iconbtn {
+    position: relative;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    color: var(--sh-fg);
+    text-decoration: none;
+    background: transparent;
+    transition: background .15s, color .15s, transform .15s;
+}
+.site-navbar__iconbtn:hover { background: var(--sh-active-bg); }
+.site-navbar__iconbtn:active { transform: translateY(1px); }
+.site-navbar__iconbtn svg { display: block; }
 
 .site-navbar__cart {
     position: relative;
@@ -441,6 +464,9 @@
     .site-navbar__cta span { display: none; }
     .site-navbar__cta { padding: 0; width: 40px; height: 40px; justify-content: center; box-shadow: none; border-radius: 50%; }
     .site-navbar__cta svg { width: 18px; height: 18px; }
+    /* En pantallas chicas, favoritos + mi cuenta viven en el drawer (mobile)
+     * para no saturar el header. El carrito y el burger siempre se ven. */
+    .site-navbar__iconbtn { display: none; }
     .site-navbar__cart { width: 40px; height: 40px; }
     .site-navbar__cart-badge { top: 1px; right: -2px; min-width: 16px; height: 16px; font-size: .62rem; }
     .site-navbar__burger { width: 40px; height: 40px; }
@@ -471,31 +497,36 @@
 .site-navbar--centered .site-navbar__menu:has(.site-navbar__menu-right) {
     margin: 0 auto;
 }
-/* Contacto como botón: borde sutil + texto fuerte. Separación visible del
- * resto de los ítems para que se lea como acción y no como link más. */
+/* Contacto como CTA verde marca: lleva el rol que antes tenía el botón de
+ * WhatsApp en el header (filled brand + sombra sutil + lift en hover). Es la
+ * acción primaria del nav. */
 .site-navbar__menu-right {
     margin-left: .9rem;
     padding: .55rem 1.1rem;
-    border: 1.5px solid var(--sh-fg);
+    border: 1.5px solid var(--brand-primary, var(--sh-accent));
     border-radius: 999px;
-    color: var(--sh-fg);
+    background: var(--brand-primary, var(--sh-accent));
+    color: #fff;
     text-decoration: none;
     font-weight: 600;
     font-size: .9rem;
     line-height: 1;
     display: inline-flex;
     align-items: center;
-    transition: background .18s, color .18s, border-color .18s, transform .15s;
+    box-shadow: 0 6px 14px -4px rgba(115, 191, 109, .35);
+    transition: background .18s, color .18s, border-color .18s, transform .15s, box-shadow .18s;
 }
 .site-navbar__menu-right:hover {
-    background: var(--sh-fg);
+    background: var(--brand-primary-hover, var(--sh-accent-hover));
+    border-color: var(--brand-primary-hover, var(--sh-accent-hover));
     color: #fff;
     transform: translateY(-1px);
+    box-shadow: 0 10px 22px -6px rgba(115, 191, 109, .45);
 }
 .site-navbar__menu-right.is-active {
-    background: var(--sh-fg);
+    background: var(--brand-primary-hover, var(--sh-accent-hover));
+    border-color: var(--brand-primary-hover, var(--sh-accent-hover));
     color: #fff;
-    border-color: var(--sh-fg);
 }
 
 /* En centered, el menú vive en su propia fila con acciones absolutas a la
