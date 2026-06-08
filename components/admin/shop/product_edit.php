@@ -212,6 +212,25 @@ select.form-control {
 .shop-imgpick__item.is-on { border-color: #0f172a; box-shadow: 0 4px 12px rgba(15,23,42,.18); }
 .shop-imgpick__item input { position: absolute; top: 6px; left: 6px; width: 20px; height: 20px; z-index: 2; accent-color: #0f172a; }
 
+/* Uploader directo de imágenes (sube a la Mediateca via fetch) */
+.pimg-uploader { display:flex; flex-direction:column; gap:.6rem; padding:1rem 1.1rem; border:1.5px dashed #cbd5e1; border-radius:10px; background:#fafafa; margin:0 0 .9rem; cursor:pointer; transition:border-color .2s, background .2s; }
+.pimg-uploader:hover, .pimg-uploader.is-dragover { border-color:#0f172a; background:#fff; }
+.pimg-uploader.is-dragover { border-style:solid; }
+.pimg-uploader__cta { display:flex; gap:.85rem; align-items:center; color:#475569; }
+.pimg-uploader__cta svg { flex-shrink:0; opacity:.8; }
+.pimg-uploader__cta strong { display:block; font-size:.92rem; color:#0f172a; margin-bottom:.05rem; }
+.pimg-uploader__cta span { font-size:.84rem; color:#64748b; }
+.pimg-uploader__cta small { display:block; margin-top:.25rem; font-size:.74rem; color:#94a3b8; }
+.pimg-uploader .ml-link { background:none; border:none; color:#0f172a; cursor:pointer; font:inherit; padding:0; text-decoration:underline; font-weight:500; }
+.pimg-uploader__queue { display:flex; flex-direction:column; gap:.3rem; margin-top:.2rem; }
+.pimg-uploader__row { display:flex; justify-content:space-between; align-items:center; gap:.7rem; padding:.4rem .65rem; background:#fff; border:1px solid #e5e7eb; border-radius:6px; font-size:.78rem; }
+.pimg-uploader__row--ok { border-color:#bbf7d0; background:#f0fdf4; }
+.pimg-uploader__row--err { border-color:#fecaca; background:#fef2f2; color:#991b1b; }
+.pimg-uploader__name { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#334155; }
+.pimg-uploader__status { flex-shrink:0; font-weight:500; color:#64748b; }
+.pimg-uploader__row--ok .pimg-uploader__status { color:#166534; }
+.pimg-uploader__row--err .pimg-uploader__status { color:#991b1b; }
+
 /* Filas dinámicas (opciones, tiers, videos) */
 .dyn-row {
   display: flex;
@@ -481,20 +500,34 @@ select.form-control {
 
     <!-- IMÁGENES -->
     <div class="card">
-        <h3 class="card__title">🖼️ Imágenes <small class="text-muted" style="font-weight:400;">(la primera tildada es la principal)</small></h3>
+        <h3 class="card__title" style="display:flex;align-items:center;justify-content:space-between;gap:.6rem;">
+            <span>🖼️ Imágenes <small class="text-muted" style="font-weight:400;">(la primera tildada es la principal)</small></span>
+            <a href="/admin/?view=media" target="_blank" class="text-muted" style="font-size:.78rem;font-weight:400;text-decoration:none;">Abrir Central de Medios →</a>
+        </h3>
+
+        <div class="pimg-uploader" id="pimg-uploader">
+            <input type="file" id="pimg-uploader-input" accept="image/jpeg,image/png,image/webp" multiple hidden>
+            <div class="pimg-uploader__cta">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <div>
+                    <strong>Arrastrá imágenes acá</strong>
+                    <span>o <button type="button" class="ml-link" id="pimg-uploader-pick">elegí desde tu equipo</button></span>
+                    <small>JPG · PNG · WebP · hasta 10MB c/u — se convierten a WebP optimizado y quedan tildadas para este producto.</small>
+                </div>
+            </div>
+            <div class="pimg-uploader__queue" id="pimg-uploader-queue" hidden></div>
+        </div>
+
+        <div class="shop-imgpick" id="shop-imgpick">
+            <?php foreach ($allMedia as $m): $mid = (int) $m['id']; ?>
+                <label class="shop-imgpick__item <?= in_array($mid, $productImageIds, true) ? 'is-on' : '' ?>">
+                    <input type="checkbox" name="image_ids[]" value="<?= $mid ?>" <?= in_array($mid, $productImageIds, true) ? 'checked' : '' ?>>
+                    <img src="<?= htmlspecialchars($m['thumb_path'] ?: $m['file_path']) ?>" alt="<?= htmlspecialchars($m['alt'] ?? '') ?>" loading="lazy">
+                </label>
+            <?php endforeach; ?>
+        </div>
         <?php if (!$allMedia): ?>
-            <div class="settings-section-hint" style="background:#fef3c7;border-left-color:#d97706;">
-                La Mediateca está vacía. <a href="/admin/?view=media" target="_blank" style="color:#0f172a;font-weight:600;">Subí imágenes →</a>
-            </div>
-        <?php else: ?>
-            <div class="shop-imgpick">
-                <?php foreach ($allMedia as $m): $mid = (int) $m['id']; ?>
-                    <label class="shop-imgpick__item <?= in_array($mid, $productImageIds, true) ? 'is-on' : '' ?>">
-                        <input type="checkbox" name="image_ids[]" value="<?= $mid ?>" <?= in_array($mid, $productImageIds, true) ? 'checked' : '' ?>>
-                        <img src="<?= htmlspecialchars($m['thumb_path'] ?: $m['file_path']) ?>" alt="<?= htmlspecialchars($m['alt'] ?? '') ?>" loading="lazy">
-                    </label>
-                <?php endforeach; ?>
-            </div>
+            <p class="text-muted pimg-empty" id="pimg-empty" style="margin:.8rem 0 0;">Aún no hay imágenes en la mediateca. Subí las primeras arrastrándolas arriba.</p>
         <?php endif; ?>
     </div>
 
@@ -723,10 +756,76 @@ select.form-control {
     });
     if (vidRows) vidRows.addEventListener('click', function(e){ var x = e.target.closest('.video-del'); if (x) x.closest('.video-row').remove(); });
 
-    // Reflejar selección de imágenes (borde activo)
+    // Reflejar selección de imágenes (borde activo) sin recargar.
     document.addEventListener('change', function(e){
         var cb = e.target.closest('.shop-imgpick__item input[type=checkbox]');
         if (cb) cb.closest('.shop-imgpick__item').classList.toggle('is-on', cb.checked);
     });
+
+    // Uploader directo de imágenes (sube a Mediateca via JSON y agrega tildada al grid).
+    var pup = document.getElementById('pimg-uploader');
+    var pin = document.getElementById('pimg-uploader-input');
+    var pgrid = document.getElementById('shop-imgpick');
+    var pempty = document.getElementById('pimg-empty');
+    var pqueue = document.getElementById('pimg-uploader-queue');
+    var pick = document.getElementById('pimg-uploader-pick');
+    if (pup && pin && pgrid) {
+        var csrf = <?= json_encode(csrfToken()) ?>;
+        function esc(s){ return String(s||'').replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+        function addItem(media){
+            if (pempty) { pempty.remove(); pempty = null; }
+            var lbl = document.createElement('label');
+            lbl.className = 'shop-imgpick__item is-on';
+            lbl.innerHTML = '<input type="checkbox" name="image_ids[]" value="' + (media.id|0) + '" checked>'
+                + '<img src="' + esc(media.path) + '" alt="" loading="lazy">';
+            pgrid.insertBefore(lbl, pgrid.firstChild);
+        }
+        function setQueueLine(name, status){
+            if (!pqueue) return;
+            pqueue.hidden = false;
+            var row = document.createElement('div');
+            row.className = 'pimg-uploader__row pimg-uploader__row--' + status;
+            row.innerHTML = '<span class="pimg-uploader__name">' + esc(name) + '</span><span class="pimg-uploader__status">' + esc(status === 'ok' ? '✓ subida' : status === 'err' ? '✕ error' : 'subiendo…') + '</span>';
+            pqueue.appendChild(row);
+            return row;
+        }
+        function uploadOne(file){
+            var line = setQueueLine(file.name, 'up');
+            var fd = new FormData();
+            fd.append('action', 'media_upload_inline');
+            fd.append('csrf', csrf);
+            fd.append('file', file);
+            return fetch(window.location.pathname || '/admin/', { method: 'POST', body: fd, credentials: 'same-origin' })
+                .then(function(r){ return r.json(); })
+                .then(function(j){
+                    if (j && j.ok && j.path) {
+                        addItem({ id: j.id || 0, path: j.path });
+                        if (line) { line.className = 'pimg-uploader__row pimg-uploader__row--ok'; line.querySelector('.pimg-uploader__status').textContent = '✓ subida'; }
+                    } else {
+                        if (line) { line.className = 'pimg-uploader__row pimg-uploader__row--err'; line.querySelector('.pimg-uploader__status').textContent = '✕ ' + (j && j.error ? j.error : 'error'); }
+                    }
+                })
+                .catch(function(err){
+                    if (line) { line.className = 'pimg-uploader__row pimg-uploader__row--err'; line.querySelector('.pimg-uploader__status').textContent = '✕ ' + (err.message || 'error'); }
+                });
+        }
+        function handleFiles(files){
+            if (!files || !files.length) return;
+            if (pqueue) pqueue.innerHTML = '';
+            var arr = Array.from(files);
+            (function next(i){
+                if (i >= arr.length) { pin.value = ''; return; }
+                uploadOne(arr[i]).then(function(){ next(i + 1); });
+            })(0);
+        }
+        if (pick) pick.addEventListener('click', function(){ pin.click(); });
+        pin.addEventListener('change', function(){ handleFiles(pin.files); });
+        ['dragenter','dragover'].forEach(function(ev){ pup.addEventListener(ev, function(e){ e.preventDefault(); pup.classList.add('is-dragover'); }); });
+        ['dragleave','drop'].forEach(function(ev){ pup.addEventListener(ev, function(e){ e.preventDefault(); pup.classList.remove('is-dragover'); }); });
+        pup.addEventListener('drop', function(e){ if (e.dataTransfer && e.dataTransfer.files) handleFiles(e.dataTransfer.files); });
+        pup.addEventListener('click', function(e){
+            if (e.target === pup || e.target.closest('.pimg-uploader__cta') && !e.target.closest('button,a,input')) pin.click();
+        });
+    }
 })();
 </script>
