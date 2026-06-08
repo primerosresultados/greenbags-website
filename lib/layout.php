@@ -84,13 +84,22 @@ function layoutStart(array $opts = []): void {
 <?php if ($faviconHref): ?>
 <link rel="icon" href="<?= $h($faviconHref) ?>">
 <?php endif; ?>
-<link rel="stylesheet" href="/assets/css/base.css">
-<link rel="stylesheet" href="/assets/css/layout.css">
-<link rel="stylesheet" href="/assets/css/components.css">
-<link rel="stylesheet" href="/assets/css/shop.css">
-<link rel="stylesheet" href="/assets/css/home.css">
+<?php
+// Cache-bust por mtime: cada cambio en el .css invalida la caché del navegador
+// y del CDN sin obligar a hard-refresh manual al cliente.
+$cssVer = function (string $path): string {
+    $abs = __DIR__ . '/..' . $path;
+    $mt  = @filemtime($abs);
+    return $path . ($mt ? ('?v=' . $mt) : '');
+};
+?>
+<link rel="stylesheet" href="<?= $h($cssVer('/assets/css/base.css')) ?>">
+<link rel="stylesheet" href="<?= $h($cssVer('/assets/css/layout.css')) ?>">
+<link rel="stylesheet" href="<?= $h($cssVer('/assets/css/components.css')) ?>">
+<link rel="stylesheet" href="<?= $h($cssVer('/assets/css/shop.css')) ?>">
+<link rel="stylesheet" href="<?= $h($cssVer('/assets/css/home.css')) ?>">
 <?php if (!$hideChrome): ?>
-<link rel="stylesheet" href="/assets/css/site_header.css">
+<link rel="stylesheet" href="<?= $h($cssVer('/assets/css/site_header.css')) ?>">
 <?php endif; ?>
 <?php
 // Paleta editable desde admin → Configuración → "Colores de marca".
