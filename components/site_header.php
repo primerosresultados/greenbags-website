@@ -132,8 +132,16 @@ $renderMenu = function () use ($pagesMain, $pageContact, $cats, $currentSlug, $i
     echo '</nav>';
 };
 
-$renderActions = function () use ($cartCount, $cartSvg, $cartHref, $cartBtnId, $cartLabel) {
+// SVGs reutilizables (favoritos + cuenta) — quedan a la izquierda del carrito.
+$favSvg = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+$accSvg = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+
+$renderActions = function () use ($cartCount, $cartSvg, $cartHref, $cartBtnId, $cartLabel, $favSvg, $accSvg) {
     echo '<div class="site-navbar__actions">';
+    echo '<a href="/favoritos" class="site-navbar__iconbtn site-navbar__iconbtn--fav" aria-label="Mis favoritos">'
+       . $favSvg . '</a>';
+    echo '<a href="/mi-cuenta" class="site-navbar__iconbtn site-navbar__iconbtn--acc" aria-label="Mi cuenta">'
+       . $accSvg . '</a>';
     echo '<a href="' . $cartHref . '" id="' . $cartBtnId . '" class="site-navbar__cart" aria-label="' . htmlspecialchars($cartLabel) . ' (' . (int) $cartCount . ' ítems)">'
        . $cartSvg
        . ($cartCount > 0 ? '<span class="site-navbar__cart-badge">' . (int) $cartCount . '</span>' : '')
@@ -266,6 +274,8 @@ $annFg    = trim((string) getSetting('announce_fg', '#ffffff'));
                     <?= htmlspecialchars($pageContact['title']) ?>
                 </a>
             <?php endif; ?>
+            <a href="/favoritos" class="<?= $currentSlug === 'favoritos' ? 'is-active' : '' ?>">Favoritos</a>
+            <a href="/mi-cuenta" class="<?= $currentSlug === 'mi-cuenta' ? 'is-active' : '' ?>">Mi cuenta</a>
             <a href="<?= htmlspecialchars($cartHref) ?>" class="site-drawer__cart" id="<?= htmlspecialchars($drawerBtnId) ?>">
                 <span><?= htmlspecialchars($drawerLabel) ?></span>
                 <?php if ($cartCount > 0): ?><span class="site-drawer__cart-badge"><?= (int) $cartCount ?></span><?php endif; ?>
