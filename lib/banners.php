@@ -44,17 +44,24 @@ function bannerSave(array $d): array {
     $alignAllowed = ['left', 'center', 'right'];
     $align = in_array($d['text_align'] ?? 'left', $alignAllowed, true) ? $d['text_align'] : 'left';
 
+    // Overlay (degradé oscuro sobre la imagen). Si vienen, se clampan a 0-100.
+    // Defaults coinciden con el degradé histórico del CSS (86% izq, 55% der).
+    $overlayLeft  = isset($d['overlay_left'])  ? max(0, min(100, (int) $d['overlay_left']))  : 86;
+    $overlayRight = isset($d['overlay_right']) ? max(0, min(100, (int) $d['overlay_right'])) : 55;
+
     $params = [
-        'position'   => 'home_hero',
-        'eyebrow'    => mb_substr(trim((string) ($d['eyebrow'] ?? '')), 0, 120) ?: null,
-        'title'      => mb_substr($title, 0, 200),
-        'subtitle'   => mb_substr(trim((string) ($d['subtitle'] ?? '')), 0, 400) ?: null,
-        'image_id'   => (int) ($d['image_id'] ?? 0) ?: null,
-        'cta_label'  => mb_substr(trim((string) ($d['cta_label'] ?? '')), 0, 80) ?: null,
-        'cta_url'    => mb_substr(trim((string) ($d['cta_url'] ?? '')), 0, 255) ?: null,
-        'text_align' => $align,
-        'sort_order' => (int) ($d['sort_order'] ?? 0),
-        'is_active'  => !empty($d['is_active']) ? 1 : 0,
+        'position'      => 'home_hero',
+        'eyebrow'       => mb_substr(trim((string) ($d['eyebrow'] ?? '')), 0, 120) ?: null,
+        'title'         => mb_substr($title, 0, 200),
+        'subtitle'      => mb_substr(trim((string) ($d['subtitle'] ?? '')), 0, 400) ?: null,
+        'image_id'      => (int) ($d['image_id'] ?? 0) ?: null,
+        'cta_label'     => mb_substr(trim((string) ($d['cta_label'] ?? '')), 0, 80) ?: null,
+        'cta_url'       => mb_substr(trim((string) ($d['cta_url'] ?? '')), 0, 255) ?: null,
+        'text_align'    => $align,
+        'overlay_left'  => $overlayLeft,
+        'overlay_right' => $overlayRight,
+        'sort_order'    => (int) ($d['sort_order'] ?? 0),
+        'is_active'     => !empty($d['is_active']) ? 1 : 0,
     ];
 
     try {
@@ -64,6 +71,7 @@ function bannerSave(array $d): array {
                 'UPDATE banners SET position=:position, eyebrow=:eyebrow, title=:title,
                  subtitle=:subtitle, image_id=:image_id, cta_label=:cta_label,
                  cta_url=:cta_url, text_align=:text_align,
+                 overlay_left=:overlay_left, overlay_right=:overlay_right,
                  sort_order=:sort_order, is_active=:is_active
                  WHERE id=:id'
             );
@@ -72,9 +80,11 @@ function bannerSave(array $d): array {
         }
         $st = getDB()->prepare(
             'INSERT INTO banners (position, eyebrow, title, subtitle, image_id,
-             cta_label, cta_url, text_align, sort_order, is_active)
+             cta_label, cta_url, text_align, overlay_left, overlay_right,
+             sort_order, is_active)
              VALUES (:position, :eyebrow, :title, :subtitle, :image_id,
-             :cta_label, :cta_url, :text_align, :sort_order, :is_active)'
+             :cta_label, :cta_url, :text_align, :overlay_left, :overlay_right,
+             :sort_order, :is_active)'
         );
         $st->execute($params);
         return ['ok' => true, 'id' => (int) getDB()->lastInsertId()];

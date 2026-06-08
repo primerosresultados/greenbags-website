@@ -156,9 +156,19 @@ function homeRender(string $error = ''): void {
                 <?php foreach ($banners as $i => $b):
                     $img   = trim((string) ($b['image_path'] ?? ''));
                     $align = $b['text_align'] ?? 'left';
+                    // Overlay configurable por banner. Si la columna no existe
+                    // (migración pendiente) o el valor no se cargó, caemos al
+                    // gradiente histórico (86 / 55).
+                    $ovL   = isset($b['overlay_left'])  ? max(0, min(100, (int) $b['overlay_left']))  : 86;
+                    $ovR   = isset($b['overlay_right']) ? max(0, min(100, (int) $b['overlay_right'])) : 55;
+                    $styleParts = [];
+                    if ($img)               $styleParts[] = "--hero-img: url('" . htmlspecialchars($img) . "')";
+                    $styleParts[] = '--hero-overlay-left: ' . ($ovL / 100);
+                    $styleParts[] = '--hero-overlay-right: ' . ($ovR / 100);
+                    $slideStyle = 'style="' . implode('; ', $styleParts) . ';"';
                 ?>
                     <div class="home-hero__slide home-hero__slide--<?= htmlspecialchars($align) ?><?= $img ? ' home-hero__slide--image' : '' ?>"
-                        <?php if ($img): ?>style="--hero-img: url('<?= htmlspecialchars($img) ?>');"<?php endif; ?>
+                        <?= $slideStyle ?>
                         role="group" aria-roledescription="slide" aria-label="<?= ($i + 1) ?> de <?= count($banners) ?>">
                         <div class="container home-hero__inner">
                             <div class="home-hero__copy">

@@ -54,7 +54,17 @@ main.home + .site-footer { margin-top: 0; }
         radial-gradient(600px 400px at 10% 90%, rgba(255, 255, 255, .06), transparent);
     pointer-events: none;
 }
-.home-hero__slide--image { background: linear-gradient(135deg, rgba(15,23,42,.86), rgba(15,23,42,.55)), var(--hero-img) center/cover no-repeat; }
+/* Overlay configurable por banner (admin → Banners → Diseño):
+ * --hero-overlay-left  (0..1) opacidad del overlay en la izquierda
+ * --hero-overlay-right (0..1) opacidad del overlay en la derecha
+ * Defaults coinciden con el degradé histórico (86% / 55%). */
+.home-hero__slide--image {
+    background:
+        linear-gradient(135deg,
+            rgba(15, 23, 42, var(--hero-overlay-left, .86)),
+            rgba(15, 23, 42, var(--hero-overlay-right, .55))),
+        var(--hero-img) center/cover no-repeat;
+}
 .home-hero__slide--center .home-hero__inner { text-align: center; }
 .home-hero__slide--center .home-hero__copy { margin: 0 auto; }
 .home-hero__slide--center .home-hero__cta { justify-content: center; }

@@ -5,8 +5,11 @@ $b = $banner ?? [
     'id' => 0, 'eyebrow' => '', 'title' => '', 'subtitle' => '',
     'image_id' => null, 'image_path' => '',
     'cta_label' => '', 'cta_url' => '', 'text_align' => 'left',
+    'overlay_left' => 86, 'overlay_right' => 55,
     'sort_order' => 0, 'is_active' => 1,
 ];
+$ovL = isset($b['overlay_left'])  ? (int) $b['overlay_left']  : 86;
+$ovR = isset($b['overlay_right']) ? (int) $b['overlay_right'] : 55;
 ?>
 <header class="admin-header">
     <div>
@@ -165,6 +168,70 @@ textarea.form-control {
   font-size: 0.95rem;
   font-weight: 600;
 }
+
+/* Overlay opacity controls */
+.overlay-preview {
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #1e293b;
+  border: 2px solid #e5e7eb;
+  position: relative;
+}
+.overlay-preview__image {
+  width: 100%; height: 100%;
+  background-color: #1e293b;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image:
+    linear-gradient(135deg,
+      rgba(15, 23, 42, var(--ov-l, .86)),
+      rgba(15, 23, 42, var(--ov-r, .55))),
+    var(--ov-img, none);
+}
+.overlay-value {
+  display: inline-block;
+  margin-left: .35rem;
+  padding: 0 .5rem;
+  font-size: .8rem;
+  font-weight: 700;
+  color: #1f2937;
+  background: #e5e7eb;
+  border-radius: 999px;
+  min-width: 36px;
+  text-align: center;
+}
+.overlay-slider {
+  width: 100%;
+  margin: .6rem 0 .25rem;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  outline: none;
+}
+.overlay-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: #0f172a;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(15,23,42,.3);
+  transition: transform .15s;
+}
+.overlay-slider::-webkit-slider-thumb:hover { transform: scale(1.1); }
+.overlay-slider::-moz-range-thumb {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: #0f172a;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(15,23,42,.3);
+}
 </style>
 
 <form method="post">
@@ -253,6 +320,47 @@ textarea.form-control {
             </div>
         </div>
 
+        <!-- OVERLAY OPACIDAD -->
+        <div class="form-group" style="margin-top: 2rem;">
+            <label class="form-label">Opacidad del overlay sobre la imagen</label>
+            <span class="form-hint" style="margin-bottom: 1rem;">
+                Sombra oscura que va sobre la imagen para que el texto se lea. Bajalo del lado donde
+                querés que se vea más la imagen.
+            </span>
+
+            <?php $previewImg = trim((string) ($b['image_path'] ?? '')); ?>
+            <div class="overlay-preview" aria-hidden="true">
+                <div class="overlay-preview__image" id="overlay-preview-image"
+                     style="--ov-l: <?= $ovL / 100 ?>; --ov-r: <?= $ovR / 100 ?>; <?php if ($previewImg): ?>--ov-img: url('<?= htmlspecialchars($previewImg) ?>');<?php endif; ?>"></div>
+                <?php if (!$previewImg): ?>
+                    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:.85rem;pointer-events:none;">
+                        Asigná una imagen para ver la preview real
+                    </div>
+                <?php endif; ?>
+            </div>
+
+            <div class="form-row" style="margin-top: 1rem;">
+                <div class="form-group" style="margin: 0;">
+                    <label class="form-label" for="overlay_left">Izquierda (%)
+                        <span class="overlay-value" id="overlay_left_val"><?= $ovL ?></span>
+                    </label>
+                    <input type="range" id="overlay_left" name="overlay_left"
+                           min="0" max="100" step="1" value="<?= $ovL ?>"
+                           class="overlay-slider" data-side="left">
+                    <span class="form-hint">Típicamente alto (80-90) para que el texto se lea.</span>
+                </div>
+                <div class="form-group" style="margin: 0;">
+                    <label class="form-label" for="overlay_right">Derecha (%)
+                        <span class="overlay-value" id="overlay_right_val"><?= $ovR ?></span>
+                    </label>
+                    <input type="range" id="overlay_right" name="overlay_right"
+                           min="0" max="100" step="1" value="<?= $ovR ?>"
+                           class="overlay-slider" data-side="right">
+                    <span class="form-hint">Bajalo (0-30) si querés mostrar más la imagen del lado derecho.</span>
+                </div>
+            </div>
+        </div>
+
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">Orden de aparición</label>
@@ -291,6 +399,25 @@ textarea.form-control {
             document.querySelectorAll('.align-card').forEach(function(c){ c.classList.remove('is-active'); });
             r.closest('.align-card').classList.add('is-active');
         });
+    });
+})();
+
+// Overlay opacity: actualiza preview + valor numérico en vivo.
+(function(){
+    var preview = document.getElementById('overlay-preview-image');
+    var sliders = document.querySelectorAll('.overlay-slider');
+    if (!preview || !sliders.length) return;
+
+    function applyFrom(slider){
+        var side = slider.dataset.side; // 'left' | 'right'
+        var val  = parseInt(slider.value, 10) || 0;
+        var lbl  = document.getElementById('overlay_' + side + '_val');
+        if (lbl) lbl.textContent = val;
+        preview.style.setProperty(side === 'left' ? '--ov-l' : '--ov-r', (val / 100).toString());
+    }
+
+    sliders.forEach(function(s){
+        s.addEventListener('input', function(){ applyFrom(s); });
     });
 })();
 </script>
