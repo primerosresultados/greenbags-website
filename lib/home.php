@@ -434,7 +434,10 @@ function homeRender(string $error = ''): void {
             <h2 class="home-story__title"><?= htmlspecialchars($s['story_title']) ?></h2>
             <p class="home-story__body"><?= nl2br(htmlspecialchars($s['story_body'])) ?></p>
             <?php if ($s['story_cta_label'] && $s['story_cta_url']): ?>
-                <a href="<?= htmlspecialchars($s['story_cta_url']) ?>" class="btn btn--ghost"><?= htmlspecialchars($s['story_cta_label']) ?></a>
+                <a href="<?= htmlspecialchars($s['story_cta_url']) ?>" class="btn home-story__cta">
+                    <span><?= htmlspecialchars($s['story_cta_label']) ?></span>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
             <?php endif; ?>
         </div>
     </section>

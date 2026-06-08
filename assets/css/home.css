@@ -485,6 +485,21 @@ main.home + .site-footer { margin-top: 0; }
 .home-story__media--empty { background: linear-gradient(135deg, #1e293b, #334155); }
 .home-story__title { font-size: clamp(1.7rem, 3vw, 2.2rem); font-weight: 800; margin: 0 0 1rem; color: #0f172a; letter-spacing: -.01em; }
 .home-story__body { color: #475569; line-height: 1.65; margin: 0 0 1.5rem; max-width: 50ch; }
+/* CTA del storytelling: usar el primario de marca con flechita que se desliza
+ * al hover. El .btn base ya aporta el color (var(--color-primary) = brand). */
+.home-story__cta {
+    padding: .85rem 1.5rem;
+    font-size: .95rem;
+    font-weight: 600;
+    border-radius: 12px;
+    gap: .55rem;
+    box-shadow: 0 8px 18px color-mix(in srgb, var(--color-primary, #0f0f10) 22%, transparent);
+}
+.home-story__cta svg { transition: transform .2s ease; }
+.home-story__cta:hover svg { transform: translateX(3px); }
+@supports not (background: color-mix(in srgb, red, blue)) {
+    .home-story__cta { box-shadow: 0 8px 18px rgba(15, 15, 16, .22); }
+}
 
 /* ============ Banda CTA final (newsletter) ============ */
 .home-cta {
