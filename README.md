@@ -111,3 +111,8 @@ Crear `/migrations/007_lo_que_sea.sql` con SQL idempotente (`CREATE TABLE IF NOT
 - El campo `leads.notes` (texto único) quedó por retrocompatibilidad; las notas nuevas van a `lead_notes` con autoría y timestamp.
 - El renderer CMS muestra el `body` como HTML tal cual — **solo lo edita el admin autenticado**, no habilitar edición pública.
 - `mail()` usa el MTA local de Hostinger. Para SMTP autenticado (Gmail/SendGrid) reemplazar `lib/mail.php` por PHPMailer.
+
+## Última actualización - Admin & GreenBags Config
+
+- Modernización completa del panel de Configuración (components/admin/settings.php)
+- Ajustes en seed: desactiva formulario contacto, agrega WhatsApp flotante
