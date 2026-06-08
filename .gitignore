@@ -1,0 +1,12 @@
+config.php
+/pse_devserver.php
+/uploads/*
+!/uploads/.gitkeep
+!/uploads/.htaccess
+/install/installed.lock
+/install/.htaccess
+/respaldo/
+.DS_Store
+.claude/
+*.log
+/uploads/logs/

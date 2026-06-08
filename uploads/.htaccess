@@ -1,0 +1,21 @@
+# Bloquear ejecución de scripts server-side
+<FilesMatch "\.(php|phtml|phps|php3|php4|php5|php7|pl|py|jsp|asp|aspx|sh|cgi)$">
+    Require all denied
+</FilesMatch>
+
+# Sin CGI, sin listado de directorio
+Options -ExecCGI -Indexes
+
+# Servir .php como texto plano si algo burla lo anterior
+AddType text/plain .php .phtml .php3 .php4 .php5 .php7 .phps
+
+# Desactivar motor PHP si está como módulo Apache
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php8.c>
+    php_flag engine off
+</IfModule>

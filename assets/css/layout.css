@@ -1,0 +1,43 @@
+/*
+ * layout.css
+ * ------------------------------------------------------------
+ * Estructura general del sitio: container, header, footer,
+ * grids principales. Componentes UI reutilizables van en
+ * components.css.
+ * ------------------------------------------------------------
+ */
+
+/* ==========================================================
+   Container
+   ========================================================== */
+.container {
+    width: var(--container-width, 90%);
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0;
+}
+
+/* Nota: el styling de .site-header vive en assets/css/site_header.css
+ * (refactor con variantes classic/centered/hamburger). Las reglas viejas
+ * acá generaban un margin-bottom que dejaba un hueco entre header y hero. */
+
+/* ==========================================================
+   Site footer (público)
+   ========================================================== */
+.site-footer {
+    padding: var(--space-xl) 0;
+    margin-top: var(--space-2xl);
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+}
+
+/* ==========================================================
+   Main content
+   ========================================================== */
+main {
+    padding-bottom: var(--space-2xl);
+    padding-top: 2rem; /* aire bajo el header sticky */
+}
+/* La home arranca con un hero que pega contra el header a propósito. */
+main.home { padding-top: 0; }
