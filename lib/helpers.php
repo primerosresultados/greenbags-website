@@ -21,8 +21,8 @@ function flashGet(string $key): ?string {
     return $msg;
 }
 
-function redirect(string $url): void {
-    header('Location: ' . $url);
+function redirect(string $url, int $status = 302): void {
+    header('Location: ' . $url, true, $status);
     exit;
 }
 

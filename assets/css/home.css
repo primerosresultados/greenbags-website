@@ -33,7 +33,7 @@ main.home + .site-footer { margin-top: 0; }
     overflow: hidden;
     color: #fff;
     margin-bottom: 0;
-    background: #0b1220; /* fallback debajo de los slides */
+    background: #0d2818; /* fallback verde oscuro debajo de los slides */
 }
 .home-hero__viewport { overflow: hidden; width: 100%; }
 .home-hero__track { display: flex; transition: transform .55s cubic-bezier(.22, .61, .36, 1); will-change: transform; }
@@ -45,16 +45,24 @@ main.home + .site-footer { margin-top: 0; }
     padding: 5rem 0 5.5rem;
     display: flex; align-items: center;
     position: relative;
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #334155 100%);
+    /* Gradiente de marca: verde profundo → verde del logo. */
+    background: linear-gradient(135deg, #0d2818 0%, #14532d 55%, var(--brand-primary, #51af3f) 100%);
 }
 .home-hero__slide::before {
     content: ""; position: absolute; inset: 0;
     background:
-        radial-gradient(800px 400px at 80% 20%, rgba(37, 211, 102, .15), transparent),
-        radial-gradient(600px 400px at 10% 90%, rgba(255, 255, 255, .06), transparent);
+        radial-gradient(800px 400px at 80% 20%, color-mix(in srgb, var(--brand-secondary, #a7dd98) 30%, transparent), transparent),
+        radial-gradient(600px 400px at 10% 90%, rgba(255, 255, 255, .07), transparent);
     pointer-events: none;
 }
-.home-hero__slide--image { background: linear-gradient(135deg, rgba(15,23,42,.86), rgba(15,23,42,.55)), var(--hero-img) center/cover no-repeat; }
+@supports not (background: color-mix(in srgb, red, blue)) {
+    .home-hero__slide::before {
+        background:
+            radial-gradient(800px 400px at 80% 20%, rgba(167, 221, 152, .28), transparent),
+            radial-gradient(600px 400px at 10% 90%, rgba(255, 255, 255, .07), transparent);
+    }
+}
+.home-hero__slide--image { background: linear-gradient(135deg, rgba(13,40,24,.88), rgba(13,40,24,.55)), var(--hero-img) center/cover no-repeat; }
 .home-hero__slide--center .home-hero__inner { text-align: center; }
 .home-hero__slide--center .home-hero__copy { margin: 0 auto; }
 .home-hero__slide--center .home-hero__cta { justify-content: center; }
@@ -159,7 +167,7 @@ main.home + .site-footer { margin-top: 0; }
 .btn.btn--invert { background: #fff; color: var(--brand-primary, #0f172a); border: 0; }
 .btn.btn--invert:hover { background: #f1f5f9; }
 /* Acento de marca para badges/destacados en la home. */
-.shop-card__badge { background: var(--brand-secondary, #ef4444) !important; box-shadow: 0 6px 14px color-mix(in srgb, var(--brand-secondary, #ef4444) 45%, transparent) !important; }
+.shop-card__badge { background: var(--brand-primary, #51af3f) !important; box-shadow: 0 6px 14px color-mix(in srgb, var(--brand-primary, #51af3f) 45%, transparent) !important; }
 .home-hero .btn { font-weight: 600; box-shadow: 0 10px 28px rgba(0,0,0,.18); }
 .home-hero .btn--ghost { background: rgba(255, 255, 255, .08); color: #fff; border: 1px solid rgba(255,255,255,.25); box-shadow: none; }
 .home-hero .btn--ghost:hover { background: rgba(255, 255, 255, .16); }
@@ -183,7 +191,11 @@ main.home + .site-footer { margin-top: 0; }
     display: inline-flex; align-items: center; justify-content: center;
     width: 42px; height: 42px; flex-shrink: 0;
     border-radius: 12px;
-    background: #f1f5f9; color: #0f172a;
+    background: color-mix(in srgb, var(--brand-primary, #51af3f) 12%, #fff);
+    color: var(--brand-primary, #51af3f);
+}
+@supports not (background: color-mix(in srgb, red, blue)) {
+    .home-benefit__ico { background: #eaf7e6; color: #2f7a3a; }
 }
 .home-benefit__ico svg { width: 22px; height: 22px; }
 .home-benefit__title { display: block; font-size: .98rem; color: #0f172a; }
@@ -511,16 +523,16 @@ main.home + .site-footer { margin-top: 0; }
     color: #fff;
     padding: 5.5rem 0 6rem;
     background:
-        radial-gradient(70% 80% at 20% 0%, color-mix(in srgb, var(--brand-primary, #10b981) 22%, transparent), transparent 60%),
-        radial-gradient(70% 80% at 100% 100%, color-mix(in srgb, var(--brand-primary, #10b981) 14%, transparent), transparent 60%),
-        linear-gradient(180deg, #0b1220 0%, #0f172a 100%);
+        radial-gradient(70% 80% at 20% 0%, color-mix(in srgb, var(--brand-primary, #51af3f) 28%, transparent), transparent 60%),
+        radial-gradient(70% 80% at 100% 100%, color-mix(in srgb, var(--brand-primary, #51af3f) 18%, transparent), transparent 60%),
+        linear-gradient(180deg, #0c2418 0%, #103324 100%);
 }
 @supports not (background: color-mix(in srgb, red, blue)) {
     .home-cta {
         background:
-            radial-gradient(70% 80% at 20% 0%, rgba(16, 185, 129, .2), transparent 60%),
-            radial-gradient(70% 80% at 100% 100%, rgba(16, 185, 129, .12), transparent 60%),
-            linear-gradient(180deg, #0b1220 0%, #0f172a 100%);
+            radial-gradient(70% 80% at 20% 0%, rgba(81, 175, 63, .26), transparent 60%),
+            radial-gradient(70% 80% at 100% 100%, rgba(81, 175, 63, .16), transparent 60%),
+            linear-gradient(180deg, #0c2418 0%, #103324 100%);
     }
 }
 

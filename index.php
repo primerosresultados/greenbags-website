@@ -182,37 +182,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'submi
     }
 }
 
-// Swap Inicio/Tienda: el home (/) muestra el contenido de "Sobre GreenBags".
-// El landing de venta se movió a /tienda (ver shopFrontRoute). Si la página
-// CMS no existe (instalación nueva), caemos al landing como fallback.
-$homePage = null;
-try {
-    $stmt = getDB()->prepare('SELECT title, body, meta_description, og_image FROM pages WHERE slug = ? AND is_published = 1');
-    $stmt->execute(['sobre-greenbags']);
-    $homePage = $stmt->fetch();
-} catch (Throwable $e) {
-    $homePage = null;
-}
-
-if (!empty($homePage)) {
-    layoutStart([
-        'title'        => (string) $homePage['title'],
-        'description'  => (string) ($homePage['meta_description'] ?? ''),
-        'og_image'     => (string) ($homePage['og_image'] ?? ''),
-        'canonical'    => '/',
-        'current_slug' => '',
-    ]);
-    ?>
-<main class="container">
-    <article class="page">
-        <h1><?= htmlspecialchars($homePage['title']) ?></h1>
-        <?= $homePage['body'] /* HTML confiado: solo lo edita el admin autenticado */ ?>
-    </article>
-</main>
-<?php
-    layoutEnd();
-    exit;
-}
-
+// Home (/) = landing comercial de venta (homeRender: hero + beneficios +
+// categorías + destacados + storytelling + CTA). "Sobre GreenBags" vive en su
+// propio slug (/sobre-greenbags) y /tienda redirige a /catalogo (ver
+// shopFrontRoute) para no duplicar este landing.
 homeRender($error);
 
