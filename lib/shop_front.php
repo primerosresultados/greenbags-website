@@ -239,6 +239,9 @@ $varDisplay = getSetting('variations_display_mode', 'swatches') === 'select' ? '
     <div class="shop-product__card">
         <div class="shop-product__grid">
 
+          <!-- ===== Columna izquierda: galería + descripción larga ===== -->
+          <div class="shop-product__left">
+
             <!-- ===== Media: thumbs verticales + stage ===== -->
             <!-- Si hay 1 sola imagen, no se renderizan thumbs: agregamos
                  modificador --solo para que el stage ocupe todo el ancho
@@ -299,6 +302,29 @@ $varDisplay = getSetting('variations_display_mode', 'swatches') === 'select' ? '
                     <div class="shop-product__noimg">Sin imagen</div>
                 <?php endif; ?>
             </div>
+
+            <?php
+            // ===== Descripción larga (debajo de la galería, columna izq) =====
+            // Colapsada por defecto con "Leer más" para no alargar la ficha.
+            // Sólo se muestra el toggle si el texto supera cierto largo.
+            $descHtml = trim((string) $p['description']);
+            if ($descHtml !== ''):
+                $descLen  = mb_strlen(strip_tags($descHtml));
+                $needMore = $descLen > 320;
+            ?>
+                <section class="shop-product__desc<?= $needMore ? ' is-clamped' : '' ?>" id="prod-desc">
+                    <h2 class="shop-product__desc-title">Descripción</h2>
+                    <div class="shop-product__desc-body"><?= $descHtml /* HTML confiado: lo edita el admin */ ?></div>
+                    <?php if ($needMore): ?>
+                        <button type="button" class="shop-product__desc-toggle" aria-expanded="false" onclick="(function(b){var s=b.closest('.shop-product__desc');var open=s.classList.toggle('is-open');b.setAttribute('aria-expanded',open);b.querySelector('span').textContent=open?'Leer menos':'Leer más';})(this)">
+                            <span>Leer más</span>
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+                        </button>
+                    <?php endif; ?>
+                </section>
+            <?php endif; ?>
+
+          </div><!-- /.shop-product__left -->
 
             <!-- ===== Info: brand + title + price + swatches + cta ===== -->
             <div class="shop-product__info">
@@ -563,13 +589,6 @@ $varDisplay = getSetting('variations_display_mode', 'swatches') === 'select' ? '
 
         </div>
     </div>
-
-    <?php if (trim((string) $p['description']) !== ''): ?>
-        <section class="shop-product__desc">
-            <h2>Descripción</h2>
-            <div><?= $p['description'] /* HTML confiado: lo edita el admin */ ?></div>
-        </section>
-    <?php endif; ?>
 
 </main>
     <?php
