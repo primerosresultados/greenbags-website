@@ -286,7 +286,7 @@ function homeRender(string $error = ''): void {
     <section class="home-cats <?= $sectionMod ?> container" data-layout="<?= htmlspecialchars($layout) ?>">
         <header class="home-section__head">
             <h2 class="home-section__title">Compra por categoría</h2>
-            <a href="/tienda" class="home-section__link">Ver tienda →</a>
+            <a href="/catalogo" class="home-section__link">Ver catálogo →</a>
         </header>
 
         <?php if ($layout === 'carousel'): ?>
@@ -394,7 +394,7 @@ function homeRender(string $error = ''): void {
     <section class="home-featured container">
         <header class="home-section__head">
             <h2 class="home-section__title">Lo más buscado</h2>
-            <a href="/tienda" class="home-section__link">Ver todo →</a>
+            <a href="/catalogo" class="home-section__link">Ver todo →</a>
         </header>
         <div class="shop-grid">
             <?php foreach ($featured as $p):

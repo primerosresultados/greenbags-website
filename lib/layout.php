@@ -99,6 +99,9 @@ $cssVer = function (string $path): string {
 <link rel="stylesheet" href="<?= $h($cssVer('/assets/css/shop.css')) ?>">
 <link rel="stylesheet" href="<?= $h($cssVer('/assets/css/home.css')) ?>">
 <?php if (!$hideChrome): ?>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="<?= $h($cssVer('/assets/css/site_header.css')) ?>">
 <?php endif; ?>
 <?php

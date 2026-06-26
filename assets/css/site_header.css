@@ -125,6 +125,14 @@
     gap: 1.2rem;
     min-height: 72px;
 }
+/* Tipografía del header: Outfit (geométrica, menos estándar que el sistema). */
+.site-navbar,
+.site-navbar__menu,
+.site-navbar__menu-cta,
+.site-navbar__menu-right,
+.site-navbar__brand-text {
+    font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+}
 .site-navbar__brand {
     display: inline-flex;
     align-items: center;
@@ -134,10 +142,12 @@
     font-size: 1.5rem;
     letter-spacing: -.02em;
     flex-shrink: 0;
+    /* Aire arriba/abajo del logo sin agrandar la cabecera (logo más chico). */
+    padding-block: .35rem;
     transition: opacity .15s;
 }
 .site-navbar__brand:hover { opacity: .8; }
-.site-navbar__brand img { display: block; max-height: 64px; width: auto; }
+.site-navbar__brand img { display: block; max-height: 48px; width: auto; }
 
 .site-navbar__menu {
     display: flex;
@@ -458,7 +468,7 @@
     .site-topbar__inner { padding: .45rem .9rem; }
     .site-topbar__socials { display: none; }
     .site-navbar__inner { padding: .6rem 1rem; gap: .55rem; min-height: 60px; }
-    .site-navbar__brand img { max-height: 48px; }
+    .site-navbar__brand img { max-height: 40px; }
     .site-navbar__brand-text { font-size: 1.25rem; }
     .site-navbar__actions { gap: .25rem; }
     .site-navbar__cta span { display: none; }
@@ -500,8 +510,31 @@
 /* Contacto como CTA verde marca: lleva el rol que antes tenía el botón de
  * WhatsApp en el header (filled brand + sombra sutil + lift en hover). Es la
  * acción primaria del nav. */
-.site-navbar__menu-right {
-    margin-left: .9rem;
+/* Catálogo: CTA secundario (outline) a la izquierda de Contacto. */
+.site-navbar__menu .site-navbar__menu-cta {
+    margin-left: .6rem;
+    padding: .55rem 1.1rem;
+    border: 1.5px solid var(--brand-primary, var(--sh-accent));
+    border-radius: 999px;
+    background: transparent;
+    color: var(--brand-primary, var(--sh-accent));
+    text-decoration: none;
+    font-weight: 600;
+    font-size: .9rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    transition: background .18s, color .18s, border-color .18s, transform .15s;
+}
+.site-navbar__menu .site-navbar__menu-cta:hover,
+.site-navbar__menu .site-navbar__menu-cta.is-active {
+    background: var(--brand-primary, var(--sh-accent));
+    color: #fff;
+    transform: translateY(-1px);
+}
+/* Contacto: CTA primario verde. Texto blanco forzado (gana a `.menu a`). */
+.site-navbar__menu .site-navbar__menu-right {
+    margin-left: .6rem;
     padding: .55rem 1.1rem;
     border: 1.5px solid var(--brand-primary, var(--sh-accent));
     border-radius: 999px;
@@ -516,14 +549,14 @@
     box-shadow: 0 6px 14px -4px rgba(115, 191, 109, .35);
     transition: background .18s, color .18s, border-color .18s, transform .15s, box-shadow .18s;
 }
-.site-navbar__menu-right:hover {
+.site-navbar__menu .site-navbar__menu-right:hover {
     background: var(--brand-primary-hover, var(--sh-accent-hover));
     border-color: var(--brand-primary-hover, var(--sh-accent-hover));
     color: #fff;
     transform: translateY(-1px);
     box-shadow: 0 10px 22px -6px rgba(115, 191, 109, .45);
 }
-.site-navbar__menu-right.is-active {
+.site-navbar__menu .site-navbar__menu-right.is-active {
     background: var(--brand-primary-hover, var(--sh-accent-hover));
     border-color: var(--brand-primary-hover, var(--sh-accent-hover));
     color: #fff;

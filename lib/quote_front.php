@@ -143,7 +143,7 @@ function quoteRenderPage(): void {
         </div>
 
         <div class="shop-cart__actions" style="margin-bottom:2rem;">
-            <a href="/tienda" class="btn btn--ghost">← Seguir agregando</a>
+            <a href="/catalogo" class="btn btn--ghost">← Seguir agregando</a>
             <form method="post" action="/cotizacion" class="shop-cart__clearform" onsubmit="return confirm('¿Vaciar la cotización?');" style="display:inline;">
                 <input type="hidden" name="csrf" value="<?= csrfToken() ?>">
                 <input type="hidden" name="action" value="clear">

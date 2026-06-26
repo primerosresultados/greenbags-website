@@ -32,6 +32,12 @@ function shopFrontRoute(string $path): bool {
         return true;
     }
     if ($path === 'tienda') {
+        // Swap Inicio/Tienda: /tienda muestra el landing (lo que antes era el
+        // home). La grilla de productos vive ahora en /catalogo.
+        homeRender();
+        return true;
+    }
+    if ($path === 'catalogo') {
         shopRenderShopIndex();
         return true;
     }
@@ -51,11 +57,11 @@ function shopRenderShopIndex(): void {
     $products = productsPublished(['perPage' => 24, 'page' => max(1, (int) ($_GET['p'] ?? 1))]);
     $cats     = categoryList(true);
     layoutStart([
-        'title'       => 'Tienda',
+        'title'       => 'Catálogo',
         'description' => (string) getSetting('business_description', ''),
-        'canonical'   => '/tienda',
+        'canonical'   => '/catalogo',
     ]);
-    echo '<main class="container shop"><h1>Tienda</h1>';
+    echo '<main class="container shop"><h1>Catálogo</h1>';
     if ($cats) {
         echo '<nav class="shop-cats">';
         foreach ($cats as $c) {

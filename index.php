@@ -19,7 +19,7 @@ if ($reqPath !== '') {
         echo '<main class="container" style="padding:3rem 1.2rem;text-align:center;">'
            . '<h1 style="font-size:2.4rem;margin:0 0 .5rem;">404</h1>'
            . '<p style="font-size:1.1rem;color:#64748b;margin:0 0 1.5rem;">No encontramos lo que buscás.</p>'
-           . '<p><a href="/tienda" class="btn">← Volver a la tienda</a></p></main>';
+           . '<p><a href="/catalogo" class="btn">← Volver al catálogo</a></p></main>';
         layoutEnd();
         exit;
     }
@@ -180,6 +180,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'submi
         }
         redirect('/gracias');
     }
+}
+
+// Swap Inicio/Tienda: el home (/) muestra el contenido de "Sobre GreenBags".
+// El landing de venta se movió a /tienda (ver shopFrontRoute). Si la página
+// CMS no existe (instalación nueva), caemos al landing como fallback.
+$homePage = null;
+try {
+    $stmt = getDB()->prepare('SELECT title, body, meta_description, og_image FROM pages WHERE slug = ? AND is_published = 1');
+    $stmt->execute(['sobre-greenbags']);
+    $homePage = $stmt->fetch();
+} catch (Throwable $e) {
+    $homePage = null;
+}
+
+if (!empty($homePage)) {
+    layoutStart([
+        'title'        => (string) $homePage['title'],
+        'description'  => (string) ($homePage['meta_description'] ?? ''),
+        'og_image'     => (string) ($homePage['og_image'] ?? ''),
+        'canonical'    => '/',
+        'current_slug' => '',
+    ]);
+    ?>
+<main class="container">
+    <article class="page">
+        <h1><?= htmlspecialchars($homePage['title']) ?></h1>
+        <?= $homePage['body'] /* HTML confiado: solo lo edita el admin autenticado */ ?>
+    </article>
+</main>
+<?php
+    layoutEnd();
+    exit;
 }
 
 homeRender($error);
