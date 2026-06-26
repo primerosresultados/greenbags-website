@@ -40,6 +40,12 @@ function homeSettings(): array {
         'cta_title'     => trim((string) getSetting('home_cta_title', 'Suscríbete y recibe nuestras novedades')),
         'cta_subtitle'  => trim((string) getSetting('home_cta_subtitle', 'Ofertas exclusivas, descuentos y lanzamientos en tu correo.')),
         'cta_label'     => trim((string) getSetting('home_cta_label', 'Suscríbete')),
+        'show_clients'  => getSetting('home_show_clients', '0') === '1',
+        'clients_title' => trim((string) getSetting('home_clients_title', 'Nuestros clientes')),
+        'clients_names' => array_values(array_filter(array_map(
+            'trim',
+            explode('|', (string) getSetting('home_clients_names', ''))
+        ), fn($v) => $v !== '')),
     ];
 }
 
@@ -439,6 +445,29 @@ function homeRender(string $error = ''): void {
                     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </a>
             <?php endif; ?>
+        </div>
+    </section>
+    <?php endif; ?>
+
+    <?php if ($s['show_clients'] && $s['clients_names']):
+        // Logos en movimiento (marquesina). Hasta tener los archivos reales,
+        // mostramos placeholders con el nombre del cliente. Cuando se carguen
+        // logos, reemplazar el contenido de .home-clients__logo por <img>.
+        $clientsLoop = array_merge($s['clients_names'], $s['clients_names']);
+    ?>
+    <!-- ============ Nuestros clientes (marquesina) ============ -->
+    <section class="home-clients">
+        <div class="container">
+            <h2 class="home-clients__title"><?= htmlspecialchars($s['clients_title']) ?></h2>
+        </div>
+        <div class="home-clients__marquee" aria-label="<?= htmlspecialchars($s['clients_title']) ?>">
+            <div class="home-clients__track">
+                <?php foreach ($clientsLoop as $idx => $name): ?>
+                    <span class="home-clients__logo"<?= $idx >= count($s['clients_names']) ? ' aria-hidden="true"' : '' ?>>
+                        <?= htmlspecialchars($name) ?>
+                    </span>
+                <?php endforeach; ?>
+            </div>
         </div>
     </section>
     <?php endif; ?>

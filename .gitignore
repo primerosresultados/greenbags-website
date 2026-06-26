@@ -3,6 +3,11 @@ config.php
 /uploads/*
 !/uploads/.gitkeep
 !/uploads/.htaccess
+# Catálogo importado (esquinablanca + tugou): se versiona para que el seed 041
+# reproduzca las imágenes en producción. El resto de uploads/ queda ignorado.
+!/uploads/library/
+/uploads/library/*
+!/uploads/library/importados/
 /install/installed.lock
 /install/.htaccess
 /respaldo/

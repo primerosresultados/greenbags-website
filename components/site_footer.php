@@ -28,6 +28,20 @@ $addressFull  = implode(', ', $addressParts);
 
 $socials    = socialLinks();
 
+// Contactos directos (personas) + nota de retiro en bodega.
+$people = [];
+for ($i = 1; $i <= 2; $i++) {
+    $name = trim((string) getSetting("contact_person_{$i}_name", ''));
+    if ($name === '') continue;
+    $people[] = [
+        'name'  => $name,
+        'role'  => trim((string) getSetting("contact_person_{$i}_role", '')),
+        'phone' => trim((string) getSetting("contact_person_{$i}_phone", '')),
+        'email' => trim((string) getSetting("contact_person_{$i}_email", '')),
+    ];
+}
+$pickupNote = trim((string) getSetting('business_pickup_note', ''));
+
 $socialIcon = function (string $key): string {
     return [
         'social_facebook'  => '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 2.9h-2.2v7A10 10 0 0 0 22 12z"/></svg>',
@@ -98,6 +112,35 @@ $hasContact = $phone || $email || $addressFull || $hours;
                 </li>
             <?php endif; ?>
         </ul>
+        <?php endif; ?>
+
+        <?php if ($people): ?>
+        <!-- ── Contactos directos ── -->
+        <div class="site-footer__people">
+            <h3 class="site-footer__people-title">Contactos directos</h3>
+            <ul class="site-footer__people-list">
+                <?php foreach ($people as $p): ?>
+                    <li class="site-footer__person">
+                        <strong class="site-footer__person-name"><?= htmlspecialchars($p['name']) ?></strong>
+                        <?php if ($p['role'] !== ''): ?>
+                            <span class="site-footer__person-role"><?= htmlspecialchars($p['role']) ?></span>
+                        <?php endif; ?>
+                        <?php if ($p['phone'] !== ''): ?>
+                            <a href="tel:<?= htmlspecialchars(preg_replace('/\s+/', '', $p['phone'])) ?>"><?= htmlspecialchars($p['phone']) ?></a>
+                        <?php endif; ?>
+                        <?php if ($p['email'] !== ''): ?>
+                            <a href="mailto:<?= htmlspecialchars($p['email']) ?>"><?= htmlspecialchars($p['email']) ?></a>
+                        <?php endif; ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+            <?php if ($pickupNote !== ''): ?>
+                <p class="site-footer__pickup">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1-5h16l1 5"/><path d="M4 9v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9"/><path d="M9 13h6"/></svg>
+                    <span><?= htmlspecialchars($pickupNote) ?></span>
+                </p>
+            <?php endif; ?>
+        </div>
         <?php endif; ?>
 
         <!-- ── Social zone + copyright ── -->

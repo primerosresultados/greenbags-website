@@ -27,6 +27,8 @@ if (!in_array($headerStyle, ['classic', 'centered', 'hamburger'], true)) $header
 $bizPhone     = trim((string) getSetting('business_phone', ''));
 $bizEmail     = trim((string) getSetting('business_email', ''));
 $bizHours     = trim((string) getSetting('business_hours', ''));
+// Topbar (contacto + horario + socials) ocultable desde settings.
+$showTopbar   = getSetting('header_show_topbar', '1') === '1';
 
 $menu      = publishedPagesMenu();
 $socials   = socialLinks();
@@ -172,7 +174,7 @@ $annFg    = trim((string) getSetting('announce_fg', '#ffffff'));
         </div>
     <?php endif; ?>
 
-    <?php if ($bizPhone || $bizEmail || $bizHours || $socials): ?>
+    <?php if ($showTopbar && ($bizPhone || $bizEmail || $bizHours || $socials)): ?>
     <div class="site-topbar">
         <div class="site-topbar__inner">
             <div class="site-topbar__contact">

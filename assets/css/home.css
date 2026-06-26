@@ -716,3 +716,58 @@ main.home + .site-footer { margin-top: 0; }
     .home-benefit__desc { font-size: .82rem; }
     .home-section__title { font-size: 1.25rem; }
 }
+
+/* ============================================================
+   Nuestros clientes — marquesina de logos (placeholders por ahora)
+   ============================================================ */
+.home-clients {
+    padding: 3rem 0 1rem;
+    overflow: hidden;
+}
+.home-clients__title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    margin: 0 0 1.8rem;
+    color: var(--text, #1a2a22);
+}
+.home-clients__marquee {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.home-clients__track {
+    display: flex;
+    width: max-content;
+    gap: 1.2rem;
+    animation: home-clients-scroll 28s linear infinite;
+}
+.home-clients__marquee:hover .home-clients__track { animation-play-state: paused; }
+.home-clients__logo {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 180px;
+    height: 84px;
+    padding: 0 1.6rem;
+    border: 1px solid var(--border, #e1ebdd);
+    border-radius: 14px;
+    background: #fff;
+    color: #64748b;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: .01em;
+    box-shadow: 0 1px 2px rgba(13, 31, 21, .04);
+}
+.home-clients__logo img { display: block; max-height: 52px; max-width: 150px; width: auto; object-fit: contain; }
+@keyframes home-clients-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .home-clients__track { animation: none; flex-wrap: wrap; justify-content: center; }
+}
