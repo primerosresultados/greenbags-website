@@ -507,6 +507,43 @@ $varDisplay = getSetting('variations_display_mode', 'swatches') === 'select' ? '
                     </p>
                 <?php endif; ?>
 
+                <?php
+                // ===== Ventajas (elementos atractivos, en toda ficha) =====
+                // Real y oportuno: despacho inmediato, atención a urgencias y
+                // compra por mayor. La de "compostable" sólo si el producto lo es.
+                $isEcoProd = (bool) preg_match(
+                    '/compost|biodegrad|kraft|ca(ñ|n)a de az(ú|u)car|bagazo|ecol(ó|o)g|bamb(ú|u)|reciclad/iu',
+                    (string) $p['name'] . ' ' . (string) $p['description']
+                );
+                $perks = [
+                    ['truck',  'Despacho inmediato',     'Enviamos a todo Chile el mismo día'],
+                    ['bolt',   'Atención a urgencias',   'Te respondemos al instante por WhatsApp'],
+                    ['tag',    'Precios por mayor',      'Descuentos reales para tu negocio'],
+                ];
+                if ($isEcoProd) {
+                    $perks[] = ['leaf', '100% compostable', 'Amigable con el medio ambiente'];
+                }
+                $perkIcon = [
+                    'truck' => '<path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/>',
+                    'bolt'  => '<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/>',
+                    'tag'   => '<path d="M20.59 13.41 11 3.83V3H3v8h.83l9.58 9.58a2 2 0 0 0 2.83 0l4.35-4.35a2 2 0 0 0 0-2.82z"/><circle cx="7" cy="7" r="1.2"/>',
+                    'leaf'  => '<path d="M11 20A7 7 0 0 1 4 13c0-5 4-9 16-10 0 12-4 16-9 17z"/><path d="M4 21c2-6 6-9 12-10"/>',
+                ];
+                ?>
+                <ul class="shop-perks">
+                    <?php foreach ($perks as $pk): ?>
+                        <li class="shop-perks__item">
+                            <span class="shop-perks__icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><?= $perkIcon[$pk[0]] ?></svg>
+                            </span>
+                            <span class="shop-perks__txt">
+                                <strong><?= htmlspecialchars($pk[1]) ?></strong>
+                                <small><?= htmlspecialchars($pk[2]) ?></small>
+                            </span>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+
                 <?php if ($tiers): ?>
                     <details class="shop-tiers shop-tiers--collapsible">
                         <summary>Ver precios por mayor</summary>
