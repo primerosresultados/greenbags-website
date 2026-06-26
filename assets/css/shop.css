@@ -320,6 +320,31 @@
 }
 .shop-freeship svg { color: #0f172a; flex-shrink: 0; }
 
+/* ---- Ventajas (perks / elementos atractivos) ---- */
+.shop-perks {
+    list-style: none; margin: .9rem 0 0; padding: 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: .55rem;
+}
+.shop-perks__item {
+    display: flex; align-items: center; gap: .6rem;
+    padding: .7rem .8rem;
+    background: #f6fdf8;
+    border: 1px solid #e3f3e8;
+    border-radius: 12px;
+}
+.shop-perks__icon {
+    flex-shrink: 0; width: 38px; height: 38px;
+    display: grid; place-items: center;
+    border-radius: 10px;
+    background: #e7f6ec; color: #15803d;
+}
+.shop-perks__txt { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+.shop-perks__txt strong { font-size: .86rem; font-weight: 700; color: #0f172a; }
+.shop-perks__txt small  { font-size: .76rem; color: #64748b; }
+@media (max-width: 520px) {
+    .shop-perks { grid-template-columns: 1fr; }
+}
+
 /* ---- Tiers (collapsible) ---- */
 .shop-tiers--collapsible {
     margin: .4rem 0 0;
