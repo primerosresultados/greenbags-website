@@ -365,15 +365,56 @@
 .shop-tiers__table thead th { color: #64748b; font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; }
 .shop-tiers__moq { color: #6b7280; font-size: .82rem; margin: .5rem 0 0; }
 
+/* Descripción larga: bajo la galería, en la columna izquierda.
+   Colapsada por defecto con fundido + botón "Leer más". */
 .shop-product__desc {
-    margin-top: 2.4rem;
-    background: #fff;
+    margin-top: 1.6rem;
+    padding: 1.4rem 1.5rem;
+    background: #f8fafc;
     border: 1px solid #eef0f2;
-    border-radius: 20px;
-    padding: 1.8rem 2rem;
-    max-width: 75ch;
+    border-radius: 16px;
 }
-.shop-product__desc h2 { font-size: 1.2rem; margin: 0 0 .8rem; color: #0f172a; }
+.shop-product__desc-title {
+    font-size: 1.05rem; font-weight: 700; margin: 0 0 .7rem; color: #0f172a;
+    display: flex; align-items: center; gap: .5rem;
+}
+.shop-product__desc-title::before {
+    content: ""; width: 4px; height: 1.05em; border-radius: 4px;
+    background: var(--brand-primary, #16a34a);
+}
+.shop-product__desc-body {
+    color: #475569; line-height: 1.65; font-size: .95rem;
+}
+.shop-product__desc-body > :first-child { margin-top: 0; }
+.shop-product__desc-body > :last-child { margin-bottom: 0; }
+.shop-product__desc-body img { max-width: 100%; height: auto; border-radius: 10px; }
+
+/* Estado colapsado: limita la altura y agrega fundido inferior. */
+.shop-product__desc.is-clamped .shop-product__desc-body {
+    position: relative;
+    max-height: 7.2em;
+    overflow: hidden;
+}
+.shop-product__desc.is-clamped .shop-product__desc-body::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3.2em;
+    background: linear-gradient(to bottom, rgba(248,250,252,0), #f8fafc);
+    pointer-events: none;
+}
+.shop-product__desc.is-open .shop-product__desc-body {
+    max-height: none;
+}
+.shop-product__desc.is-open .shop-product__desc-body::after { display: none; }
+
+.shop-product__desc-toggle {
+    display: inline-flex; align-items: center; gap: .35rem;
+    margin-top: .9rem; padding: .4rem .2rem;
+    background: none; border: none; cursor: pointer;
+    color: var(--brand-primary, #16a34a); font-weight: 600; font-size: .9rem;
+    font-family: inherit;
+}
+.shop-product__desc-toggle:hover { text-decoration: underline; }
+.shop-product__desc-toggle svg { transition: transform .2s; }
+.shop-product__desc.is-open .shop-product__desc-toggle svg { transform: rotate(180deg); }
 
 /* Precios por mayor (en la columna de info, estilo tradicional) */
 .shop-tiers { margin-top: 1.5rem; }
