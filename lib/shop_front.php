@@ -32,9 +32,9 @@ function shopFrontRoute(string $path): bool {
         return true;
     }
     if ($path === 'tienda') {
-        // Swap Inicio/Tienda: /tienda muestra el landing (lo que antes era el
-        // home). La grilla de productos vive ahora en /catalogo.
-        homeRender();
+        // El landing comercial volvió a ser el home (/). /tienda queda como
+        // alias legacy de la grilla de productos → redirige a /catalogo (301).
+        redirect('/catalogo', 301);
         return true;
     }
     if ($path === 'catalogo') {
