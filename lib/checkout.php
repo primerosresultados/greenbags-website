@@ -81,7 +81,7 @@ function checkoutRenderForm(?array $formData = null, ?string $error = null): voi
         </div>
         <h1>Tu carrito está vacío</h1>
         <p>Todavía no agregaste productos. Volvé a la tienda y empezamos de cero.</p>
-        <a href="/tienda" class="btn shop-checkout__empty-cta">Ir a la tienda</a>
+        <a href="/catalogo" class="btn shop-checkout__empty-cta">Ir al catálogo</a>
     </div>
 </main>
         <?php
@@ -319,7 +319,7 @@ function checkoutRenderConfirmation(string $orderNumber): void {
         layoutStart(['title' => 'Orden no encontrada']);
         echo '<main class="container shop"><h1>Orden no encontrada</h1>'
            . '<p>No pudimos encontrar esa orden. Si llegaste acá desde un email, revisá el enlace.</p>'
-           . '<p><a href="/tienda" class="btn">Volver a la tienda</a></p></main>';
+           . '<p><a href="/catalogo" class="btn">Volver al catálogo</a></p></main>';
         layoutEnd();
         return;
     }
@@ -421,7 +421,7 @@ function checkoutRenderConfirmation(string $orderNumber): void {
     </section>
 
     <div class="shop-order__actions">
-        <a href="/tienda" class="btn">Seguir comprando</a>
+        <a href="/catalogo" class="btn">Seguir comprando</a>
     </div>
 </main>
     <?php

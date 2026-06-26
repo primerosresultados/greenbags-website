@@ -35,7 +35,7 @@ $ret    = $_SERVER['REQUEST_URI'] ?? '/';
                 <path d="M14 6h26l8 8v44H14z"/><polyline points="40 6 40 14 48 14"/><line x1="20" y1="28" x2="42" y2="28"/><line x1="20" y1="36" x2="42" y2="36"/><line x1="20" y1="44" x2="36" y2="44"/>
             </svg>
             <p>Todavía no agregaste productos a tu cotización.</p>
-            <a href="/tienda" class="btn">Ver catálogo</a>
+            <a href="/catalogo" class="btn">Ver catálogo</a>
         </div>
     <?php else: ?>
         <div class="cart-drawer__body">

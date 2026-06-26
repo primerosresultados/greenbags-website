@@ -31,7 +31,7 @@ $ret    = $_SERVER['REQUEST_URI'] ?? '/';
                 <path d="M4 6h6l5 32a4 4 0 0 0 4 3h26a4 4 0 0 0 4-3l3-19H14"/>
             </svg>
             <p>Tu carrito está vacío.</p>
-            <a href="/tienda" class="btn">Ir a la tienda</a>
+            <a href="/catalogo" class="btn">Ir al catálogo</a>
         </div>
     <?php else: ?>
         <div class="cart-drawer__body">

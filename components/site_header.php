@@ -125,6 +125,11 @@ $renderMenu = function () use ($pagesMain, $pageContact, $cats, $currentSlug, $i
            . htmlspecialchars($p['title']) . '</a>';
     }
 
+    // Botón "Catálogo" (CTA secundario) a la izquierda de Contacto → grilla de
+    // productos (vive en /catalogo tras el swap Inicio/Tienda).
+    $isCatalogActive = trim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/', '/') === 'catalogo';
+    echo '<a href="/catalogo" class="site-navbar__menu-cta' . ($isCatalogActive ? ' is-active' : '') . '">Catálogo</a>';
+
     if ($pageContact) {
         $cls = 'site-navbar__menu-right' . ($currentSlug === $pageContact['slug'] ? ' is-active' : '');
         echo '<a href="/' . htmlspecialchars($pageContact['slug']) . '" class="' . $cls . '">'
