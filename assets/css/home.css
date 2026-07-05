@@ -29,20 +29,26 @@ main.home + .site-footer { margin-top: 0; }
 
 /* ============ Hero (slider) ============ */
 .home-hero {
+    /* Ancho de contenido propio del hero: más angosto que el container global
+       (1600px) para que copy y formulario queden balanceados, sin un vacío
+       enorme entre medio en pantallas anchas. */
+    --hero-max: 1240px;
     position: relative;
     overflow: hidden;
     color: #fff;
     margin-bottom: 0;
     background: #0d2818; /* fallback verde oscuro debajo de los slides */
 }
+/* El container dentro del hero usa el ancho local, no el global. */
+.home-hero .container { max-width: var(--hero-max); }
 .home-hero__viewport { position: relative; overflow: hidden; width: 100%; }
-.home-hero__track { display: flex; transition: transform .55s cubic-bezier(.22, .61, .36, 1); will-change: transform; }
+.home-hero__track { display: flex; transition: transform .6s cubic-bezier(.22, .61, .36, 1); will-change: transform; }
 .home-hero__slide {
     flex: 0 0 100%;
     width: 100%;
-    /* Altura imponente: 70% del viewport con tope para que no sea desmedido. */
-    min-height: clamp(480px, 70vh, 780px);
-    padding: 5rem 0 5.5rem;
+    /* Altura contenida: menos alto muerto que antes, sigue imponente. */
+    min-height: clamp(460px, 62vh, 680px);
+    padding: 4.5rem 0 5rem;
     display: flex; align-items: center;
     position: relative;
     /* Gradiente de marca: verde profundo → verde del logo. */
@@ -70,16 +76,32 @@ main.home + .site-footer { margin-top: 0; }
 .home-hero__slide--right .home-hero__copy { margin-left: auto; }
 .home-hero__slide--right .home-hero__cta { justify-content: flex-end; }
 .home-hero__inner { position: relative; z-index: 1; }
-.home-hero__copy { max-width: 620px; }
+/* En desktop el copy se reserva ~55% del ancho para no invadir el form. */
+.home-hero__copy { max-width: 600px; }
+@media (min-width: 1181px) {
+    .home-hero__copy { max-width: min(56%, 620px); }
+}
 
-/* ---- Barra inferior: flechas + dots elegantes, todo en una sola pill ---- */
-.home-hero__navdots {
+/* ---- Barra inferior: contador + flechas + dots ---- */
+.home-hero__controls {
     position: absolute;
-    bottom: 1.4rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex; align-items: center; gap: .7rem;
+    bottom: 1.5rem;
+    left: 0; right: 0;
+    display: flex; align-items: center; justify-content: center; gap: 1.1rem;
     z-index: 5;
+    padding: 0 clamp(1rem, 4vw, 2.5rem);
+}
+/* Contador 01 / 05 — monoespaciado, alineado a la izquierda de los controles. */
+.home-hero__count {
+    display: inline-flex; align-items: baseline; gap: .25rem;
+    font-variant-numeric: tabular-nums; font-weight: 700;
+    letter-spacing: .02em; color: #fff;
+}
+.home-hero__count-cur { font-size: 1.05rem; }
+.home-hero__count-sep { opacity: .5; margin: 0 .1rem; }
+.home-hero__count-tot { font-size: .85rem; opacity: .6; }
+.home-hero__navdots {
+    display: flex; align-items: center; gap: .7rem;
 }
 .home-hero__nav {
     width: 38px; height: 38px;
@@ -112,8 +134,9 @@ main.home + .site-footer { margin-top: 0; }
     border-radius: 999px;
 }
 .home-hero__dot {
+    position: relative; overflow: hidden;
     width: 22px;
-    height: 4px;
+    height: 5px;
     background: rgba(255, 255, 255, .4);
     border: 0; border-radius: 999px;
     cursor: pointer; padding: 0;
@@ -121,13 +144,29 @@ main.home + .site-footer { margin-top: 0; }
 }
 .home-hero__dot:hover { background: rgba(255, 255, 255, .65); }
 .home-hero__dot.is-active {
-    background: #fff;
-    width: 42px;
+    /* Track tenue: el relleno blanco de adentro marca el progreso del autoplay. */
+    background: rgba(255, 255, 255, .3);
+    width: 46px;
 }
+/* Relleno de progreso (barra que crece durante el intervalo de autoplay). */
+.home-hero__dot-fill {
+    position: absolute; inset: 0; width: 0;
+    background: #fff; border-radius: 999px;
+}
+.home-hero__dot.is-active .home-hero__dot-fill {
+    animation: heroDotFill var(--hero-interval, 6s) linear forwards;
+}
+.home-hero.is-paused .home-hero__dot.is-active .home-hero__dot-fill {
+    animation-play-state: paused;
+}
+@keyframes heroDotFill { from { width: 0; } to { width: 100%; } }
 
 @media (max-width: 640px) {
     .home-hero__nav { width: 32px; height: 32px; }
-    .home-hero__navdots { bottom: 1rem; gap: .5rem; }
+    .home-hero__controls { bottom: 1rem; gap: .7rem; }
+    .home-hero__count-cur { font-size: .95rem; }
+    .home-hero__navdots { gap: .5rem; }
+    .home-hero__dot.is-active { width: 38px; }
     .home-hero__slide {
         min-height: clamp(420px, 60vh, 560px);
         padding: 3.5rem 0 4rem;
@@ -157,6 +196,24 @@ main.home + .site-footer { margin-top: 0; }
    slide: la tarjeta de contacto (fuera del slide) tiene su propio texto oscuro. */
 .home-hero { color: #fff; }
 .home-hero__slide h1, .home-hero__slide h2, .home-hero__slide p { color: #fff; }
+
+/* ---- Animación de entrada del copy (sólo con JS: .is-ready) ---- */
+/* Sin JS todo queda visible; con JS el slide activo revela su contenido
+   escalonado (fade + slide-up) cada vez que entra en pantalla. */
+@media (prefers-reduced-motion: no-preference) {
+    .home-hero.is-ready .home-hero__slide .home-hero__copy > * {
+        opacity: 0; transform: translateY(16px);
+    }
+    .home-hero.is-ready .home-hero__slide.is-active .home-hero__copy > * {
+        animation: heroCopyIn .6s cubic-bezier(.22, .61, .36, 1) both;
+    }
+    .home-hero.is-ready .home-hero__slide.is-active .home-hero__copy > *:nth-child(1) { animation-delay: .05s; }
+    .home-hero.is-ready .home-hero__slide.is-active .home-hero__copy > *:nth-child(2) { animation-delay: .13s; }
+    .home-hero.is-ready .home-hero__slide.is-active .home-hero__copy > *:nth-child(3) { animation-delay: .21s; }
+    .home-hero.is-ready .home-hero__slide.is-active .home-hero__copy > *:nth-child(4) { animation-delay: .29s; }
+    .home-hero.is-ready .home-hero__slide.is-active .home-hero__copy > *:nth-child(5) { animation-delay: .37s; }
+    @keyframes heroCopyIn { to { opacity: 1; transform: none; } }
+}
 .home-hero__slide p.home-hero__subtitle { color: #cbd5e1; }
 .home-hero__cta { display: flex; flex-wrap: wrap; gap: .8rem; }
 
@@ -179,15 +236,15 @@ main.home + .site-footer { margin-top: 0; }
 .home-hero__point-ico svg { width: 100%; height: 100%; }
 
 /* ---- Formulario de contacto lateral (tarjeta moderna) ---- */
-/* El right se ancla al borde del .container (90%, tope 1600px) en vez del
-   borde de la ventana, para no dejar un vacío enorme junto a la copy en
-   pantallas anchas. */
+/* El right se ancla al borde del ancho local del hero (--hero-max) en vez del
+   borde de la ventana, para que el form quede a una distancia controlada del
+   copy y no flotando lejísimos en pantallas anchas. */
 .home-hero__contact {
     position: absolute;
     top: 50%;
-    right: calc((100vw - min(90vw, var(--container-max, 1600px))) / 2 + 1.25rem);
+    right: calc((100vw - min(90vw, var(--hero-max, 1240px))) / 2 + 0.5rem);
     transform: translateY(-50%);
-    width: min(380px, 90vw);
+    width: min(390px, 90vw);
     z-index: 4;
 }
 .home-hero__contact-card {

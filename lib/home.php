@@ -163,7 +163,7 @@ function homeRender(string $error = ''): void {
                     $img   = trim((string) ($b['image_path'] ?? ''));
                     $align = $b['text_align'] ?? 'left';
                 ?>
-                    <div class="home-hero__slide home-hero__slide--<?= htmlspecialchars($align) ?><?= $img ? ' home-hero__slide--image' : '' ?>"
+                    <div class="home-hero__slide home-hero__slide--<?= htmlspecialchars($align) ?><?= $img ? ' home-hero__slide--image' : '' ?><?= $i === 0 ? ' is-active' : '' ?>"
                         <?php if ($img): ?>style="--hero-img: url('<?= htmlspecialchars($img) ?>');"<?php endif; ?>
                         role="group" aria-roledescription="slide" aria-label="<?= ($i + 1) ?> de <?= count($banners) ?>">
                         <div class="container home-hero__inner">
@@ -195,18 +195,23 @@ function homeRender(string $error = ''): void {
             </div>
 
             <?php if (count($banners) > 1): ?>
-                <div class="home-hero__navdots">
-                    <button type="button" class="home-hero__nav home-hero__nav--prev" aria-label="Banner anterior">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 6 9 12 15 18"/></svg>
-                    </button>
-                    <div class="home-hero__dots" role="tablist" aria-label="Seleccionar banner">
-                        <?php foreach ($banners as $i => $b): ?>
-                            <button type="button" class="home-hero__dot<?= $i === 0 ? ' is-active' : '' ?>" data-idx="<?= $i ?>" role="tab" aria-label="Banner <?= ($i + 1) ?>" aria-selected="<?= $i === 0 ? 'true' : 'false' ?>"></button>
-                        <?php endforeach; ?>
+                <div class="home-hero__controls">
+                    <span class="home-hero__count" aria-hidden="true">
+                        <span class="home-hero__count-cur">01</span><span class="home-hero__count-sep">/</span><span class="home-hero__count-tot"><?= sprintf('%02d', count($banners)) ?></span>
+                    </span>
+                    <div class="home-hero__navdots">
+                        <button type="button" class="home-hero__nav home-hero__nav--prev" aria-label="Banner anterior">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 6 9 12 15 18"/></svg>
+                        </button>
+                        <div class="home-hero__dots" role="tablist" aria-label="Seleccionar banner">
+                            <?php foreach ($banners as $i => $b): ?>
+                                <button type="button" class="home-hero__dot<?= $i === 0 ? ' is-active' : '' ?>" data-idx="<?= $i ?>" role="tab" aria-label="Banner <?= ($i + 1) ?>" aria-selected="<?= $i === 0 ? 'true' : 'false' ?>"><span class="home-hero__dot-fill"></span></button>
+                            <?php endforeach; ?>
+                        </div>
+                        <button type="button" class="home-hero__nav home-hero__nav--next" aria-label="Banner siguiente">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+                        </button>
                     </div>
-                    <button type="button" class="home-hero__nav home-hero__nav--next" aria-label="Banner siguiente">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
-                    </button>
                 </div>
             <?php endif; ?>
         </div>
@@ -273,36 +278,56 @@ function homeRender(string $error = ''): void {
             var track = root.querySelector('.home-hero__track');
             var slides = root.querySelectorAll('.home-hero__slide');
             if (!track || slides.length < 2) return;
-            var prev = root.querySelector('.home-hero__nav--prev');
-            var next = root.querySelector('.home-hero__nav--next');
-            var dots = root.querySelectorAll('.home-hero__dot');
-            var idx = 0;
-            var timer = null;
+            // is-ready habilita las animaciones de entrada (sin JS todo queda visible).
+            root.classList.add('is-ready');
+            var prev  = root.querySelector('.home-hero__nav--prev');
+            var next  = root.querySelector('.home-hero__nav--next');
+            var dots  = root.querySelectorAll('.home-hero__dot');
+            var curEl = root.querySelector('.home-hero__count-cur');
+            var INTERVAL = 6000;
+            root.style.setProperty('--hero-interval', (INTERVAL / 1000) + 's');
+            var idx = 0, timer = null, paused = false;
+            function pad(n){ return (n < 10 ? '0' : '') + n; }
+            // Reinicia la animación de "relleno" del dot activo (barra de progreso).
+            function resetFill(){
+                dots.forEach(function(d){
+                    var f = d.querySelector('.home-hero__dot-fill');
+                    if (!f) return;
+                    f.style.animation = 'none';
+                    void f.offsetWidth;          // fuerza reflow → reinicia el keyframe
+                    f.style.animation = '';
+                });
+            }
             function go(i, manual){
                 idx = ((i % slides.length) + slides.length) % slides.length;
                 track.style.transform = 'translateX(' + (-idx * 100) + '%)';
+                slides.forEach(function(s, k){ s.classList.toggle('is-active', k === idx); });
                 dots.forEach(function(d, k){
                     var on = k === idx;
                     d.classList.toggle('is-active', on);
                     d.setAttribute('aria-selected', on ? 'true' : 'false');
                 });
+                if (curEl) curEl.textContent = pad(idx + 1);
+                resetFill();
                 if (manual) restart();
             }
             function restart(){
                 if (timer) clearInterval(timer);
-                timer = setInterval(function(){ go(idx + 1); }, 7000);
+                if (paused) return;
+                timer = setInterval(function(){ go(idx + 1); }, INTERVAL);
             }
             if (prev) prev.addEventListener('click', function(){ go(idx - 1, true); });
             if (next) next.addEventListener('click', function(){ go(idx + 1, true); });
             dots.forEach(function(d, k){ d.addEventListener('click', function(){ go(k, true); }); });
-            // Pausar autoplay al hover.
-            root.addEventListener('mouseenter', function(){ if (timer) clearInterval(timer); });
-            root.addEventListener('mouseleave', restart);
-            // Keyboard.
+            // Pausar autoplay al hover (y pausar la barra de progreso vía CSS).
+            root.addEventListener('mouseenter', function(){ paused = true; root.classList.add('is-paused'); if (timer) clearInterval(timer); });
+            root.addEventListener('mouseleave', function(){ paused = false; root.classList.remove('is-paused'); go(idx); restart(); });
+            // Teclado.
             root.addEventListener('keydown', function(e){
                 if (e.key === 'ArrowLeft')  { go(idx - 1, true); }
                 if (e.key === 'ArrowRight') { go(idx + 1, true); }
             });
+            go(0);
             restart();
         })();
         </script>
