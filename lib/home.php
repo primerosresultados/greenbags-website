@@ -221,8 +221,11 @@ function homeRender(string $error = ''): void {
                     <h2 class="home-hero__contact-title">¡Gracias por escribirnos!</h2>
                     <p class="home-hero__contact-sub">Te responderemos a la brevedad.</p>
                 <?php else: ?>
+                    <span class="home-hero__contact-badge" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                    </span>
                     <h2 class="home-hero__contact-title">Cotiza tu packaging</h2>
-                    <p class="home-hero__contact-sub">Respuesta en menos de 24 hs hábiles.</p>
+                    <p class="home-hero__contact-sub">Contanos qué necesitás y te respondemos en menos de 24 hs hábiles, sin compromiso.</p>
                     <?php if ($error): ?>
                         <p class="home-hero__contact-error"><?= htmlspecialchars($error) ?></p>
                     <?php endif; ?>
@@ -232,15 +235,33 @@ function homeRender(string $error = ''): void {
                         <input type="hidden" name="form_started" value="<?= time() ?>">
                         <input type="hidden" name="source" value="home_hero">
                         <input type="text" name="website" value="" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" aria-hidden="true">
-                        <label class="visually-hidden" for="hh-name">Nombre</label>
-                        <input id="hh-name" type="text" name="name" placeholder="Nombre" required>
-                        <label class="visually-hidden" for="hh-email">Email</label>
-                        <input id="hh-email" type="email" name="email" placeholder="Email" required>
-                        <label class="visually-hidden" for="hh-phone">Teléfono</label>
-                        <input id="hh-phone" type="tel" name="phone" placeholder="Teléfono">
-                        <label class="visually-hidden" for="hh-message">Mensaje</label>
-                        <textarea id="hh-message" name="message" rows="2" placeholder="¿Qué necesitas?"></textarea>
+                        <div class="home-hero__contact-row">
+                            <p>
+                                <label class="visually-hidden" for="hh-name">Nombre</label>
+                                <input id="hh-name" type="text" name="name" placeholder="Nombre" required>
+                            </p>
+                            <p>
+                                <label class="visually-hidden" for="hh-phone">Teléfono</label>
+                                <input id="hh-phone" type="tel" name="phone" placeholder="Teléfono">
+                            </p>
+                        </div>
+                        <p>
+                            <label class="visually-hidden" for="hh-email">Email</label>
+                            <input id="hh-email" type="email" name="email" placeholder="Email" required>
+                        </p>
+                        <p>
+                            <label class="visually-hidden" for="hh-company">Empresa</label>
+                            <input id="hh-company" type="text" name="company" placeholder="Empresa (opcional)">
+                        </p>
+                        <p>
+                            <label class="visually-hidden" for="hh-message">Mensaje</label>
+                            <textarea id="hh-message" name="message" rows="3" placeholder="¿Qué packaging necesitás? Cantidades, tipo de producto, etc."></textarea>
+                        </p>
                         <button type="submit" class="btn home-hero__contact-btn">Solicitar cotización</button>
+                        <p class="home-hero__contact-trust">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                            Sin compromiso · Respuesta por WhatsApp o email
+                        </p>
                     </form>
                 <?php endif; ?>
             </div>

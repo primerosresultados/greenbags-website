@@ -153,9 +153,11 @@ main.home + .site-footer { margin-top: 0; }
     font-size: clamp(1.1rem, 1.6vw, 1.3rem);
     color: #cbd5e1; max-width: 560px; line-height: 1.55;
 }
-/* Garantiza color de texto sobre el gradient oscuro del hero. */
-.home-hero, .home-hero h1, .home-hero h2, .home-hero p { color: #fff; }
-.home-hero p.home-hero__subtitle { color: #cbd5e1; }
+/* Garantiza color de texto sobre el gradient oscuro del hero. Sólo dentro del
+   slide: la tarjeta de contacto (fuera del slide) tiene su propio texto oscuro. */
+.home-hero { color: #fff; }
+.home-hero__slide h1, .home-hero__slide h2, .home-hero__slide p { color: #fff; }
+.home-hero__slide p.home-hero__subtitle { color: #cbd5e1; }
 .home-hero__cta { display: flex; flex-wrap: wrap; gap: .8rem; }
 
 /* ---- Puntos de confianza (iconos) bajo el subtítulo ---- */
@@ -176,12 +178,16 @@ main.home + .site-footer { margin-top: 0; }
 }
 .home-hero__point-ico svg { width: 100%; height: 100%; }
 
-/* ---- Formulario de contacto lateral (tarjeta moderna, sencilla) ---- */
+/* ---- Formulario de contacto lateral (tarjeta moderna) ---- */
+/* El right se ancla al borde del .container (90%, tope 1600px) en vez del
+   borde de la ventana, para no dejar un vacío enorme junto a la copy en
+   pantallas anchas. */
 .home-hero__contact {
     position: absolute;
-    top: 50%; right: clamp(1rem, 4vw, 4rem);
+    top: 50%;
+    right: calc((100vw - min(90vw, var(--container-max, 1600px))) / 2 + 1.25rem);
     transform: translateY(-50%);
-    width: min(340px, 90vw);
+    width: min(380px, 90vw);
     z-index: 4;
 }
 .home-hero__contact-card {
@@ -189,26 +195,34 @@ main.home + .site-footer { margin-top: 0; }
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-radius: 20px;
-    padding: 1.7rem 1.5rem;
+    padding: 2rem 1.8rem;
     box-shadow: 0 24px 60px rgba(0, 0, 0, .35);
 }
-.home-hero__contact-title {
-    margin: 0 0 .35rem; font-size: 1.4rem; font-weight: 800;
-    letter-spacing: -.01em;
+.home-hero__contact-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 42px; height: 42px; border-radius: 12px; margin-bottom: .9rem;
+    background: color-mix(in srgb, var(--brand-primary, #51af3f) 12%, #fff);
+    color: var(--brand-primary, #3f8f30);
 }
-.home-hero__contact-sub { margin: 0 0 1.2rem; font-size: 1rem; line-height: 1.45; }
-/* Más específico que ".home-hero h2, .home-hero p" (blanco a secas del hero). */
-.home-hero .home-hero__contact-title { color: #0f172a; }
-.home-hero .home-hero__contact-sub { color: #64748b; }
-.home-hero .home-hero__contact-error {
+.home-hero__contact-badge svg { width: 22px; height: 22px; }
+.home-hero__contact-title {
+    margin: 0 0 .4rem; font-size: 1.45rem; font-weight: 800;
+    letter-spacing: -.01em; color: #0f172a;
+}
+.home-hero__contact-sub { margin: 0 0 1.3rem; font-size: 1rem; line-height: 1.5; color: #64748b; }
+.home-hero__contact-error {
     margin: 0 0 1rem; padding: .6rem .85rem; border-radius: 10px;
     background: #fef2f2; color: #b91c1c; font-size: .9rem; font-weight: 600;
 }
-.home-hero__contact-form { display: flex; flex-direction: column; gap: .7rem; }
+.home-hero__contact-form { display: flex; flex-direction: column; gap: .8rem; }
+.home-hero__contact-form p { margin: 0; }
+.home-hero__contact-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: .8rem;
+}
 .home-hero__contact-form input,
 .home-hero__contact-form textarea {
     width: 100%; border: 1px solid #e2e8f0; border-radius: 10px;
-    padding: .7rem .9rem; font-size: 1rem; color: #0f172a;
+    padding: .75rem .95rem; font-size: 1rem; color: #0f172a;
     background: #f8fafc; font-family: inherit;
     transition: border-color .15s, background .15s;
 }
@@ -216,8 +230,13 @@ main.home + .site-footer { margin-top: 0; }
 .home-hero__contact-form textarea:focus {
     outline: none; border-color: var(--brand-primary, #51af3f); background: #fff;
 }
-.home-hero__contact-form textarea { resize: vertical; min-height: 56px; }
-.home-hero__contact-btn { width: 100%; justify-content: center; margin-top: .2rem; }
+.home-hero__contact-form textarea { resize: vertical; min-height: 76px; }
+.home-hero__contact-btn { width: 100%; justify-content: center; margin-top: .3rem; padding: .9rem 1.2rem; font-size: 1rem; }
+.home-hero__contact-trust {
+    display: flex; align-items: center; gap: .4rem;
+    margin: .9rem 0 0; font-size: .8rem; justify-content: center; color: #64748b;
+}
+.home-hero__contact-trust svg { color: var(--brand-primary, #3f8f30); flex-shrink: 0; }
 .home-hero__contact-icon--ok {
     width: 44px; height: 44px; border-radius: 50%;
     background: #ecfdf3; color: #16a34a;
@@ -229,10 +248,13 @@ main.home + .site-footer { margin-top: 0; }
     .home-hero__inner .home-hero__copy { max-width: 100%; padding-right: 0; }
     .home-hero__contact {
         position: static; transform: none;
-        width: 100%; max-width: 440px;
+        width: 100%; max-width: 460px;
         margin: 2rem auto 0;
     }
     .home-hero__slide { padding-bottom: 1rem; }
+}
+@media (max-width: 480px) {
+    .home-hero__contact-row { grid-template-columns: 1fr; }
 }
 
 /* Botones grandes / invertidos para la home (no rompen componentes base). */
