@@ -126,7 +126,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'submi
     $name    = trim($_POST['name']    ?? '');
     $email   = trim($_POST['email']   ?? '');
     $phone   = trim($_POST['phone']   ?? '');
+    $company = trim($_POST['company'] ?? '');
     $message = trim($_POST['message'] ?? '');
+    // La tabla leads no tiene columna "empresa" propia; se antepone al mensaje
+    // para no requerir una migración solo por este campo opcional del form.
+    if ($company !== '') {
+        $message = "Empresa: {$company}" . ($message !== '' ? "\n\n{$message}" : '');
+    }
 
     if (!$name || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         if ($fromContactPage) {
