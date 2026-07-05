@@ -449,7 +449,7 @@ function homeRender(string $error = ''): void {
     <!-- ============ Categorías ============ -->
     <section class="home-cats <?= $sectionMod ?> container" data-layout="<?= htmlspecialchars($layout) ?>">
         <header class="home-section__head">
-            <h2 class="home-section__title">Compra por categoría</h2>
+            <h2 class="home-section__title">Nuestras Categorías</h2>
             <a href="/catalogo" class="home-section__link">Ver catálogo →</a>
         </header>
 
