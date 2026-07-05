@@ -94,13 +94,30 @@ function shopRenderCategory(array $c): void {
         'canonical'   => '/categoria/' . $c['slug'],
         'jsonld'      => [$breadcrumb],
     ]);
-    echo '<main class="container shop">';
+    $count = function_exists('productsPublishedCount') ? productsPublishedCount((int) $c['id']) : count($products);
+    $icon  = function_exists('homeCategoryIcon') ? homeCategoryIcon((string) $c['name']) : '';
+    $desc  = trim((string) $c['description']);
+
+    echo '<main class="container shop shop-catpage">';
     echo '<nav class="shop-breadcrumb"><a href="/tienda">Tienda</a> <span>/</span> '
-       . htmlspecialchars($c['name']) . '</nav>';
-    echo '<h1>' . htmlspecialchars($c['name']) . '</h1>';
-    if (trim((string) $c['description']) !== '') {
-        echo '<div class="shop-cat__desc">' . $c['description'] . '</div>';
+       . '<span class="shop-breadcrumb__current">' . htmlspecialchars($c['name']) . '</span></nav>';
+
+    // Header de categoría: ícono + título destacado + contador + descripción.
+    echo '<header class="shop-cathead">';
+    if ($icon !== '') {
+        echo '<span class="shop-cathead__icon" aria-hidden="true">' . $icon . '</span>';
     }
+    echo '<div class="shop-cathead__body">';
+    echo '<span class="shop-cathead__kicker">Categoría</span>';
+    echo '<h1 class="shop-cathead__title">' . htmlspecialchars($c['name']) . '</h1>';
+    echo '<p class="shop-cathead__count">'
+       . '<span class="shop-cathead__count-num">' . $count . '</span> '
+       . ($count === 1 ? 'producto disponible' : 'productos disponibles') . '</p>';
+    if ($desc !== '') {
+        echo '<div class="shop-cathead__desc">' . $c['description'] . '</div>';
+    }
+    echo '</div></header>';
+
     shopRenderGrid($products);
     echo '</main>';
     layoutEnd();

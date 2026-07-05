@@ -467,8 +467,8 @@
 @media (max-width: 540px) {
     .site-topbar__inner { padding: .45rem .9rem; }
     .site-topbar__socials { display: none; }
-    .site-navbar__inner { padding: .6rem 1rem; gap: .55rem; min-height: 60px; }
-    .site-navbar__brand img { max-height: 52px; }
+    .site-navbar__inner { padding: .5rem 1rem; gap: .55rem; min-height: 56px; }
+    .site-navbar__brand img { max-height: 46px; }
     .site-navbar__brand-text { font-size: 1.25rem; }
     .site-navbar__actions { gap: .25rem; }
     .site-navbar__cta span { display: none; }
