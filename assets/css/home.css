@@ -858,9 +858,13 @@ main.home + .site-footer { margin-top: 0; }
     .home-hero__cta .btn--lg { padding: .85rem 1.3rem; font-size: .95rem; }
     .home-hero__slide--center .home-hero__cta,
     .home-hero__slide--right .home-hero__cta { align-items: stretch; }
-    .home-hero__dots { bottom: 1rem; padding: .3rem .5rem; }
-    .home-hero__dot { width: 20px; height: 3px; }
-    .home-hero__dot.is-active { width: 36px; }
+    /* Chips de confianza: más compactos para que entren 2 por fila. */
+    .home-hero__points { gap: .45rem; margin-bottom: 1.3rem; }
+    .home-hero__points li { font-size: .82rem; padding: .38rem .7rem; }
+    /* Controles del slider (contador + flechas + dots). */
+    .home-hero__dots { padding: .3rem .5rem; }
+    .home-hero__dot { width: 18px; }
+    .home-hero__dot.is-active { width: 34px; }
 
     /* Beneficios: 2 columnas chicas y solapado más sutil. */
     .home-benefits {
