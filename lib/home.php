@@ -336,25 +336,76 @@ function homeRender(string $error = ''): void {
     </section>
 
     <?php if ($s['show_story']): ?>
-    <!-- ============ Storytelling / marca (va justo después del hero) ============ -->
-    <section class="home-story container">
-        <div class="home-story__media">
-            <?php if ($s['story_image']): ?>
-                <img src="<?= htmlspecialchars($s['story_image']) ?>" alt="" loading="lazy">
-            <?php else: ?>
-                <div class="home-story__media--empty"></div>
-            <?php endif; ?>
+    <!-- ============ Storytelling / marca (va justo después del hero) ============
+         Panel de marca: foto con badge flotante + copy con kicker y bullets con
+         íconos. Los textos (título/cuerpo/CTA) siguen siendo editables vía
+         settings; los bullets y el badge son fijos del template (como los
+         beneficios). Reveal-on-scroll progresivo: solo si hay JS (.js-reveal). -->
+    <section class="home-story container" id="home-story">
+        <div class="home-story__panel">
+            <div class="home-story__media" data-reveal>
+                <?php if ($s['story_image']): ?>
+                    <img src="<?= htmlspecialchars($s['story_image']) ?>" alt="" loading="lazy">
+                <?php else: ?>
+                    <div class="home-story__media--empty"></div>
+                <?php endif; ?>
+                <span class="home-story__media-frame" aria-hidden="true"></span>
+                <div class="home-story__chip" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/></svg>
+                    <span>Entregas confiables</span>
+                </div>
+                <div class="home-story__badge" aria-hidden="true">
+                    <span class="home-story__badge-num">+15</span>
+                    <span class="home-story__badge-txt">años de<br>experiencia</span>
+                </div>
+            </div>
+            <div class="home-story__copy">
+                <p class="home-story__kicker" data-reveal>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Empresa chilena
+                </p>
+                <h2 class="home-story__title" data-reveal style="--reveal-delay:.08s"><?= htmlspecialchars($s['story_title']) ?></h2>
+                <p class="home-story__body" data-reveal style="--reveal-delay:.16s"><?= nl2br(htmlspecialchars($s['story_body'])) ?></p>
+                <ul class="home-story__feats">
+                    <?php foreach ([
+                        ['ico' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+                         'title' => 'Atención personalizada', 'desc' => 'Rapidez y trato directo con quienes toman las decisiones.', 'delay' => '.22s'],
+                        ['ico' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>',
+                         'title' => 'Responsabilidad ambiental', 'desc' => 'Productos certificados y opciones sustentables a tu escala.', 'delay' => '.3s'],
+                        ['ico' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>',
+                         'title' => 'Para cada canal', 'desc' => 'Horeca, retail, industria y emprendedores.', 'delay' => '.38s'],
+                    ] as $f): ?>
+                        <li class="home-story__feat" data-reveal style="--reveal-delay:<?= $f['delay'] ?>">
+                            <span class="home-story__feat-ico" aria-hidden="true"><?= $f['ico'] ?></span>
+                            <span class="home-story__feat-txt">
+                                <strong><?= $f['title'] ?></strong>
+                                <span><?= $f['desc'] ?></span>
+                            </span>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+                <?php if ($s['story_cta_label'] && $s['story_cta_url']): ?>
+                    <a href="<?= htmlspecialchars($s['story_cta_url']) ?>" class="btn home-story__cta" data-reveal style="--reveal-delay:.46s">
+                        <span><?= htmlspecialchars($s['story_cta_label']) ?></span>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </a>
+                <?php endif; ?>
+            </div>
         </div>
-        <div class="home-story__copy">
-            <h2 class="home-story__title"><?= htmlspecialchars($s['story_title']) ?></h2>
-            <p class="home-story__body"><?= nl2br(htmlspecialchars($s['story_body'])) ?></p>
-            <?php if ($s['story_cta_label'] && $s['story_cta_url']): ?>
-                <a href="<?= htmlspecialchars($s['story_cta_url']) ?>" class="btn home-story__cta">
-                    <span><?= htmlspecialchars($s['story_cta_label']) ?></span>
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                </a>
-            <?php endif; ?>
-        </div>
+        <script>
+        (function(){
+            var root = document.getElementById('home-story');
+            if (!root || !('IntersectionObserver' in window)) return;
+            // El estado oculto solo se activa con esta clase → sin JS todo queda visible.
+            root.classList.add('js-reveal');
+            var io = new IntersectionObserver(function(entries){
+                entries.forEach(function(e){
+                    if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+                });
+            }, { threshold: .15, rootMargin: '0px 0px -8% 0px' });
+            root.querySelectorAll('[data-reveal]').forEach(function(el){ io.observe(el); });
+        })();
+        </script>
     </section>
     <?php endif; ?>
 
