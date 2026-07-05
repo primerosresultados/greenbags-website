@@ -35,7 +35,7 @@ main.home + .site-footer { margin-top: 0; }
     margin-bottom: 0;
     background: #0d2818; /* fallback verde oscuro debajo de los slides */
 }
-.home-hero__viewport { overflow: hidden; width: 100%; }
+.home-hero__viewport { position: relative; overflow: hidden; width: 100%; }
 .home-hero__track { display: flex; transition: transform .55s cubic-bezier(.22, .61, .36, 1); will-change: transform; }
 .home-hero__slide {
     flex: 0 0 100%;
@@ -72,12 +72,17 @@ main.home + .site-footer { margin-top: 0; }
 .home-hero__inner { position: relative; z-index: 1; }
 .home-hero__copy { max-width: 620px; }
 
-/* ---- Flechas modernas (round translúcidas con blur) ---- */
-.home-hero__nav {
+/* ---- Barra inferior: flechas + dots elegantes, todo en una sola pill ---- */
+.home-hero__navdots {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 52px; height: 52px;
+    bottom: 1.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex; align-items: center; gap: .7rem;
+    z-index: 5;
+}
+.home-hero__nav {
+    width: 38px; height: 38px;
     border-radius: 50%;
     background: rgba(255, 255, 255, .12);
     backdrop-filter: blur(10px) saturate(140%);
@@ -87,27 +92,19 @@ main.home + .site-footer { margin-top: 0; }
     cursor: pointer;
     display: inline-flex; align-items: center; justify-content: center;
     transition: background .2s ease, transform .2s ease, border-color .2s;
-    z-index: 5;
-    padding: 0;
+    padding: 0; flex-shrink: 0;
 }
 .home-hero__nav:hover {
     background: rgba(255, 255, 255, .22);
     border-color: rgba(255, 255, 255, .35);
-    transform: translateY(-50%) scale(1.08);
+    transform: scale(1.08);
 }
-.home-hero__nav:active { transform: translateY(-50%) scale(.98); }
-.home-hero__nav--prev { left: clamp(.8rem, 2vw, 2.5rem); }
-.home-hero__nav--next { right: clamp(.8rem, 2vw, 2.5rem); }
-.home-hero__nav svg { display: block; }
+.home-hero__nav:active { transform: scale(.96); }
+.home-hero__nav svg { display: block; width: 16px; height: 16px; }
 
 /* ---- Dots modernos (pill que se expande al activo) ---- */
 .home-hero__dots {
-    position: absolute;
-    bottom: 1.4rem;
-    left: 50%;
-    transform: translateX(-50%);
     display: flex; gap: .5rem;
-    z-index: 5;
     padding: .35rem .6rem;
     background: rgba(15, 23, 42, .3);
     backdrop-filter: blur(8px);
@@ -115,7 +112,7 @@ main.home + .site-footer { margin-top: 0; }
     border-radius: 999px;
 }
 .home-hero__dot {
-    width: 24px;
+    width: 22px;
     height: 4px;
     background: rgba(255, 255, 255, .4);
     border: 0; border-radius: 999px;
@@ -125,13 +122,12 @@ main.home + .site-footer { margin-top: 0; }
 .home-hero__dot:hover { background: rgba(255, 255, 255, .65); }
 .home-hero__dot.is-active {
     background: #fff;
-    width: 48px;
+    width: 42px;
 }
 
 @media (max-width: 640px) {
-    .home-hero__nav { width: 42px; height: 42px; }
-    .home-hero__nav--prev { left: .6rem; }
-    .home-hero__nav--next { right: .6rem; }
+    .home-hero__nav { width: 32px; height: 32px; }
+    .home-hero__navdots { bottom: 1rem; gap: .5rem; }
     .home-hero__slide {
         min-height: clamp(420px, 60vh, 560px);
         padding: 3.5rem 0 4rem;
@@ -153,14 +149,91 @@ main.home + .site-footer { margin-top: 0; }
     color: #fff;
 }
 .home-hero__subtitle {
-    margin: 0 0 2rem;
-    font-size: clamp(1rem, 1.4vw, 1.15rem);
-    color: #cbd5e1; max-width: 540px; line-height: 1.55;
+    margin: 0 0 1.6rem;
+    font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+    color: #cbd5e1; max-width: 560px; line-height: 1.55;
 }
 /* Garantiza color de texto sobre el gradient oscuro del hero. */
 .home-hero, .home-hero h1, .home-hero h2, .home-hero p { color: #fff; }
 .home-hero p.home-hero__subtitle { color: #cbd5e1; }
 .home-hero__cta { display: flex; flex-wrap: wrap; gap: .8rem; }
+
+/* ---- Puntos de confianza (iconos) bajo el subtítulo ---- */
+.home-hero__points {
+    list-style: none; margin: 0 0 1.6rem; padding: 0;
+    display: flex; flex-wrap: wrap; gap: .55rem .7rem;
+}
+.home-hero__points li {
+    display: inline-flex; align-items: center; gap: .5rem;
+    font-size: .95rem; font-weight: 600; color: #e7ecf1;
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .16);
+    padding: .45rem .9rem; border-radius: 999px;
+}
+.home-hero__point-ico {
+    display: inline-flex; width: 16px; height: 16px; flex-shrink: 0;
+    color: var(--brand-secondary, #a7dd98);
+}
+.home-hero__point-ico svg { width: 100%; height: 100%; }
+
+/* ---- Formulario de contacto lateral (tarjeta moderna, sencilla) ---- */
+.home-hero__contact {
+    position: absolute;
+    top: 50%; right: clamp(1rem, 4vw, 4rem);
+    transform: translateY(-50%);
+    width: min(340px, 90vw);
+    z-index: 4;
+}
+.home-hero__contact-card {
+    background: rgba(255, 255, 255, .97);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 20px;
+    padding: 1.7rem 1.5rem;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, .35);
+}
+.home-hero__contact-title {
+    margin: 0 0 .35rem; font-size: 1.4rem; font-weight: 800;
+    letter-spacing: -.01em;
+}
+.home-hero__contact-sub { margin: 0 0 1.2rem; font-size: 1rem; line-height: 1.45; }
+/* Más específico que ".home-hero h2, .home-hero p" (blanco a secas del hero). */
+.home-hero .home-hero__contact-title { color: #0f172a; }
+.home-hero .home-hero__contact-sub { color: #64748b; }
+.home-hero .home-hero__contact-error {
+    margin: 0 0 1rem; padding: .6rem .85rem; border-radius: 10px;
+    background: #fef2f2; color: #b91c1c; font-size: .9rem; font-weight: 600;
+}
+.home-hero__contact-form { display: flex; flex-direction: column; gap: .7rem; }
+.home-hero__contact-form input,
+.home-hero__contact-form textarea {
+    width: 100%; border: 1px solid #e2e8f0; border-radius: 10px;
+    padding: .7rem .9rem; font-size: 1rem; color: #0f172a;
+    background: #f8fafc; font-family: inherit;
+    transition: border-color .15s, background .15s;
+}
+.home-hero__contact-form input:focus,
+.home-hero__contact-form textarea:focus {
+    outline: none; border-color: var(--brand-primary, #51af3f); background: #fff;
+}
+.home-hero__contact-form textarea { resize: vertical; min-height: 56px; }
+.home-hero__contact-btn { width: 100%; justify-content: center; margin-top: .2rem; }
+.home-hero__contact-icon--ok {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: #ecfdf3; color: #16a34a;
+    display: flex; align-items: center; justify-content: center; margin-bottom: .8rem;
+}
+.home-hero__contact-icon--ok svg { width: 22px; height: 22px; }
+
+@media (max-width: 1180px) {
+    .home-hero__inner .home-hero__copy { max-width: 100%; padding-right: 0; }
+    .home-hero__contact {
+        position: static; transform: none;
+        width: 100%; max-width: 440px;
+        margin: 2rem auto 0;
+    }
+    .home-hero__slide { padding-bottom: 1rem; }
+}
 
 /* Botones grandes / invertidos para la home (no rompen componentes base). */
 .btn.btn--lg { padding: .95rem 1.6rem; font-size: 1rem; border-radius: 12px; }
