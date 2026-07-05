@@ -175,6 +175,11 @@ function homeRender(string $error = ''): void {
                                 <?php if (!empty($b['subtitle'])): ?>
                                     <p class="home-hero__subtitle"><?= htmlspecialchars($b['subtitle']) ?></p>
                                 <?php endif; ?>
+                                <ul class="home-hero__points">
+                                    <li><span class="home-hero__point-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/></svg></span>Despacho en 24-48 hs</li>
+                                    <li><span class="home-hero__point-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></span>Packaging certificado</li>
+                                    <li><span class="home-hero__point-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M8.5 13L7 22l5-3 5 3-1.5-9"/></svg></span>+15 años de experiencia</li>
+                                </ul>
                                 <div class="home-hero__cta">
                                     <?php if (!empty($b['cta_label']) && !empty($b['cta_url'])): ?>
                                         <a href="<?= htmlspecialchars($b['cta_url']) ?>" class="btn btn--lg"><?= htmlspecialchars($b['cta_label']) ?></a>
@@ -188,21 +193,58 @@ function homeRender(string $error = ''): void {
                     </div>
                 <?php endforeach; ?>
             </div>
+
+            <?php if (count($banners) > 1): ?>
+                <div class="home-hero__navdots">
+                    <button type="button" class="home-hero__nav home-hero__nav--prev" aria-label="Banner anterior">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 6 9 12 15 18"/></svg>
+                    </button>
+                    <div class="home-hero__dots" role="tablist" aria-label="Seleccionar banner">
+                        <?php foreach ($banners as $i => $b): ?>
+                            <button type="button" class="home-hero__dot<?= $i === 0 ? ' is-active' : '' ?>" data-idx="<?= $i ?>" role="tab" aria-label="Banner <?= ($i + 1) ?>" aria-selected="<?= $i === 0 ? 'true' : 'false' ?>"></button>
+                        <?php endforeach; ?>
+                    </div>
+                    <button type="button" class="home-hero__nav home-hero__nav--next" aria-label="Banner siguiente">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+                    </button>
+                </div>
+            <?php endif; ?>
         </div>
 
-        <?php if (count($banners) > 1): ?>
-            <button type="button" class="home-hero__nav home-hero__nav--prev" aria-label="Banner anterior">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 6 9 12 15 18"/></svg>
-            </button>
-            <button type="button" class="home-hero__nav home-hero__nav--next" aria-label="Banner siguiente">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
-            </button>
-            <div class="home-hero__dots" role="tablist" aria-label="Seleccionar banner">
-                <?php foreach ($banners as $i => $b): ?>
-                    <button type="button" class="home-hero__dot<?= $i === 0 ? ' is-active' : '' ?>" data-idx="<?= $i ?>" role="tab" aria-label="Banner <?= ($i + 1) ?>" aria-selected="<?= $i === 0 ? 'true' : 'false' ?>"></button>
-                <?php endforeach; ?>
+        <!-- ============ Formulario de contacto lateral ============ -->
+        <div class="home-hero__contact">
+            <div class="home-hero__contact-card">
+                <?php if (!empty($_GET['sent'])): ?>
+                    <span class="home-hero__contact-icon--ok" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </span>
+                    <h2 class="home-hero__contact-title">¡Gracias por escribirnos!</h2>
+                    <p class="home-hero__contact-sub">Te responderemos a la brevedad.</p>
+                <?php else: ?>
+                    <h2 class="home-hero__contact-title">Cotiza tu packaging</h2>
+                    <p class="home-hero__contact-sub">Respuesta en menos de 24 hs hábiles.</p>
+                    <?php if ($error): ?>
+                        <p class="home-hero__contact-error"><?= htmlspecialchars($error) ?></p>
+                    <?php endif; ?>
+                    <form method="post" action="/" class="home-hero__contact-form">
+                        <input type="hidden" name="action" value="submit_lead">
+                        <input type="hidden" name="csrf" value="<?= csrfToken() ?>">
+                        <input type="hidden" name="form_started" value="<?= time() ?>">
+                        <input type="hidden" name="source" value="home_hero">
+                        <input type="text" name="website" value="" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" aria-hidden="true">
+                        <label class="visually-hidden" for="hh-name">Nombre</label>
+                        <input id="hh-name" type="text" name="name" placeholder="Nombre" required>
+                        <label class="visually-hidden" for="hh-email">Email</label>
+                        <input id="hh-email" type="email" name="email" placeholder="Email" required>
+                        <label class="visually-hidden" for="hh-phone">Teléfono</label>
+                        <input id="hh-phone" type="tel" name="phone" placeholder="Teléfono">
+                        <label class="visually-hidden" for="hh-message">Mensaje</label>
+                        <textarea id="hh-message" name="message" rows="2" placeholder="¿Qué necesitas?"></textarea>
+                        <button type="submit" class="btn home-hero__contact-btn">Solicitar cotización</button>
+                    </form>
+                <?php endif; ?>
             </div>
-        <?php endif; ?>
+        </div>
 
         <script>
         (function(){
