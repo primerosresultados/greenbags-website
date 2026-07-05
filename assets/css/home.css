@@ -381,11 +381,13 @@ main.home + .site-footer { margin-top: 0; }
      * con el siguiente tile (evita columnas fantasmas a la derecha). */
     grid-auto-flow: dense;
 }
-/* Patrón bento: 1 grande, 2 medianas, 2 anchas. Hace foco en la 1ra y 4ta. */
+/* Patrón bento para 6 categorías: 1 grande (0) arriba-izquierda, 2 medianas
+ * apiladas (1,2) arriba-derecha, y 3 anchas iguales (3,4,5) en la fila de
+ * abajo. Tapiza exacto una grilla 6×3 sin dejar celdas vacías. */
 .home-cat--0 { grid-column: span 3; grid-row: span 2; }
 .home-cat--1 { grid-column: span 3; grid-row: span 1; }
 .home-cat--2 { grid-column: span 3; grid-row: span 1; }
-.home-cat--3 { grid-column: span 2; grid-row: span 2; }
+.home-cat--3 { grid-column: span 2; grid-row: span 1; }
 .home-cat--4 { grid-column: span 2; grid-row: span 1; }
 .home-cat--5 { grid-column: span 2; grid-row: span 1; }
 
@@ -478,6 +480,7 @@ main.home + .site-footer { margin-top: 0; }
 /* Tile chica: ícono más chico. */
 .home-cat--1 .home-cat__icon,
 .home-cat--2 .home-cat__icon,
+.home-cat--3 .home-cat__icon,
 .home-cat--4 .home-cat__icon,
 .home-cat--5 .home-cat__icon { width: 64px; height: 64px; }
 
@@ -501,8 +504,7 @@ main.home + .site-footer { margin-top: 0; }
     line-height: 1.1;
     color: #fff;
 }
-.home-cat--0 .home-cat__name,
-.home-cat--3 .home-cat__name { font-size: clamp(1.4rem, 2.4vw, 1.9rem); }
+.home-cat--0 .home-cat__name { font-size: clamp(1.4rem, 2.4vw, 1.9rem); }
 .home-cat__cta {
     margin-top: .55rem;
     display: inline-flex; align-items: center; gap: .3rem;
