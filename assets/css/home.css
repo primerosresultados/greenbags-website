@@ -428,23 +428,36 @@ main.home + .site-footer { margin-top: 0; }
     background: linear-gradient(180deg, rgba(15,23,42,.15) 10%, rgba(15,23,42,.78) 100%);
 }
 
-/* Sin imagen: gradiente único por slug (HSL con --cat-hue) + ícono temático. */
+/* Sin imagen: tarjeta clara minimalista, acento verde de marca (coherente con
+   el resto del sitio). El ícono va como watermark tenue en verde. */
 .home-cat--no-img {
-    background:
-        radial-gradient(circle at 30% 20%, hsla(var(--cat-hue, 220), 70%, 70%, .35), transparent 60%),
-        linear-gradient(135deg, hsl(var(--cat-hue, 220), 55%, 28%), hsl(calc(var(--cat-hue, 220) + 40), 50%, 22%));
+    background: #f6faf4;
+    border: 1px solid #e4eede;
+}
+.home-cat--no-img:hover {
+    border-color: color-mix(in srgb, var(--brand-primary, #51af3f) 45%, transparent);
+}
+@supports not (background: color-mix(in srgb, red, blue)) {
+    .home-cat--no-img:hover { border-color: #a7dd98; }
 }
 .home-cat__icon {
     position: absolute;
     top: 50%; left: 50%;
-    width: 90px; height: 90px;
-    transform: translate(-50%, -65%);
-    color: rgba(255, 255, 255, .35);
+    width: 84px; height: 84px;
+    transform: translate(-50%, -62%);
+    color: color-mix(in srgb, var(--brand-primary, #51af3f) 26%, transparent);
     transition: transform .3s ease, color .3s ease;
     z-index: 1;
 }
+@supports not (background: color-mix(in srgb, red, blue)) {
+    .home-cat__icon { color: rgba(81, 175, 63, .3); }
+}
 .home-cat__icon svg { width: 100%; height: 100%; }
-.home-cat--no-img:hover .home-cat__icon { transform: translate(-50%, -68%) scale(1.06); color: rgba(255, 255, 255, .55); }
+.home-cat--no-img:hover .home-cat__icon { transform: translate(-50%, -66%) scale(1.05); color: var(--brand-primary, #51af3f); }
+/* Texto oscuro sobre la tarjeta clara (pisa el blanco por defecto de .home-cat). */
+.home-cat--no-img .home-cat__name { color: #0f172a; }
+.home-cat--no-img .home-cat__kicker { color: var(--brand-primary, #3f8f30); opacity: 1; }
+.home-cat--no-img .home-cat__cta { color: var(--brand-primary, #3f8f30); }
 /* Tile chica: ícono más chico. */
 .home-cat--1 .home-cat__icon,
 .home-cat--2 .home-cat__icon,
@@ -647,8 +660,8 @@ main.home + .site-footer { margin-top: 0; }
     width: 100%; aspect-ratio: 4/3; border-radius: 16px; object-fit: cover; display: block;
 }
 .home-story__media--empty { background: linear-gradient(135deg, #1e293b, #334155); }
-.home-story__title { font-size: clamp(1.7rem, 3vw, 2.2rem); font-weight: 800; margin: 0 0 1rem; color: #0f172a; letter-spacing: -.01em; }
-.home-story__body { color: #475569; line-height: 1.65; margin: 0 0 1.5rem; max-width: 50ch; }
+.home-story__title { font-size: clamp(1.9rem, 3.2vw, 2.4rem); font-weight: 800; margin: 0 0 1.1rem; color: #0f172a; letter-spacing: -.01em; }
+.home-story__body { font-size: clamp(1.05rem, 1.2vw, 1.15rem); color: #475569; line-height: 1.7; margin: 0 0 1.6rem; max-width: 52ch; }
 /* CTA del storytelling: usar el primario de marca con flechita que se desliza
  * al hover. El .btn base ya aporta el color (var(--color-primary) = brand). */
 .home-story__cta {
@@ -860,8 +873,8 @@ main.home + .site-footer { margin-top: 0; }
 
     /* Storytelling: padding lateral consistente y CTA full-width opcional. */
     .home-story { gap: 1.5rem; }
-    .home-story__title { font-size: 1.6rem; margin-bottom: .7rem; }
-    .home-story__body { font-size: .95rem; margin-bottom: 1.1rem; }
+    .home-story__title { font-size: 1.7rem; margin-bottom: .7rem; }
+    .home-story__body { font-size: 1.02rem; line-height: 1.65; margin-bottom: 1.2rem; }
     .home-story__cta { width: 100%; justify-content: center; }
     .home-story__media img,
     .home-story__media--empty { aspect-ratio: 16/10; border-radius: 12px; }
