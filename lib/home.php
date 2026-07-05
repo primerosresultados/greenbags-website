@@ -245,6 +245,29 @@ function homeRender(string $error = ''): void {
         </script>
     </section>
 
+    <?php if ($s['show_story']): ?>
+    <!-- ============ Storytelling / marca (va justo después del hero) ============ -->
+    <section class="home-story container">
+        <div class="home-story__media">
+            <?php if ($s['story_image']): ?>
+                <img src="<?= htmlspecialchars($s['story_image']) ?>" alt="" loading="lazy">
+            <?php else: ?>
+                <div class="home-story__media--empty"></div>
+            <?php endif; ?>
+        </div>
+        <div class="home-story__copy">
+            <h2 class="home-story__title"><?= htmlspecialchars($s['story_title']) ?></h2>
+            <p class="home-story__body"><?= nl2br(htmlspecialchars($s['story_body'])) ?></p>
+            <?php if ($s['story_cta_label'] && $s['story_cta_url']): ?>
+                <a href="<?= htmlspecialchars($s['story_cta_url']) ?>" class="btn home-story__cta">
+                    <span><?= htmlspecialchars($s['story_cta_label']) ?></span>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+            <?php endif; ?>
+        </div>
+    </section>
+    <?php endif; ?>
+
     <?php if ($s['show_benefits']): ?>
     <!-- ============ Beneficios ============ -->
     <section class="home-benefits container">
@@ -426,33 +449,11 @@ function homeRender(string $error = ''): void {
     </section>
     <?php endif; ?>
 
-    <?php if ($s['show_story']): ?>
-    <!-- ============ Storytelling / marca ============ -->
-    <section class="home-story container">
-        <div class="home-story__media">
-            <?php if ($s['story_image']): ?>
-                <img src="<?= htmlspecialchars($s['story_image']) ?>" alt="" loading="lazy">
-            <?php else: ?>
-                <div class="home-story__media--empty"></div>
-            <?php endif; ?>
-        </div>
-        <div class="home-story__copy">
-            <h2 class="home-story__title"><?= htmlspecialchars($s['story_title']) ?></h2>
-            <p class="home-story__body"><?= nl2br(htmlspecialchars($s['story_body'])) ?></p>
-            <?php if ($s['story_cta_label'] && $s['story_cta_url']): ?>
-                <a href="<?= htmlspecialchars($s['story_cta_url']) ?>" class="btn home-story__cta">
-                    <span><?= htmlspecialchars($s['story_cta_label']) ?></span>
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                </a>
-            <?php endif; ?>
-        </div>
-    </section>
-    <?php endif; ?>
-
     <?php if ($s['show_clients'] && $s['clients_names']):
-        // Logos en movimiento (marquesina). Hasta tener los archivos reales,
-        // mostramos placeholders con el nombre del cliente. Cuando se carguen
-        // logos, reemplazar el contenido de .home-clients__logo por <img>.
+        // Logos en movimiento (marquesina). Placeholder: logo genérico + nombre
+        // del cliente. Cuando lleguen los archivos reales, se reemplazan desde
+        // el panel (Configuración → home_clients_logos con rutas por cliente).
+        $clientLogo  = trim((string) getSetting('home_clients_logo', '/uploads/library/greenbags/cliente-logo.svg'));
         $clientsLoop = array_merge($s['clients_names'], $s['clients_names']);
     ?>
     <!-- ============ Nuestros clientes (marquesina) ============ -->
@@ -464,7 +465,10 @@ function homeRender(string $error = ''): void {
             <div class="home-clients__track">
                 <?php foreach ($clientsLoop as $idx => $name): ?>
                     <span class="home-clients__logo"<?= $idx >= count($s['clients_names']) ? ' aria-hidden="true"' : '' ?>>
-                        <?= htmlspecialchars($name) ?>
+                        <?php if ($clientLogo): ?>
+                            <img src="<?= htmlspecialchars($clientLogo) ?>" alt="<?= htmlspecialchars($name) ?>" loading="lazy">
+                        <?php endif; ?>
+                        <span class="home-clients__name"><?= htmlspecialchars($name) ?></span>
                     </span>
                 <?php endforeach; ?>
             </div>

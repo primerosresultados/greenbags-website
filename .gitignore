@@ -8,6 +8,9 @@ config.php
 !/uploads/library/
 /uploads/library/*
 !/uploads/library/importados/
+# Assets de marca del landing (hero, ecología, logo genérico de clientes):
+# se versionan para que el seed/migración los reproduzca en producción.
+!/uploads/library/greenbags/
 /install/installed.lock
 /install/.htaccess
 /respaldo/
