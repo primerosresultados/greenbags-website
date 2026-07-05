@@ -52,3 +52,29 @@ SELECT 'home_hero',
        3,
        1
 WHERE NOT EXISTS (SELECT 1 FROM banners WHERE title = 'Soluciones para tu local gastronómico');
+
+-- 4. Banner #4: línea de vasos y cubiertos (gradiente de marca, sin imagen).
+INSERT INTO banners (position, eyebrow, title, subtitle, cta_label, cta_url, text_align, sort_order, is_active)
+SELECT 'home_hero',
+       'Línea completa',
+       'Vasos, tapas y cubiertos compostables',
+       'Para bebidas frías y calientes: todo lo que tu negocio necesita, con stock disponible y despacho rápido.',
+       'Ver catálogo',
+       '/catalogo',
+       'left',
+       4,
+       1
+WHERE NOT EXISTS (SELECT 1 FROM banners WHERE title = 'Vasos, tapas y cubiertos compostables');
+
+-- 5. Banner #5: bolsas personalizadas (gradiente de marca, sin imagen).
+INSERT INTO banners (position, eyebrow, title, subtitle, cta_label, cta_url, text_align, sort_order, is_active)
+SELECT 'home_hero',
+       'Hecho a tu medida',
+       'Bolsas de papel con tu marca',
+       'Impresión personalizada para retail y e-commerce, desde tiradas chicas. Destacá tu marca de forma sustentable.',
+       'Solicitar cotización',
+       '/cotizacion',
+       'left',
+       5,
+       1
+WHERE NOT EXISTS (SELECT 1 FROM banners WHERE title = 'Bolsas de papel con tu marca');
