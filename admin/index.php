@@ -7,6 +7,9 @@ $LEAD_STATUSES    = ['new', 'contacted', 'qualified', 'closed', 'discarded'];
 $SETTING_KEYS     = [
     'site_name', 'timezone',
     'logo_image', 'favicon_image',
+    // Alto del logo (px) en header y footer, escritorio y celular.
+    'logo_height_desktop', 'logo_height_mobile',
+    'footer_logo_height_desktop', 'footer_logo_height_mobile',
     'header_style',
     // Paleta de marca.
     'theme_primary', 'theme_secondary',
@@ -23,6 +26,8 @@ $SETTING_KEYS     = [
     'home_categories_layout',
     'home_story_title', 'home_story_body', 'home_story_cta_label', 'home_story_cta_url', 'home_story_image',
     'home_cta_title', 'home_cta_subtitle', 'home_cta_label', 'home_cta_url',
+    // Imágenes de páginas internas (editables por panel vía tokens {{img:...}}).
+    'about_media_image', 'sustentabilidad_media_image',
     // Catálogo: cómo se muestran los atributos de variación en la ficha.
     'variations_display_mode',
 ];
@@ -108,6 +113,29 @@ if ($user) {
         csrfCheck();
         bannerToggleActive((int) ($_POST['id'] ?? 0));
         redirect('/admin/?view=banners');
+    }
+
+    // ─── Clientes ("Nuestros clientes" del home) ───
+    if ($action === 'client_save') {
+        csrfCheck();
+        $res = clientSave($_POST);
+        if ($res['ok']) {
+            flashSet('client_msg', 'Cliente guardado.');
+            redirect('/admin/?view=client&id=' . (int) $res['id']);
+        }
+        flashSet('client_err', $res['error'] ?? 'No se pudo guardar.');
+        redirect('/admin/?view=client&id=' . (int) ($_POST['id'] ?? 0));
+    }
+    if ($action === 'client_delete') {
+        csrfCheck();
+        clientDelete((int) ($_POST['id'] ?? 0));
+        flashSet('client_msg', 'Cliente eliminado.');
+        redirect('/admin/?view=clients');
+    }
+    if ($action === 'client_toggle') {
+        csrfCheck();
+        clientToggleActive((int) ($_POST['id'] ?? 0));
+        redirect('/admin/?view=clients');
     }
 
     // ─── Cotizaciones ───
@@ -783,6 +811,11 @@ if ($user) {
         $bid = $_GET['id'] ?? '';
         $banner = ($bid !== 'new' && $bid !== '') ? bannerGet((int) $bid) : null;
         $allMedia = mediaLibraryAll(500);
+    } elseif ($view === 'clients') {
+        $clients = clientsListAll();
+    } elseif ($view === 'client') {
+        $cid = $_GET['id'] ?? '';
+        $client = ($cid !== 'new' && $cid !== '') ? clientGet((int) $cid) : null;
     } elseif ($view === 'quotes') {
         quoteExpireOverdue();   // marca como expired las vencidas (idempotente, barato)
         $quoteSearch = trim((string) ($_GET['search'] ?? ''));
@@ -925,6 +958,10 @@ if ($faviconPath && @file_exists($faviconAbs)):
             require __DIR__ . '/../components/admin/banners_list.php';
         } elseif ($view === 'banner') {
             require __DIR__ . '/../components/admin/banner_edit.php';
+        } elseif ($view === 'clients') {
+            require __DIR__ . '/../components/admin/clients_list.php';
+        } elseif ($view === 'client') {
+            require __DIR__ . '/../components/admin/client_edit.php';
         } elseif ($view === 'quotes') {
             require __DIR__ . '/../components/admin/quotes_list.php';
         } elseif ($view === 'quote') {

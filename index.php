@@ -57,7 +57,7 @@ if ($path !== '' && $_SERVER['REQUEST_METHOD'] === 'GET') {
 <main class="container">
     <article class="page">
         <h1><?= htmlspecialchars($cms['title']) ?></h1>
-        <?= $cms['body'] /* HTML confiado: solo lo edita el admin autenticado */ ?>
+        <?= pageBodyRender($cms['body']) /* HTML confiado: solo lo edita el admin autenticado. pageBodyRender resuelve tokens {{img:...}} editables por panel */ ?>
     </article>
 </main>
 <?php
