@@ -532,6 +532,30 @@ textarea.form-control {
     </div>
 
     <!-- LOGO -->
+    <?php
+        $logoSrc  = (string) ($settings['logo_image'] ?? '');
+        // Valores actuales (o default si nunca se guardaron). Deben coincidir
+        // con los fallbacks de site_header.css / layout.php.
+        $lhD  = (int) ($settings['logo_height_desktop']        ?? 0) ?: 82;
+        $lhM  = (int) ($settings['logo_height_mobile']         ?? 0) ?: 56;
+        $flhD = (int) ($settings['footer_logo_height_desktop'] ?? 0) ?: 92;
+        $flhM = (int) ($settings['footer_logo_height_mobile']  ?? 0) ?: 74;
+    ?>
+    <style>
+        .logo-size__row { display: grid; grid-template-columns: 1fr; gap: 1.1rem; margin-top: .4rem; }
+        .logo-size__ctrl label { display: flex; justify-content: space-between; align-items: baseline; font-weight: 600; margin-bottom: .35rem; }
+        .logo-size__val { font-variant-numeric: tabular-nums; color: #3c8a2e; font-weight: 700; }
+        .logo-size input[type=range] { width: 100%; accent-color: #51af3f; }
+        .logo-size__preview { margin-top: 1.1rem; }
+        .logo-size__preview-label { font-size: .85rem; color: #64748b; margin-bottom: .4rem; }
+        .logo-size__stage { display: flex; align-items: center; min-height: 96px; padding: 1rem 1.2rem; border: 1px dashed #cbd5e1; border-radius: 12px; background: #fff; overflow: hidden; }
+        .logo-size__stage--dark { background: #0f172a; border-color: #334155; }
+        .logo-size__img { width: auto; max-width: 100%; display: block; }
+        .logo-size__stage--dark .logo-size__img { filter: brightness(0) invert(1); }
+        .logo-size__ph { width: 150px; border-radius: 8px; background: linear-gradient(135deg,#e2e8f0,#cbd5e1); display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: .8rem; }
+        .logo-size__stage--dark .logo-size__ph { background: linear-gradient(135deg,#334155,#475569); color:#cbd5e1; }
+    </style>
+
     <div class="card">
         <h3 class="card__title">📝 Logo del Header</h3>
         <div class="settings-section-hint">
@@ -539,12 +563,89 @@ textarea.form-control {
         </div>
         <?php
             $sifName  = 's[logo_image]';
-            $sifValue = (string) ($settings['logo_image'] ?? '');
+            $sifValue = $logoSrc;
             $sifLabel = '';
             $sifPlaceholder = '/uploads/brand/logo.png';
             require __DIR__ . '/_single_image_field.php';
         ?>
+
+        <div class="logo-size" data-logo-size>
+            <div class="settings-section-hint" style="margin-top:1rem;">
+                <strong>Tamaño del logo.</strong> Ajustá el alto (en píxeles) para escritorio y celular. La vista previa se actualiza en vivo.
+            </div>
+            <div class="logo-size__row">
+                <div class="logo-size__ctrl">
+                    <label>Alto en escritorio <span><span class="logo-size__val" data-for="logo_height_desktop"><?= $lhD ?></span> px</span></label>
+                    <input type="range" min="40" max="140" step="1" name="s[logo_height_desktop]" value="<?= $lhD ?>" data-logo-range data-target="desktop">
+                </div>
+                <div class="logo-size__ctrl">
+                    <label>Alto en celular <span><span class="logo-size__val" data-for="logo_height_mobile"><?= $lhM ?></span> px</span></label>
+                    <input type="range" min="28" max="90" step="1" name="s[logo_height_mobile]" value="<?= $lhM ?>" data-logo-range data-target="mobile">
+                </div>
+            </div>
+            <div class="logo-size__preview">
+                <div class="logo-size__preview-label">Vista previa (<span class="logo-size__preview-target">escritorio</span>):</div>
+                <div class="logo-size__stage">
+                    <?php if ($logoSrc !== ''): ?>
+                        <img class="logo-size__img" src="<?= htmlspecialchars($logoSrc) ?>" alt="Vista previa del logo" style="height:<?= $lhD ?>px">
+                    <?php else: ?>
+                        <div class="logo-size__ph" style="height:<?= $lhD ?>px">Subí un logo para verlo</div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <div class="card">
+        <h3 class="card__title">📝 Logo del Footer</h3>
+        <div class="settings-section-hint">
+            Usa el mismo archivo de logo (se muestra en blanco sobre el fondo oscuro del pie de página). Acá solo ajustás su tamaño.
+        </div>
+        <div class="logo-size" data-logo-size>
+            <div class="logo-size__row">
+                <div class="logo-size__ctrl">
+                    <label>Alto en escritorio <span><span class="logo-size__val" data-for="footer_logo_height_desktop"><?= $flhD ?></span> px</span></label>
+                    <input type="range" min="40" max="140" step="1" name="s[footer_logo_height_desktop]" value="<?= $flhD ?>" data-logo-range data-target="desktop">
+                </div>
+                <div class="logo-size__ctrl">
+                    <label>Alto en celular <span><span class="logo-size__val" data-for="footer_logo_height_mobile"><?= $flhM ?></span> px</span></label>
+                    <input type="range" min="28" max="100" step="1" name="s[footer_logo_height_mobile]" value="<?= $flhM ?>" data-logo-range data-target="mobile">
+                </div>
+            </div>
+            <div class="logo-size__preview">
+                <div class="logo-size__preview-label">Vista previa (<span class="logo-size__preview-target">escritorio</span>):</div>
+                <div class="logo-size__stage logo-size__stage--dark">
+                    <?php if ($logoSrc !== ''): ?>
+                        <img class="logo-size__img" src="<?= htmlspecialchars($logoSrc) ?>" alt="Vista previa del logo (footer)" style="height:<?= $flhD ?>px">
+                    <?php else: ?>
+                        <div class="logo-size__ph" style="height:<?= $flhD ?>px">Subí un logo para verlo</div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (function(){
+        document.querySelectorAll('[data-logo-size]').forEach(function(box){
+            var previewEl = box.querySelector('.logo-size__img') || box.querySelector('.logo-size__ph');
+            var targetLbl = box.querySelector('.logo-size__preview-target');
+            box.querySelectorAll('[data-logo-range]').forEach(function(range){
+                var key = range.name.replace(/^s\[|\]$/g, '');
+                var out = box.querySelector('.logo-size__val[data-for="' + key + '"]');
+                function apply(updatePreview){
+                    if (out) out.textContent = range.value;
+                    if (updatePreview && previewEl){
+                        previewEl.style.height = range.value + 'px';
+                        if (targetLbl) targetLbl.textContent = range.dataset.target === 'mobile' ? 'celular' : 'escritorio';
+                    }
+                }
+                range.addEventListener('input', function(){ apply(true); });
+                apply(range.dataset.target === 'desktop'); // el de escritorio fija la vista previa inicial
+            });
+        });
+    })();
+    </script>
 
     <!-- NOTIFICACIONES -->
     <div class="card">

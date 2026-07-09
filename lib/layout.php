@@ -139,6 +139,25 @@ if ($themePrimary !== '' || $themeSecondary !== ''):
 </style>
 <?php endif; ?>
 
+<?php
+// Alto del logo (px) editable desde admin → Configuración → "Logo del Header".
+// Alimenta las variables CSS que usa site_header.css (header y footer). Si no
+// hay valor guardado, cae al default (mismo número que el fallback del CSS).
+$logoClampH = function (string $key, int $def, int $min, int $max): int {
+    $v = (int) getSetting($key, '');
+    if ($v <= 0) $v = $def;
+    return max($min, min($max, $v));
+};
+?>
+<style>
+:root {
+    --logo-h-desktop: <?= $logoClampH('logo_height_desktop', 82, 40, 140) ?>px;
+    --logo-h-mobile: <?= $logoClampH('logo_height_mobile', 56, 28, 90) ?>px;
+    --footer-logo-h-desktop: <?= $logoClampH('footer_logo_height_desktop', 92, 40, 140) ?>px;
+    --footer-logo-h-mobile: <?= $logoClampH('footer_logo_height_mobile', 74, 28, 100) ?>px;
+}
+</style>
+
 <?php if ($gaId): ?>
 <script async src="https://www.googletagmanager.com/gtag/js?id=<?= $h($gaId) ?>"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','<?= $h($gaId) ?>');</script>
