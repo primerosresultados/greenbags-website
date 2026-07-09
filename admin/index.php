@@ -31,6 +31,20 @@ $SETTING_KEYS     = [
     // Catálogo: cómo se muestran los atributos de variación en la ficha.
     'variations_display_mode',
 ];
+// Contenido de la página de inicio, editable desde su propia vista
+// (admin → Páginas → Inicio). Se guarda con la acción save_home para no
+// pisar toggles de otras secciones (announce/autoreply) al guardar el home.
+$HOME_KEYS        = [
+    'home_hero_eyebrow', 'home_hero_title', 'home_hero_subtitle',
+    'home_hero_cta_label', 'home_hero_cta_url', 'home_hero_image',
+    'home_show_benefits', 'home_show_categories', 'home_show_featured',
+    'home_show_story', 'home_show_clients',
+    'home_categories_layout',
+    'home_story_title', 'home_story_body', 'home_story_cta_label', 'home_story_cta_url', 'home_story_image',
+    'home_cta_title', 'home_cta_subtitle', 'home_cta_label', 'home_cta_url',
+    'home_clients_title',
+];
+$HOME_TOGGLES     = ['home_show_benefits', 'home_show_categories', 'home_show_featured', 'home_show_story', 'home_show_clients'];
 // Settings exclusivas del módulo "Mailing" (separadas para no mezclarse con
 // los toggles generales).
 $MAILING_KEYS     = [
@@ -258,6 +272,22 @@ if ($user) {
         }
         flashSet('settings_success', 'Configuración actualizada.');
         redirect('/admin/?view=settings');
+    }
+
+    // Guardado del editor de "Inicio" (solo toca las claves del home).
+    if ($action === 'save_home') {
+        csrfCheck();
+        $submitted = $_POST['s'] ?? [];
+        foreach ($HOME_TOGGLES as $sw) {
+            $submitted[$sw] = !empty($submitted[$sw]) ? '1' : '0';
+        }
+        foreach ($HOME_KEYS as $k) {
+            if (array_key_exists($k, $submitted)) {
+                setSetting($k, (string) $submitted[$k]);
+            }
+        }
+        flashSet('home_success', 'Página de inicio actualizada.');
+        redirect('/admin/?view=home_edit');
     }
 
     if ($action === 'save_contact') {
@@ -740,6 +770,12 @@ if ($user) {
         foreach ($SETTING_KEYS as $k) {
             $settings[$k] = (string) getSetting($k, '');
         }
+    } elseif ($view === 'home_edit') {
+        foreach ($HOME_KEYS as $k) {
+            $settings[$k] = (string) getSetting($k, '');
+        }
+        $homeBannerCount = count(bannerListAll());
+        $homeClientCount = count(clientsListAll());
     } elseif ($view === 'mailing') {
         foreach ($MAILING_KEYS as $k) {
             $settings[$k] = (string) getSetting($k, '');
@@ -927,6 +963,8 @@ if ($faviconPath && @file_exists($faviconAbs)):
             require __DIR__ . '/../components/admin/account.php';
         } elseif ($view === 'settings') {
             require __DIR__ . '/../components/admin/settings.php';
+        } elseif ($view === 'home_edit') {
+            require __DIR__ . '/../components/admin/home_edit.php';
         } elseif ($view === 'mailing') {
             require __DIR__ . '/../components/admin/mailing.php';
         } elseif ($view === 'payments') {
