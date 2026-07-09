@@ -13,8 +13,12 @@ $logoPath   = (string) getSetting('logo_image', '');
 $logoExists = $logoPath !== '' && @file_exists(__DIR__ . '/..' . $logoPath);
 $tagline    = trim((string) getSetting('business_tagline', ''));
 
-$phone      = trim((string) getSetting('business_phone', ''));
-$email      = trim((string) getSetting('business_email', ''));
+// El cliente pidió sacar del footer el teléfono y el email genéricos
+// (+56 2 2234 5678 / contacto@greenbags.cl): quedan redundantes con los
+// "Contactos directos" de más abajo. Se ocultan sólo acá; la página de
+// contacto y el resto del sitio los siguen usando desde business_*.
+$phone      = '';
+$email      = '';
 $address    = trim((string) getSetting('business_address', ''));
 $city       = trim((string) getSetting('business_city', ''));
 $region     = trim((string) getSetting('business_region', ''));

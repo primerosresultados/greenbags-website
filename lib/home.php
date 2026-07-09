@@ -181,8 +181,16 @@ function homeRender(string $error = ''): void {
                                     <li><span class="home-hero__point-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M8.5 13L7 22l5-3 5 3-1.5-9"/></svg></span>+15 años de experiencia</li>
                                 </ul>
                                 <div class="home-hero__cta">
-                                    <?php if (!empty($b['cta_label']) && !empty($b['cta_url'])): ?>
-                                        <a href="<?= htmlspecialchars($b['cta_url']) ?>" class="btn btn--lg"><?= htmlspecialchars($b['cta_label']) ?></a>
+                                    <?php if (!empty($b['cta_label']) && !empty($b['cta_url'])):
+                                        // Los CTA de cotización abren el modal "Cotiza tu packaging"
+                                        // en vez de navegar (así el hero muestra la imagen completa).
+                                        $ctaIsQuote = in_array(trim((string) $b['cta_url']), ['/cotizacion', '/cotización', '#cotizar'], true);
+                                    ?>
+                                        <?php if ($ctaIsQuote): ?>
+                                            <button type="button" class="btn btn--lg" data-cotizar><?= htmlspecialchars($b['cta_label']) ?></button>
+                                        <?php else: ?>
+                                            <a href="<?= htmlspecialchars($b['cta_url']) ?>" class="btn btn--lg"><?= htmlspecialchars($b['cta_label']) ?></a>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                     <?php if ($i === 0 && $waUrl): ?>
                                         <a href="<?= htmlspecialchars($waUrl) ?>" target="_blank" rel="noopener" class="btn btn--ghost btn--lg">Escribir por WhatsApp</a>
@@ -216,63 +224,9 @@ function homeRender(string $error = ''): void {
             <?php endif; ?>
         </div>
 
-        <!-- ============ Formulario de contacto lateral ============ -->
-        <div class="home-hero__contact">
-            <div class="home-hero__contact-card">
-                <?php if (!empty($_GET['sent'])): ?>
-                    <span class="home-hero__contact-icon--ok" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                    </span>
-                    <h2 class="home-hero__contact-title">¡Gracias por escribirnos!</h2>
-                    <p class="home-hero__contact-sub">Te responderemos a la brevedad.</p>
-                <?php else: ?>
-                    <div class="home-hero__contact-head">
-                        <span class="home-hero__contact-badge" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-                        </span>
-                        <h2 class="home-hero__contact-title">Cotiza tu packaging</h2>
-                    </div>
-                    <p class="home-hero__contact-sub">Contanos qué necesitás y te respondemos en menos de 24 hs hábiles, sin compromiso.</p>
-                    <?php if ($error): ?>
-                        <p class="home-hero__contact-error"><?= htmlspecialchars($error) ?></p>
-                    <?php endif; ?>
-                    <form method="post" action="/" class="home-hero__contact-form">
-                        <input type="hidden" name="action" value="submit_lead">
-                        <input type="hidden" name="csrf" value="<?= csrfToken() ?>">
-                        <input type="hidden" name="form_started" value="<?= time() ?>">
-                        <input type="hidden" name="source" value="home_hero">
-                        <input type="text" name="website" value="" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" aria-hidden="true">
-                        <div class="home-hero__contact-row">
-                            <p>
-                                <label class="visually-hidden" for="hh-name">Nombre</label>
-                                <input id="hh-name" type="text" name="name" placeholder="Nombre" required>
-                            </p>
-                            <p>
-                                <label class="visually-hidden" for="hh-phone">Teléfono</label>
-                                <input id="hh-phone" type="tel" name="phone" placeholder="Teléfono">
-                            </p>
-                        </div>
-                        <p>
-                            <label class="visually-hidden" for="hh-email">Email</label>
-                            <input id="hh-email" type="email" name="email" placeholder="Email" required>
-                        </p>
-                        <p>
-                            <label class="visually-hidden" for="hh-company">Empresa</label>
-                            <input id="hh-company" type="text" name="company" placeholder="Empresa (opcional)">
-                        </p>
-                        <p>
-                            <label class="visually-hidden" for="hh-message">Mensaje</label>
-                            <textarea id="hh-message" name="message" rows="3" placeholder="¿Qué packaging necesitás? Cantidades, tipo de producto, etc."></textarea>
-                        </p>
-                        <button type="submit" class="btn home-hero__contact-btn">Solicitar cotización</button>
-                        <p class="home-hero__contact-trust">
-                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                            Sin compromiso · Respuesta por WhatsApp o email
-                        </p>
-                    </form>
-                <?php endif; ?>
-            </div>
-        </div>
+        <!-- El formulario de cotización ya no vive fijo en el hero (tapaba las
+             imágenes de los banners). Ahora se abre en un modal desde cualquier
+             botón "Solicitar cotización" (ver #cotizar-modal al final del main). -->
 
         <script>
         (function(){
@@ -617,8 +571,7 @@ function homeRender(string $error = ''): void {
     </section>
     <?php endif; ?>
 
-    <!-- ============ Banda CTA final (newsletter) ============ -->
-    <?php $subOk = flashGet('subscribe_ok'); $subErr = flashGet('subscribe_err'); ?>
+    <!-- ============ Banda CTA final (cotización) ============ -->
     <section class="home-cta" id="suscripcion">
         <!-- Decoración: sobres + @ flotantes difuminados (sólo visual). -->
         <div class="home-cta__decor" aria-hidden="true">
@@ -637,25 +590,103 @@ function homeRender(string $error = ''): void {
                     <p class="home-cta__sub"><?= htmlspecialchars($s['cta_subtitle']) ?></p>
                 <?php endif; ?>
             </div>
-
-            <?php if ($subOk): ?>
-                <p class="home-cta__alert home-cta__alert--ok"><?= htmlspecialchars($subOk) ?></p>
-            <?php else: ?>
-                <form method="post" action="/" class="home-cta__form" autocomplete="on">
-                    <input type="hidden" name="csrf" value="<?= csrfToken() ?>">
-                    <input type="hidden" name="action" value="subscribe">
-                    <input type="hidden" name="form_started" value="<?= time() ?>">
-                    <input type="text" name="website" value="" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" aria-hidden="true">
-                    <label class="visually-hidden" for="subscribe-email">Tu email</label>
-                    <input id="subscribe-email" type="email" name="email" placeholder="tucorreo@ejemplo.com" required class="home-cta__input">
-                    <button type="submit" class="btn btn--lg btn--invert home-cta__btn"><?= htmlspecialchars($s['cta_label']) ?></button>
-                </form>
-                <?php if ($subErr): ?>
-                    <p class="home-cta__alert home-cta__alert--err"><?= htmlspecialchars($subErr) ?></p>
-                <?php endif; ?>
-            <?php endif; ?>
+            <div class="home-cta__actions">
+                <button type="button" class="btn btn--lg btn--invert home-cta__btn" data-cotizar><?= htmlspecialchars($s['cta_label'] ?: 'Solicitar cotización') ?></button>
+            </div>
         </div>
     </section>
+
+    <!-- ============ Modal de cotización ("Cotiza tu packaging") ============
+         Se abre desde cualquier botón con [data-cotizar] (hero + banda final).
+         Reusa los estilos de la vieja tarjeta del hero (.home-hero__contact-*).
+         Auto-abre si hubo error de validación o si el envío ya se registró. -->
+    <?php $cotizarAutoOpen = ($error !== '' || !empty($_GET['sent'])); ?>
+    <div class="cotizar-modal" id="cotizar-modal"<?= $cotizarAutoOpen ? '' : ' hidden' ?> data-auto-open="<?= $cotizarAutoOpen ? '1' : '0' ?>">
+        <div class="cotizar-modal__backdrop" data-cotizar-close></div>
+        <div class="cotizar-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="cotizar-modal-title">
+            <button type="button" class="cotizar-modal__close" data-cotizar-close aria-label="Cerrar">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <div class="home-hero__contact-card">
+                <?php if (!empty($_GET['sent'])): ?>
+                    <span class="home-hero__contact-icon--ok" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </span>
+                    <h2 class="home-hero__contact-title" id="cotizar-modal-title">¡Gracias por escribirnos!</h2>
+                    <p class="home-hero__contact-sub">Te responderemos a la brevedad.</p>
+                <?php else: ?>
+                    <div class="home-hero__contact-head">
+                        <span class="home-hero__contact-badge" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                        </span>
+                        <h2 class="home-hero__contact-title" id="cotizar-modal-title">Cotiza tu packaging</h2>
+                    </div>
+                    <p class="home-hero__contact-sub">Contanos qué necesitás y te respondemos en menos de 24 hs hábiles, sin compromiso.</p>
+                    <?php if ($error): ?>
+                        <p class="home-hero__contact-error"><?= htmlspecialchars($error) ?></p>
+                    <?php endif; ?>
+                    <form method="post" action="/" class="home-hero__contact-form">
+                        <input type="hidden" name="action" value="submit_lead">
+                        <input type="hidden" name="csrf" value="<?= csrfToken() ?>">
+                        <input type="hidden" name="form_started" value="<?= time() ?>">
+                        <input type="hidden" name="source" value="cotizador">
+                        <input type="text" name="website" value="" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" aria-hidden="true">
+                        <div class="home-hero__contact-row">
+                            <p>
+                                <label class="visually-hidden" for="hh-name">Nombre</label>
+                                <input id="hh-name" type="text" name="name" placeholder="Nombre" required>
+                            </p>
+                            <p>
+                                <label class="visually-hidden" for="hh-phone">Teléfono</label>
+                                <input id="hh-phone" type="tel" name="phone" placeholder="Teléfono">
+                            </p>
+                        </div>
+                        <p>
+                            <label class="visually-hidden" for="hh-email">Email</label>
+                            <input id="hh-email" type="email" name="email" placeholder="Email" required>
+                        </p>
+                        <p>
+                            <label class="visually-hidden" for="hh-company">Empresa</label>
+                            <input id="hh-company" type="text" name="company" placeholder="Empresa (opcional)">
+                        </p>
+                        <p>
+                            <label class="visually-hidden" for="hh-message">Mensaje</label>
+                            <textarea id="hh-message" name="message" rows="3" placeholder="¿Qué packaging necesitás? Cantidades, tipo de producto, etc."></textarea>
+                        </p>
+                        <button type="submit" class="btn home-hero__contact-btn">Solicitar cotización</button>
+                        <p class="home-hero__contact-trust">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                            Sin compromiso · Respuesta por WhatsApp o email
+                        </p>
+                    </form>
+                <?php endif; ?>
+            </div>
+        </div>
+        <script>
+        (function(){
+            var modal = document.getElementById('cotizar-modal');
+            if (!modal) return;
+            var firstField = modal.querySelector('input:not([type=hidden]), textarea');
+            function open(){
+                modal.hidden = false;
+                document.body.classList.add('cotizar-open');
+                if (firstField) setTimeout(function(){ try { firstField.focus(); } catch(e){} }, 60);
+            }
+            function close(){
+                modal.hidden = true;
+                document.body.classList.remove('cotizar-open');
+            }
+            document.addEventListener('click', function(e){
+                if (e.target.closest('[data-cotizar]'))       { e.preventDefault(); open();  return; }
+                if (e.target.closest('[data-cotizar-close]'))  { e.preventDefault(); close(); }
+            });
+            document.addEventListener('keydown', function(e){
+                if (e.key === 'Escape' && !modal.hidden) close();
+            });
+            if (modal.dataset.autoOpen === '1') open();
+        })();
+        </script>
+    </div>
 
 </main>
     <?php

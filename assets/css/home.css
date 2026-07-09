@@ -1083,3 +1083,66 @@ main.home + .site-footer { margin-top: 0; }
 @media (prefers-reduced-motion: reduce) {
     .home-clients__track { animation: none; flex-wrap: wrap; justify-content: center; }
 }
+
+/* =========================================================================
+   Banda CTA final — botón de cotización (reemplaza el viejo form newsletter)
+   ========================================================================= */
+.home-cta__actions { display: flex; justify-content: center; }
+.home-cta__actions .home-cta__btn { min-width: 260px; }
+
+/* =========================================================================
+   Modal "Cotiza tu packaging"
+   Se abre desde cualquier [data-cotizar]. La tarjeta interna reusa los
+   estilos .home-hero__contact-* (antes fija en el hero).
+   ========================================================================= */
+.cotizar-modal {
+    position: fixed; inset: 0; z-index: 1200;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.2rem;
+}
+.cotizar-modal[hidden] { display: none; }
+.cotizar-modal__backdrop {
+    position: absolute; inset: 0;
+    background: rgba(8, 20, 12, .58);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    animation: cotizar-fade .2s ease;
+}
+.cotizar-modal__dialog {
+    position: relative;
+    width: min(560px, 100%);
+    max-height: calc(100vh - 2.4rem);
+    overflow: auto;
+    animation: cotizar-pop .26s cubic-bezier(.22, .61, .36, 1);
+}
+.cotizar-modal__dialog .home-hero__contact-card {
+    margin: 0;
+    padding: 2.9rem 2.6rem;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, .4);
+}
+/* En el modal la tarjeta es más grande que cuando iba en el hero. */
+.cotizar-modal__dialog .home-hero__contact-title { font-size: 1.75rem; }
+.cotizar-modal__dialog .home-hero__contact-sub { font-size: 1.06rem; margin-bottom: 1.7rem; }
+.cotizar-modal__dialog .home-hero__contact-form { gap: 1rem; }
+.cotizar-modal__dialog .home-hero__contact-form input,
+.cotizar-modal__dialog .home-hero__contact-form textarea { padding: .9rem 1.1rem; font-size: 1.03rem; }
+.cotizar-modal__dialog .home-hero__contact-form textarea { min-height: 96px; }
+.cotizar-modal__dialog .home-hero__contact-btn { padding: 1rem 1.3rem; font-size: 1.05rem; }
+.cotizar-modal__close {
+    position: absolute; top: .7rem; right: .7rem; z-index: 2;
+    width: 38px; height: 38px; border-radius: 50%;
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    background: #f1f5f9; color: #334155;
+    transition: background .15s, color .15s;
+}
+.cotizar-modal__close:hover { background: #e2e8f0; color: #0f172a; }
+body.cotizar-open { overflow: hidden; }
+@keyframes cotizar-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cotizar-pop {
+    from { opacity: 0; transform: translateY(14px) scale(.98); }
+    to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .cotizar-modal__backdrop, .cotizar-modal__dialog { animation: none; }
+}
