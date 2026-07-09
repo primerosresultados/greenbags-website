@@ -7,6 +7,9 @@ $LEAD_STATUSES    = ['new', 'contacted', 'qualified', 'closed', 'discarded'];
 $SETTING_KEYS     = [
     'site_name', 'timezone',
     'logo_image', 'favicon_image',
+    // Alto del logo (px) en header y footer, escritorio y celular.
+    'logo_height_desktop', 'logo_height_mobile',
+    'footer_logo_height_desktop', 'footer_logo_height_mobile',
     'header_style',
     // Paleta de marca.
     'theme_primary', 'theme_secondary',
