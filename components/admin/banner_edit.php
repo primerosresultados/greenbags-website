@@ -203,8 +203,8 @@ textarea.form-control {
             Si no se asigna, el banner usa el gradient oscuro por defecto. Recomendado: imagen horizontal 1600×900px.
         </div>
         <?php
-            $sifName  = 'image_id';
-            $sifValue = (string) ($b['image_id'] ?? '');
+            $sifName  = 'image_path';
+            $sifValue = (string) ($b['image_path'] ?? '');
             $sifLabel = '';
             $sifPlaceholder = '';
             require __DIR__ . '/_single_image_field.php';

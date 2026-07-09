@@ -35,6 +35,28 @@ function bannerGet(int $id): ?array {
     }
 }
 
+/**
+ * Resuelve el valor del campo de imagen a un `image_id` de la mediateca.
+ * El field genérico (_single_image_field) guarda un PATH; acá lo mapeamos a la
+ * fila de media_library. Acepta también un id numérico directo (compatibilidad).
+ */
+function bannerResolveImageId(array $d): ?int {
+    $path = trim((string) ($d['image_path'] ?? ''));
+    if ($path !== '') {
+        try {
+            $st = getDB()->prepare('SELECT id FROM media_library WHERE file_path = ? ORDER BY id DESC LIMIT 1');
+            $st->execute([$path]);
+            $id = (int) ($st->fetchColumn() ?: 0);
+            return $id > 0 ? $id : null;
+        } catch (Throwable $e) {
+            return null;
+        }
+    }
+    // Fallback: id numérico enviado directamente.
+    $id = (int) ($d['image_id'] ?? 0);
+    return $id > 0 ? $id : null;
+}
+
 /** @return array{ok:bool,id?:int,error?:string} */
 function bannerSave(array $d): array {
     $id    = (int) ($d['id'] ?? 0);
@@ -49,7 +71,7 @@ function bannerSave(array $d): array {
         'eyebrow'    => mb_substr(trim((string) ($d['eyebrow'] ?? '')), 0, 120) ?: null,
         'title'      => mb_substr($title, 0, 200),
         'subtitle'   => mb_substr(trim((string) ($d['subtitle'] ?? '')), 0, 400) ?: null,
-        'image_id'   => (int) ($d['image_id'] ?? 0) ?: null,
+        'image_id'   => bannerResolveImageId($d),
         'cta_label'  => mb_substr(trim((string) ($d['cta_label'] ?? '')), 0, 80) ?: null,
         'cta_url'    => mb_substr(trim((string) ($d['cta_url'] ?? '')), 0, 255) ?: null,
         'text_align' => $align,
