@@ -123,7 +123,8 @@
     display: flex;
     align-items: center;
     gap: 1.2rem;
-    min-height: 72px;
+    /* Header más alto para dar más presencia al logo (pedido del cliente). */
+    min-height: 90px;
 }
 /* Tipografía del header: Outfit (geométrica, menos estándar que el sistema). */
 .site-navbar,
@@ -147,7 +148,7 @@
     transition: opacity .15s;
 }
 .site-navbar__brand:hover { opacity: .8; }
-.site-navbar__brand img { display: block; max-height: 68px; width: auto; }
+.site-navbar__brand img { display: block; max-height: 82px; width: auto; }
 
 .site-navbar__menu {
     display: flex;
@@ -467,8 +468,8 @@
 @media (max-width: 540px) {
     .site-topbar__inner { padding: .45rem .9rem; }
     .site-topbar__socials { display: none; }
-    .site-navbar__inner { padding: .5rem 1rem; gap: .55rem; min-height: 56px; }
-    .site-navbar__brand img { max-height: 46px; }
+    .site-navbar__inner { padding: .5rem 1rem; gap: .55rem; min-height: 66px; }
+    .site-navbar__brand img { max-height: 56px; }
     .site-navbar__brand-text { font-size: 1.25rem; }
     .site-navbar__actions { gap: .25rem; }
     .site-navbar__cta span { display: none; }
@@ -717,7 +718,7 @@
     text-decoration: none;
 }
 .site-footer__brand img {
-    max-height: 70px;
+    max-height: 92px;
     width: auto;
     /* Capa que fuerza el logo a blanco sin importar sus colores originales. */
     filter: brightness(0) invert(1);
@@ -865,7 +866,7 @@
 
 @media (max-width: 720px) {
     .site-footer__inner { padding: 2.8rem 1.2rem 1.8rem; gap: 1.6rem; }
-    .site-footer__brand img { max-height: 56px; }
+    .site-footer__brand img { max-height: 74px; }
     .site-footer__tagline { font-size: .95rem; }
     .site-footer__contact {
         flex-direction: column;
