@@ -22,16 +22,21 @@
 
 .site-header {
     background: var(--sh-bg);
-    transition: box-shadow .25s ease, border-color .25s ease;
-}
-/* Solo el navbar blanco queda sticky — la announce y el topbar pueden
- * desaparecer al hacer scroll para ganar pantalla, pero la barra de
- * navegación con marca + menú se mantiene siempre accesible. */
-.site-navbar {
+    /* Header sticky: queda fijo arriba al hacer scroll. El sticky vive en
+     * .site-header (hijo directo de <body>) y NO en .site-navbar: un elemento
+     * sticky solo puede desplazarse dentro de su contenedor, y el navbar
+     * anidado en un header de su misma altura no tenía rango → se iba con la
+     * página. Al ponerlo en .site-header, todo el header se mantiene arriba. */
     position: sticky;
     top: 0;
     z-index: 80;
+    transition: box-shadow .25s ease, border-color .25s ease;
+}
+.site-navbar {
     background: var(--sh-bg);
+    /* Detalle de marca: filete superior en el color principal, sobre el navbar
+       blanco. Sigue visible siempre porque el header es sticky. */
+    border-top: 3px solid var(--brand-primary, #51af3f);
     border-bottom: 1px solid var(--sh-border);
     transition: box-shadow .25s ease, border-color .25s ease;
 }
@@ -123,8 +128,8 @@
     display: flex;
     align-items: center;
     gap: 1.2rem;
-    /* Header más alto para dar más presencia al logo (pedido del cliente). */
-    min-height: 90px;
+    /* Header compacto: menos alto para que el logo no ocupe tanto espacio. */
+    min-height: 72px;
 }
 /* Tipografía del header: Outfit (geométrica, menos estándar que el sistema). */
 .site-navbar,
@@ -148,7 +153,7 @@
     transition: opacity .15s;
 }
 .site-navbar__brand:hover { opacity: .8; }
-.site-navbar__brand img { display: block; max-height: var(--logo-h-desktop, 82px); width: auto; }
+.site-navbar__brand img { display: block; max-height: var(--logo-h-desktop, 64px); width: auto; }
 
 .site-navbar__menu {
     display: flex;
@@ -468,8 +473,8 @@
 @media (max-width: 540px) {
     .site-topbar__inner { padding: .45rem .9rem; }
     .site-topbar__socials { display: none; }
-    .site-navbar__inner { padding: .5rem 1rem; gap: .55rem; min-height: 66px; }
-    .site-navbar__brand img { max-height: var(--logo-h-mobile, 56px); }
+    .site-navbar__inner { padding: .5rem 1rem; gap: .55rem; min-height: 60px; }
+    .site-navbar__brand img { max-height: var(--logo-h-mobile, 48px); }
     .site-navbar__brand-text { font-size: 1.25rem; }
     .site-navbar__actions { gap: .25rem; }
     .site-navbar__cta span { display: none; }

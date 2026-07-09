@@ -29,18 +29,22 @@ main.home + .site-footer { margin-top: 0; }
 
 /* ============ Hero (slider) ============ */
 .home-hero {
-    /* Ancho de contenido propio del hero: más angosto que el container global
-       (1600px) para que copy y formulario queden balanceados, sin un vacío
-       enorme entre medio en pantallas anchas. */
-    --hero-max: 1240px;
+    /* Banner CONTENIDO: mismo ancho que el cuerpo (.container global: 90% /
+       máx 1600px, centrado). Antes era full-bleed (ocupaba todo el viewport)
+       y se salía de los bordes de la cabecera y las secciones de abajo. Ahora
+       sus bordes quedan alineados con el resto del sitio. */
+    width: var(--container-width, 90%);
+    max-width: var(--container-max, 1600px);
+    margin: 2rem auto 0; /* centrado + aire bajo el header sticky */
     position: relative;
     overflow: hidden;
     color: #fff;
-    margin-bottom: 0;
+    border-radius: 24px; /* coherente con .home-story__panel (mismo radio) */
     background: #0d2818; /* fallback verde oscuro debajo de los slides */
 }
-/* El container dentro del hero usa el ancho local, no el global. */
-.home-hero .container { max-width: var(--hero-max); }
+/* El hero YA es la columna (90%/1600px); el container interno no debe volver a
+   angostar el contenido. El aire lateral lo da el padding del slide. */
+.home-hero .container { width: 100%; max-width: none; }
 .home-hero__viewport { position: relative; overflow: hidden; width: 100%; }
 .home-hero__track { display: flex; transition: transform .6s cubic-bezier(.22, .61, .36, 1); will-change: transform; }
 .home-hero__slide {
@@ -48,7 +52,9 @@ main.home + .site-footer { margin-top: 0; }
     width: 100%;
     /* Altura contenida: menos alto muerto que antes, sigue imponente. */
     min-height: clamp(540px, 72vh, 780px);
-    padding: 4.5rem 0 5rem;
+    /* Gutter lateral propio del banner contenido (mismo criterio que
+       .home-story__panel) para que el copy no toque el borde redondeado. */
+    padding: 4.5rem clamp(1.4rem, 3.5vw, 3.25rem) 5rem;
     display: flex; align-items: center;
     position: relative;
     /* Gradiente de marca: verde profundo → verde del logo. */
@@ -167,9 +173,10 @@ main.home + .site-footer { margin-top: 0; }
     .home-hero__count-cur { font-size: .95rem; }
     .home-hero__navdots { gap: .5rem; }
     .home-hero__dot.is-active { width: 38px; }
+    .home-hero { margin-top: 1rem; border-radius: 18px; }
     .home-hero__slide {
         min-height: clamp(480px, 68vh, 640px);
-        padding: 3.5rem 0 4rem;
+        padding: 3.5rem clamp(1.1rem, 5vw, 1.5rem) 4rem;
     }
 }
 .home-hero__eyebrow {
