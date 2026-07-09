@@ -15,13 +15,6 @@
     <div class="auth-alert auth-alert--success"><span><?= htmlspecialchars($msg) ?></span></div>
 <?php endif; ?>
 
-<?php if (empty($pages)): ?>
-    <div class="empty">
-        <h3>Sin páginas</h3>
-        <p>Creá tu primera página para agregarle contenido al sitio (ej. "Sobre nosotros", "Términos").</p>
-        <p style="margin-top:1rem;"><a class="btn" href="/admin/?view=page&amp;id=new">+ Crear primera página</a></p>
-    </div>
-<?php else: ?>
     <table class="table">
         <thead>
             <tr>
@@ -33,6 +26,17 @@
             </tr>
         </thead>
         <tbody>
+            <!-- Inicio: no es una página del CMS, se edita en su propia vista. -->
+            <tr style="background:#f8fafc;">
+                <td><code>/</code></td>
+                <td><strong>🏠 Inicio</strong><br><small class="text-muted">Página principal (hero, marca, clientes, cotización)</small></td>
+                <td><span class="badge badge--qualified">principal</span></td>
+                <td class="text-muted">—</td>
+                <td>
+                    <a href="/admin/?view=home_edit">Editar</a>
+                     · <a href="/" target="_blank">Ver →</a>
+                </td>
+            </tr>
             <?php foreach ($pages as $p): ?>
                 <tr>
                     <td><code><?= htmlspecialchars($p['slug']) ?></code></td>
@@ -55,4 +59,3 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-<?php endif; ?>
