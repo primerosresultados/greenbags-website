@@ -151,8 +151,8 @@ $logoClampH = function (string $key, int $def, int $min, int $max): int {
 ?>
 <style>
 :root {
-    --logo-h-desktop: <?= $logoClampH('logo_height_desktop', 82, 40, 140) ?>px;
-    --logo-h-mobile: <?= $logoClampH('logo_height_mobile', 56, 28, 90) ?>px;
+    --logo-h-desktop: <?= $logoClampH('logo_height_desktop', 64, 40, 140) ?>px;
+    --logo-h-mobile: <?= $logoClampH('logo_height_mobile', 48, 28, 90) ?>px;
     --footer-logo-h-desktop: <?= $logoClampH('footer_logo_height_desktop', 92, 40, 140) ?>px;
     --footer-logo-h-mobile: <?= $logoClampH('footer_logo_height_mobile', 74, 28, 100) ?>px;
 }
