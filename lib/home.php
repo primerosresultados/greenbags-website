@@ -544,12 +544,15 @@ function homeRender(string $error = ''): void {
     </section>
     <?php endif; ?>
 
-    <?php if ($s['show_clients'] && $s['clients_names']):
-        // Logos en movimiento (marquesina). Placeholder: logo genérico + nombre
-        // del cliente. Cuando lleguen los archivos reales, se reemplazan desde
-        // el panel (Configuración → home_clients_logos con rutas por cliente).
-        $clientLogo  = trim((string) getSetting('home_clients_logo', '/uploads/library/greenbags/cliente-logo.svg'));
-        $clientsLoop = array_merge($s['clients_names'], $s['clients_names']);
+    <?php
+        // Clientes desde la tabla home_clients (cada uno con su logo). Editable
+        // en admin → Clientes. Fallback al logo genérico para los que todavía
+        // no tienen logo cargado, así la marquesina se ve uniforme.
+        $clients = function_exists('clientsGet') ? clientsGet(true) : [];
+        if ($s['show_clients'] && $clients):
+            $clientFallbackLogo = trim((string) getSetting('home_clients_logo', ''));
+            $clientCount = count($clients);
+            $clientsLoop = array_merge($clients, $clients); // duplicado para el loop infinito
     ?>
     <!-- ============ Nuestros clientes (marquesina) ============ -->
     <section class="home-clients">
@@ -558,12 +561,15 @@ function homeRender(string $error = ''): void {
         </div>
         <div class="home-clients__marquee" aria-label="<?= htmlspecialchars($s['clients_title']) ?>">
             <div class="home-clients__track">
-                <?php foreach ($clientsLoop as $idx => $name): ?>
-                    <span class="home-clients__logo"<?= $idx >= count($s['clients_names']) ? ' aria-hidden="true"' : '' ?>>
-                        <?php if ($clientLogo): ?>
-                            <img src="<?= htmlspecialchars($clientLogo) ?>" alt="<?= htmlspecialchars($name) ?>" loading="lazy">
+                <?php foreach ($clientsLoop as $idx => $cli):
+                    $cliName = (string) $cli['name'];
+                    $cliLogo = trim((string) ($cli['logo_path'] ?? '')) ?: $clientFallbackLogo;
+                ?>
+                    <span class="home-clients__logo"<?= $idx >= $clientCount ? ' aria-hidden="true"' : '' ?>>
+                        <?php if ($cliLogo): ?>
+                            <img src="<?= htmlspecialchars($cliLogo) ?>" alt="<?= htmlspecialchars($cliName) ?>" loading="lazy">
                         <?php endif; ?>
-                        <span class="home-clients__name"><?= htmlspecialchars($name) ?></span>
+                        <span class="home-clients__name"><?= htmlspecialchars($cliName) ?></span>
                     </span>
                 <?php endforeach; ?>
             </div>

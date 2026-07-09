@@ -647,6 +647,36 @@ textarea.form-control {
     })();
     </script>
 
+    <!-- IMÁGENES DE PÁGINAS INTERNAS -->
+    <div class="card">
+        <h3 class="card__title">🖼️ Imágenes de páginas</h3>
+        <div class="settings-section-hint">
+            Fotos de las páginas <strong>"Sobre GreenBags"</strong> y <strong>"Compromiso sustentable"</strong>. Cambialas acá sin tocar el HTML.
+        </div>
+
+        <div class="form-group" style="margin-bottom:1.4rem;">
+            <label class="form-label" style="display:block;font-weight:600;margin-bottom:.5rem;">Imagen de "Sobre GreenBags"</label>
+            <?php
+                $sifName  = 's[about_media_image]';
+                $sifValue = (string) ($settings['about_media_image'] ?? '');
+                $sifLabel = '';
+                $sifPlaceholder = '/uploads/library/greenbags/...jpg';
+                require __DIR__ . '/_single_image_field.php';
+            ?>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" style="display:block;font-weight:600;margin-bottom:.5rem;">Imagen de "Compromiso sustentable"</label>
+            <?php
+                $sifName  = 's[sustentabilidad_media_image]';
+                $sifValue = (string) ($settings['sustentabilidad_media_image'] ?? '');
+                $sifLabel = '';
+                $sifPlaceholder = '/uploads/library/greenbags/...jpg';
+                require __DIR__ . '/_single_image_field.php';
+            ?>
+        </div>
+    </div>
+
     <!-- NOTIFICACIONES -->
     <div class="card">
         <h3 class="card__title">💌 Notificaciones de Leads</h3>

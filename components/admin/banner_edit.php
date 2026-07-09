@@ -167,7 +167,7 @@ textarea.form-control {
 }
 </style>
 
-<form method="post">
+<form method="post" id="banner-form">
     <input type="hidden" name="action" value="banner_save">
     <input type="hidden" name="id" value="<?= (int) $b['id'] ?>">
     <input type="hidden" name="csrf" value="<?= csrfToken() ?>">
@@ -269,9 +269,15 @@ textarea.form-control {
         </div>
     </div>
 
-    <!-- ACCIONES -->
+    </form>
+
+<!-- ACCIONES fuera del <form> principal: el botón Guardar se asocia por
+     form="banner-form" y Eliminar es un form independiente. Antes el form de
+     borrado estaba anidado dentro del principal (HTML inválido): el navegador
+     fusionaba ambos y "Guardar" terminaba mandando action=banner_delete,
+     borrando el banner al guardarlo. -->
     <div class="banner-actions">
-        <button type="submit" class="btn banner-actions__primary">Guardar banner</button>
+        <button type="submit" form="banner-form" class="btn banner-actions__primary">Guardar banner</button>
         <?php if (!$isNew): ?>
             <form method="post" style="margin:0;" onsubmit="return confirm('¿Eliminar este banner? La acción no se puede deshacer.');">
                 <input type="hidden" name="action" value="banner_delete">
@@ -281,7 +287,6 @@ textarea.form-control {
             </form>
         <?php endif; ?>
     </div>
-</form>
 
 <script>
 // Selector de alineación

@@ -25,6 +25,7 @@ require __DIR__ . '/quotes.php';
 require __DIR__ . '/payments.php';
 require __DIR__ . '/checkout.php';
 require __DIR__ . '/banners.php';
+require __DIR__ . '/home_clients.php';
 require __DIR__ . '/shop_front.php';
 require __DIR__ . '/quote_front.php';
 require __DIR__ . '/contact_front.php';

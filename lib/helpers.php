@@ -89,3 +89,17 @@ function slugify(string $text): string {
     $text = strtolower(preg_replace('/[^a-zA-Z0-9]+/', '-', $text));
     return trim($text, '-');
 }
+
+/**
+ * Render del body HTML de una página CMS: reemplaza tokens {{img:setting_key}}
+ * por el valor del setting correspondiente. Permite editar desde el panel las
+ * imágenes embebidas en el HTML de páginas (ej. "Sobre GreenBags") sin tener
+ * que tocar el HTML. Solo acepta keys [a-z0-9_]; si el setting está vacío deja
+ * el token vacío (evita un src roto).
+ */
+function pageBodyRender(string $body): string {
+    if (strpos($body, '{{img:') === false) return $body;
+    return preg_replace_callback('/\{\{img:([a-z0-9_]+)\}\}/i', function ($m) {
+        return htmlspecialchars((string) getSetting($m[1], ''), ENT_QUOTES);
+    }, $body);
+}
