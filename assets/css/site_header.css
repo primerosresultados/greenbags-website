@@ -708,14 +708,16 @@
     text-align: left;
 }
 
-/* ── Grilla de 3 columnas ── */
+/* ── Columnas del footer (marca · un vendedor por columna · contacto) ──
+   Flex con wrap para adaptarse a la cantidad de vendedores sin hardcodear. */
 .site-footer__columns {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr 1fr;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
     gap: 2.5rem 3rem;
-    align-items: start;
 }
-.site-footer__col { min-width: 0; }
+.site-footer__col { flex: 1 1 180px; min-width: 0; }
+.site-footer__brand-block { flex: 1.4 1 240px; }
 .site-footer__col-title {
     margin: 0 0 1.1rem;
     font-size: .82rem;
@@ -875,16 +877,20 @@
     letter-spacing: .015em;
 }
 
-@media (max-width: 900px) {
-    .site-footer__columns { grid-template-columns: 1fr 1fr; gap: 2rem; }
-    .site-footer__brand-block { grid-column: 1 / -1; }
+@media (max-width: 960px) {
+    .site-footer__columns { gap: 2rem; }
+    .site-footer__brand-block { flex-basis: 100%; }
+    .site-footer__col { flex: 1 1 220px; }
 }
 @media (max-width: 720px) {
     .site-footer__inner { padding: 2.8rem 1.2rem 1.8rem; gap: 2rem; align-items: center; text-align: center; }
-    .site-footer__columns { grid-template-columns: 1fr; gap: 2rem; justify-items: center; text-align: center; }
+    .site-footer__columns { gap: 2rem; justify-content: center; text-align: center; }
+    .site-footer__col,
+    .site-footer__brand-block { flex-basis: 100%; }
     .site-footer__brand-block,
     .site-footer__people,
-    .site-footer__contact { align-items: center; text-align: center; }
+    .site-footer__contact,
+    .site-footer__person { align-items: center; text-align: center; }
     .site-footer__brand img { max-height: var(--footer-logo-h-mobile, 74px); }
     .site-footer__tagline { font-size: .95rem; }
     .site-footer__bottom { gap: 1rem; padding-top: 1.4rem; }

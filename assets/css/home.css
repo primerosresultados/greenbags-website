@@ -1035,6 +1035,83 @@ main.home + .site-footer { margin-top: 0; }
 /* ============================================================
    Nuestros clientes — marquesina de logos (placeholders por ahora)
    ============================================================ */
+/* =========================================================================
+   Vendedores — tarjetas de contacto comercial (sobre "Nuestros clientes")
+   ========================================================================= */
+.home-sellers { padding: 3rem 0 1rem; }
+.home-sellers__head { text-align: center; margin-bottom: 2rem; }
+.home-sellers__subtitle {
+    margin: .5rem 0 0;
+    color: var(--muted, #64748b);
+    font-size: 1.05rem;
+    line-height: 1.5;
+}
+.home-sellers__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.4rem;
+    max-width: 780px;
+    margin: 0 auto;
+}
+.home-seller-card {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    padding: 1.5rem 1.6rem;
+    background: #fff;
+    border: 1px solid var(--border, #e1ebdd);
+    border-radius: 18px;
+    box-shadow: 0 1px 2px rgba(13, 31, 21, .04);
+    transition: transform .2s, box-shadow .2s;
+}
+.home-seller-card:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(13, 31, 21, .09); }
+.home-seller-card__avatar {
+    flex-shrink: 0;
+    width: 64px; height: 64px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--brand-primary, #51af3f);
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: .02em;
+}
+.home-seller-card__body { min-width: 0; }
+.home-seller-card__name {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -.01em;
+    color: var(--text, #1a2a22);
+}
+.home-seller-card__role {
+    margin: .1rem 0 .7rem;
+    font-size: .9rem;
+    color: var(--muted, #64748b);
+}
+.home-seller-card__links {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+}
+.home-seller-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: .98rem;
+    font-weight: 600;
+    color: var(--text, #1a2a22);
+    text-decoration: none;
+    transition: color .15s;
+}
+.home-seller-card__link svg { flex-shrink: 0; color: var(--brand-primary, #51af3f); }
+.home-seller-card__link:hover { color: var(--brand-primary, #51af3f); }
+@media (max-width: 640px) {
+    .home-sellers__grid { grid-template-columns: 1fr; max-width: 420px; }
+}
+
 .home-clients {
     padding: 3rem 0 1rem;
     overflow: hidden;

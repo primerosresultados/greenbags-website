@@ -57,7 +57,7 @@ $socialIcon = function (string $key): string {
     ][$key] ?? '';
 };
 
-$hasContact = $phone || $email || $addressFull || $hours;
+$hasContact = $phone || $email || $addressFull || $hours || $pickupNote;
 ?>
 <footer class="site-footer">
     <div class="site-footer__inner">
@@ -80,37 +80,24 @@ $hasContact = $phone || $email || $addressFull || $hours;
                 <?php endif; ?>
             </div>
 
-            <?php if ($people): ?>
-            <!-- ── Columna 2: Contactos de vendedores ── -->
+            <?php foreach ($people as $p): ?>
+            <!-- ── Columna: contacto de vendedor (una por vendedor) ── -->
             <div class="site-footer__col site-footer__people">
-                <h3 class="site-footer__col-title">Contactos directos</h3>
-                <ul class="site-footer__people-list">
-                    <?php foreach ($people as $p): ?>
-                        <li class="site-footer__person">
-                            <strong class="site-footer__person-name"><?= htmlspecialchars($p['name']) ?></strong>
-                            <?php if ($p['role'] !== ''): ?>
-                                <span class="site-footer__person-role"><?= htmlspecialchars($p['role']) ?></span>
-                            <?php endif; ?>
-                            <?php if ($p['phone'] !== ''): ?>
-                                <a href="tel:<?= htmlspecialchars(preg_replace('/\s+/', '', $p['phone'])) ?>"><?= htmlspecialchars($p['phone']) ?></a>
-                            <?php endif; ?>
-                            <?php if ($p['email'] !== ''): ?>
-                                <a href="mailto:<?= htmlspecialchars($p['email']) ?>"><?= htmlspecialchars($p['email']) ?></a>
-                            <?php endif; ?>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-                <?php if ($pickupNote !== ''): ?>
-                    <p class="site-footer__pickup">
-                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1-5h16l1 5"/><path d="M4 9v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9"/><path d="M9 13h6"/></svg>
-                        <span><?= htmlspecialchars($pickupNote) ?></span>
-                    </p>
-                <?php endif; ?>
+                <h3 class="site-footer__col-title"><?= htmlspecialchars($p['role'] !== '' ? $p['role'] : 'Contacto directo') ?></h3>
+                <div class="site-footer__person">
+                    <strong class="site-footer__person-name"><?= htmlspecialchars($p['name']) ?></strong>
+                    <?php if ($p['phone'] !== ''): ?>
+                        <a href="tel:<?= htmlspecialchars(preg_replace('/\s+/', '', $p['phone'])) ?>"><?= htmlspecialchars($p['phone']) ?></a>
+                    <?php endif; ?>
+                    <?php if ($p['email'] !== ''): ?>
+                        <a href="mailto:<?= htmlspecialchars($p['email']) ?>"><?= htmlspecialchars($p['email']) ?></a>
+                    <?php endif; ?>
+                </div>
             </div>
-            <?php endif; ?>
+            <?php endforeach; ?>
 
             <?php if ($hasContact): ?>
-            <!-- ── Columna 3: Contacto general ── -->
+            <!-- ── Columna: Contacto general ── -->
             <div class="site-footer__col site-footer__contact-col">
                 <h3 class="site-footer__col-title">Contacto</h3>
                 <ul class="site-footer__contact">
@@ -151,6 +138,12 @@ $hasContact = $phone || $email || $addressFull || $hours;
                         </li>
                     <?php endif; ?>
                 </ul>
+                <?php if ($pickupNote !== ''): ?>
+                    <p class="site-footer__pickup">
+                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1-5h16l1 5"/><path d="M4 9v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9"/><path d="M9 13h6"/></svg>
+                        <span><?= htmlspecialchars($pickupNote) ?></span>
+                    </p>
+                <?php endif; ?>
             </div>
             <?php endif; ?>
 
