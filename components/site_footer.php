@@ -62,90 +62,99 @@ $hasContact = $phone || $email || $addressFull || $hours;
 <footer class="site-footer">
     <div class="site-footer__inner">
 
-        <!-- ── Brand zone ── -->
-        <div class="site-footer__brand-block">
-            <a href="/" class="site-footer__brand" aria-label="<?= htmlspecialchars($siteName) ?>">
-                <?php if ($logoExists): ?>
-                    <img src="<?= htmlspecialchars($logoPath) ?>" alt="<?= htmlspecialchars($siteName) ?>">
-                <?php else: ?>
-                    <span class="site-footer__brand-text"><?= htmlspecialchars($siteName) ?></span>
-                <?php endif; ?>
-            </a>
-            <?php if ($tagline !== ''): ?>
-                <p class="site-footer__tagline"><?= htmlspecialchars($tagline) ?></p>
-            <?php endif; ?>
-        </div>
+        <!-- Tres columnas: marca · contactos de vendedores · contacto general.
+             Los vendedores van antes que el contacto general (clientes). -->
+        <div class="site-footer__columns">
 
-        <?php if ($hasContact): ?>
-        <!-- ── Contact zone ── -->
-        <ul class="site-footer__contact">
-            <?php if ($phone): ?>
-                <li class="site-footer__contact-item">
-                    <span class="site-footer__contact-ico">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2.03z"/></svg>
-                    </span>
-                    <a href="tel:<?= htmlspecialchars(preg_replace('/\s+/', '', $phone)) ?>"><?= htmlspecialchars($phone) ?></a>
-                </li>
-            <?php endif; ?>
-            <?php if ($email): ?>
-                <li class="site-footer__contact-item">
-                    <span class="site-footer__contact-ico">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                    </span>
-                    <a href="mailto:<?= htmlspecialchars($email) ?>"><?= htmlspecialchars($email) ?></a>
-                </li>
-            <?php endif; ?>
-            <?php if ($addressFull !== ''): ?>
-                <li class="site-footer__contact-item">
-                    <span class="site-footer__contact-ico">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    </span>
-                    <?php if ($mapsUrl): ?>
-                        <a href="<?= htmlspecialchars($mapsUrl) ?>" target="_blank" rel="noopener"><?= htmlspecialchars($addressFull) ?></a>
+            <!-- ── Columna 1: Brand ── -->
+            <div class="site-footer__col site-footer__brand-block">
+                <a href="/" class="site-footer__brand" aria-label="<?= htmlspecialchars($siteName) ?>">
+                    <?php if ($logoExists): ?>
+                        <img src="<?= htmlspecialchars($logoPath) ?>" alt="<?= htmlspecialchars($siteName) ?>">
                     <?php else: ?>
-                        <span><?= htmlspecialchars($addressFull) ?></span>
+                        <span class="site-footer__brand-text"><?= htmlspecialchars($siteName) ?></span>
                     <?php endif; ?>
-                </li>
-            <?php endif; ?>
-            <?php if ($hours): ?>
-                <li class="site-footer__contact-item">
-                    <span class="site-footer__contact-ico">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    </span>
-                    <span><?= htmlspecialchars($hours) ?></span>
-                </li>
-            <?php endif; ?>
-        </ul>
-        <?php endif; ?>
+                </a>
+                <?php if ($tagline !== ''): ?>
+                    <p class="site-footer__tagline"><?= htmlspecialchars($tagline) ?></p>
+                <?php endif; ?>
+            </div>
 
-        <?php if ($people): ?>
-        <!-- ── Contactos directos ── -->
-        <div class="site-footer__people">
-            <h3 class="site-footer__people-title">Contactos directos</h3>
-            <ul class="site-footer__people-list">
-                <?php foreach ($people as $p): ?>
-                    <li class="site-footer__person">
-                        <strong class="site-footer__person-name"><?= htmlspecialchars($p['name']) ?></strong>
-                        <?php if ($p['role'] !== ''): ?>
-                            <span class="site-footer__person-role"><?= htmlspecialchars($p['role']) ?></span>
-                        <?php endif; ?>
-                        <?php if ($p['phone'] !== ''): ?>
-                            <a href="tel:<?= htmlspecialchars(preg_replace('/\s+/', '', $p['phone'])) ?>"><?= htmlspecialchars($p['phone']) ?></a>
-                        <?php endif; ?>
-                        <?php if ($p['email'] !== ''): ?>
-                            <a href="mailto:<?= htmlspecialchars($p['email']) ?>"><?= htmlspecialchars($p['email']) ?></a>
-                        <?php endif; ?>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-            <?php if ($pickupNote !== ''): ?>
-                <p class="site-footer__pickup">
-                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1-5h16l1 5"/><path d="M4 9v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9"/><path d="M9 13h6"/></svg>
-                    <span><?= htmlspecialchars($pickupNote) ?></span>
-                </p>
+            <?php if ($people): ?>
+            <!-- ── Columna 2: Contactos de vendedores ── -->
+            <div class="site-footer__col site-footer__people">
+                <h3 class="site-footer__col-title">Contactos directos</h3>
+                <ul class="site-footer__people-list">
+                    <?php foreach ($people as $p): ?>
+                        <li class="site-footer__person">
+                            <strong class="site-footer__person-name"><?= htmlspecialchars($p['name']) ?></strong>
+                            <?php if ($p['role'] !== ''): ?>
+                                <span class="site-footer__person-role"><?= htmlspecialchars($p['role']) ?></span>
+                            <?php endif; ?>
+                            <?php if ($p['phone'] !== ''): ?>
+                                <a href="tel:<?= htmlspecialchars(preg_replace('/\s+/', '', $p['phone'])) ?>"><?= htmlspecialchars($p['phone']) ?></a>
+                            <?php endif; ?>
+                            <?php if ($p['email'] !== ''): ?>
+                                <a href="mailto:<?= htmlspecialchars($p['email']) ?>"><?= htmlspecialchars($p['email']) ?></a>
+                            <?php endif; ?>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+                <?php if ($pickupNote !== ''): ?>
+                    <p class="site-footer__pickup">
+                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1-5h16l1 5"/><path d="M4 9v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9"/><path d="M9 13h6"/></svg>
+                        <span><?= htmlspecialchars($pickupNote) ?></span>
+                    </p>
+                <?php endif; ?>
+            </div>
             <?php endif; ?>
+
+            <?php if ($hasContact): ?>
+            <!-- ── Columna 3: Contacto general ── -->
+            <div class="site-footer__col site-footer__contact-col">
+                <h3 class="site-footer__col-title">Contacto</h3>
+                <ul class="site-footer__contact">
+                    <?php if ($phone): ?>
+                        <li class="site-footer__contact-item">
+                            <span class="site-footer__contact-ico">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2.03z"/></svg>
+                            </span>
+                            <a href="tel:<?= htmlspecialchars(preg_replace('/\s+/', '', $phone)) ?>"><?= htmlspecialchars($phone) ?></a>
+                        </li>
+                    <?php endif; ?>
+                    <?php if ($email): ?>
+                        <li class="site-footer__contact-item">
+                            <span class="site-footer__contact-ico">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            </span>
+                            <a href="mailto:<?= htmlspecialchars($email) ?>"><?= htmlspecialchars($email) ?></a>
+                        </li>
+                    <?php endif; ?>
+                    <?php if ($addressFull !== ''): ?>
+                        <li class="site-footer__contact-item">
+                            <span class="site-footer__contact-ico">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            </span>
+                            <?php if ($mapsUrl): ?>
+                                <a href="<?= htmlspecialchars($mapsUrl) ?>" target="_blank" rel="noopener"><?= htmlspecialchars($addressFull) ?></a>
+                            <?php else: ?>
+                                <span><?= htmlspecialchars($addressFull) ?></span>
+                            <?php endif; ?>
+                        </li>
+                    <?php endif; ?>
+                    <?php if ($hours): ?>
+                        <li class="site-footer__contact-item">
+                            <span class="site-footer__contact-ico">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            </span>
+                            <span><?= htmlspecialchars($hours) ?></span>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+            <?php endif; ?>
+
         </div>
-        <?php endif; ?>
 
         <!-- ── Social zone + copyright ── -->
         <div class="site-footer__bottom">
