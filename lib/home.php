@@ -568,8 +568,9 @@ function homeRender(string $error = ''): void {
                     <span class="home-clients__logo"<?= $idx >= $clientCount ? ' aria-hidden="true"' : '' ?>>
                         <?php if ($cliLogo): ?>
                             <img src="<?= htmlspecialchars($cliLogo) ?>" alt="<?= htmlspecialchars($cliName) ?>" loading="lazy">
+                        <?php else: ?>
+                            <span class="home-clients__name"><?= htmlspecialchars($cliName) ?></span>
                         <?php endif; ?>
-                        <span class="home-clients__name"><?= htmlspecialchars($cliName) ?></span>
                     </span>
                 <?php endforeach; ?>
             </div>

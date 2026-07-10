@@ -74,7 +74,7 @@ main.home + .site-footer { margin-top: 0; }
             radial-gradient(600px 400px at 10% 90%, rgba(255, 255, 255, .07), transparent);
     }
 }
-.home-hero__slide--image { background: linear-gradient(135deg, rgba(13,40,24,.88), rgba(13,40,24,.55)), var(--hero-img) center/cover no-repeat; }
+.home-hero__slide--image { background: linear-gradient(105deg, rgba(13,40,24,.9) 0%, rgba(13,40,24,.6) 42%, rgba(13,40,24,.18) 100%), var(--hero-img) center/cover no-repeat; }
 .home-hero__slide--center .home-hero__inner { text-align: center; }
 .home-hero__slide--center .home-hero__copy { margin: 0 auto; }
 .home-hero__slide--center .home-hero__cta { justify-content: center; }
@@ -196,8 +196,8 @@ main.home + .site-footer { margin-top: 0; }
 }
 .home-hero__subtitle {
     margin: 0 0 1.6rem;
-    font-size: clamp(1.1rem, 1.6vw, 1.3rem);
-    color: #cbd5e1; max-width: 560px; line-height: 1.55;
+    font-size: clamp(1.2rem, 1.8vw, 1.45rem);
+    color: #fff; max-width: 560px; line-height: 1.55;
 }
 /* Garantiza color de texto sobre el gradient oscuro del hero. Sólo dentro del
    slide: la tarjeta de contacto (fuera del slide) tiene su propio texto oscuro. */
@@ -221,7 +221,7 @@ main.home + .site-footer { margin-top: 0; }
     .home-hero.is-ready .home-hero__slide.is-active .home-hero__copy > *:nth-child(5) { animation-delay: .37s; }
     @keyframes heroCopyIn { to { opacity: 1; transform: none; } }
 }
-.home-hero__slide p.home-hero__subtitle { color: #cbd5e1; }
+.home-hero__slide p.home-hero__subtitle { color: #fff; }
 .home-hero__cta { display: flex; flex-wrap: wrap; gap: .8rem; }
 
 /* ---- Puntos de confianza (iconos) bajo el subtítulo ---- */
@@ -1068,21 +1068,19 @@ main.home + .site-footer { margin-top: 0; }
     align-items: center;
     justify-content: center;
     gap: .5rem;
-    min-width: 190px;
-    height: 96px;
-    padding: .9rem 1.6rem;
+    min-width: 240px;
+    height: 140px;
+    padding: 1.2rem 2rem;
     border: 1px solid var(--border, #e1ebdd);
-    border-radius: 14px;
+    border-radius: 16px;
     background: #fff;
     color: #64748b;
     box-shadow: 0 1px 2px rgba(13, 31, 21, .04);
-    filter: grayscale(1);
-    opacity: .82;
-    transition: filter .2s, opacity .2s;
+    transition: transform .2s, box-shadow .2s;
 }
-.home-clients__logo:hover { filter: grayscale(0); opacity: 1; }
-.home-clients__logo img { display: block; max-height: 40px; max-width: 140px; width: auto; object-fit: contain; }
-.home-clients__name { font-weight: 700; font-size: .92rem; letter-spacing: .01em; color: #475569; }
+.home-clients__logo:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(13, 31, 21, .08); }
+.home-clients__logo img { display: block; max-height: 84px; max-width: 200px; width: auto; object-fit: contain; }
+.home-clients__name { font-weight: 700; font-size: 1rem; letter-spacing: .01em; color: #475569; }
 @keyframes home-clients-scroll {
     from { transform: translateX(0); }
     to   { transform: translateX(-50%); }
