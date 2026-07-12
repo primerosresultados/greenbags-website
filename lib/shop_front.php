@@ -54,22 +54,45 @@ function shopFrontRoute(string $path): bool {
 /* ===================== Render ===================== */
 
 function shopRenderShopIndex(): void {
-    $products = productsPublished(['perPage' => 24, 'page' => max(1, (int) ($_GET['p'] ?? 1))]);
+    $page     = max(1, (int) ($_GET['p'] ?? 1));
+    $products = productsPublished(['perPage' => 24, 'page' => $page]);
     $cats     = categoryList(true);
+    $total    = function_exists('productsPublishedCount') ? productsPublishedCount(0) : count($products);
+    $intro    = trim((string) getSetting('business_description', ''));
     layoutStart([
         'title'       => 'Catálogo',
-        'description' => (string) getSetting('business_description', ''),
+        'description' => $intro,
         'canonical'   => '/catalogo',
     ]);
-    echo '<main class="container shop"><h1>Catálogo</h1>';
+    // Reusa el lenguaje visual de la página de categoría (.shop-catpage) para
+    // heredar el header y las tarjetas pulidas; .shop-catalog agrega lo propio.
+    echo '<main class="container shop shop-catpage shop-catalog">';
+
+    echo '<header class="shop-cathead shop-cathead--catalog">';
+    echo '<span class="shop-cathead__icon" aria-hidden="true">'
+       . '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>'
+       . '</span>';
+    echo '<div class="shop-cathead__body">';
+    echo '<span class="shop-cathead__kicker">Catálogo</span>';
+    echo '<h1 class="shop-cathead__title">Todos los productos</h1>';
+    echo '<p class="shop-cathead__count">'
+       . '<span class="shop-cathead__count-num">' . $total . '</span> '
+       . ($total === 1 ? 'producto disponible' : 'productos disponibles') . '</p>';
+    if ($intro !== '') {
+        echo '<p class="shop-cathead__desc">' . htmlspecialchars($intro) . '</p>';
+    }
+    echo '</div></header>';
+
     if ($cats) {
-        echo '<nav class="shop-cats">';
+        echo '<nav class="shop-cats" aria-label="Filtrar por categoría">';
+        echo '<span class="shop-cats__link is-active">Todos</span>';
         foreach ($cats as $c) {
             echo '<a class="shop-cats__link" href="/categoria/' . htmlspecialchars($c['slug']) . '">'
                . htmlspecialchars($c['name']) . '</a>';
         }
         echo '</nav>';
     }
+
     shopRenderGrid($products);
     echo '</main>';
     layoutEnd();
@@ -622,8 +645,11 @@ function shopRenderGrid(array $products): void {
         $url   = '/producto/' . htmlspecialchars($p['slug']);
         echo '<a class="shop-card" href="' . $url . '">';
         if (!empty($p['img'])) {
+            // onerror: si la imagen 404ea, cae al placeholder rayado en vez del
+            // ícono de imagen rota del navegador.
             echo '<div class="shop-card__img"><img src="' . htmlspecialchars($p['img']) . '" alt="'
-               . htmlspecialchars($p['img_alt'] ?? $p['name']) . '" loading="lazy"></div>';
+               . htmlspecialchars($p['img_alt'] ?? $p['name']) . '" loading="lazy"'
+               . ' onerror="this.closest(\'.shop-card__img\').classList.add(\'shop-card__img--empty\');this.remove();"></div>';
         } else {
             echo '<div class="shop-card__img shop-card__img--empty"></div>';
         }

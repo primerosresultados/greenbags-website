@@ -158,6 +158,31 @@ $logoClampH = function (string $key, int $def, int $min, int $max): int {
 }
 </style>
 
+<?php
+// Escala tipográfica global editable desde admin → Configuración → "Tamaño del
+// texto". Porcentaje 85–140 (100 = sin cambios):
+//   - Títulos: escala la raíz rem (todos los títulos del sitio usan rem/clamp).
+//   - Párrafos: escala --font-size-base (el texto de cuerpo hereda de acá).
+// Se emite solo lo que cambie respecto del default para no tocar el render base.
+$typeScaleClamp = function (string $key): int {
+    $v = (int) getSetting($key, '100');
+    if ($v <= 0) $v = 100;
+    return max(85, min(140, $v));
+};
+$tsHead = $typeScaleClamp('type_scale_headings');
+$tsBody = $typeScaleClamp('type_scale_body');
+if ($tsHead !== 100 || $tsBody !== 100):
+?>
+<style>
+<?php if ($tsBody !== 100): ?>
+:root { --font-size-base: calc(15px * <?= $tsBody ?> / 100); }
+<?php endif; ?>
+<?php if ($tsHead !== 100): ?>
+html { font-size: calc(100% * <?= $tsHead ?> / 100); }
+<?php endif; ?>
+</style>
+<?php endif; ?>
+
 <?php if ($gaId): ?>
 <script async src="https://www.googletagmanager.com/gtag/js?id=<?= $h($gaId) ?>"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','<?= $h($gaId) ?>');</script>

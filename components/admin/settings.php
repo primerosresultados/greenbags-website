@@ -216,6 +216,20 @@ textarea.form-control {
 
 /* Submit button area */
 .settings-submit { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid #e5e7eb; }
+
+/* Tamaño del texto (escala tipográfica) */
+.type-scale__val { font-weight: 700; color: #0f172a; font-variant-numeric: tabular-nums; margin-left: .25rem; }
+.type-scale__range { width: 100%; accent-color: #16a34a; height: 28px; cursor: pointer; }
+.type-scale__preview {
+    margin-top: 1rem; padding: 1.1rem 1.25rem; border: 1px dashed #d1d5db;
+    border-radius: 12px; background: #fafafa;
+}
+.type-scale__preview-label {
+    font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    color: #94a3b8; margin-bottom: .5rem;
+}
+.type-scale__prev-h { margin: 0 0 .35rem; font-weight: 800; color: #0f172a; line-height: 1.2; }
+.type-scale__prev-p { margin: 0; color: #475569; line-height: 1.6; }
 </style>
 
 <form method="post">
@@ -292,6 +306,43 @@ textarea.form-control {
             sync('ts','ts-swatch','ts-btn','ts-hex');
         })();
         </script>
+    </div>
+
+    <!-- TAMAÑO DEL TEXTO (escala tipográfica global) -->
+    <?php
+        $tsHead = (int) ($settings['type_scale_headings'] ?? 100); if ($tsHead <= 0) $tsHead = 100;
+        $tsBody = (int) ($settings['type_scale_body'] ?? 100);     if ($tsBody <= 0) $tsBody = 100;
+        $tsHead = max(85, min(140, $tsHead));
+        $tsBody = max(85, min(140, $tsBody));
+    ?>
+    <div class="card">
+        <h3 class="card__title">🔠 Tamaño del texto</h3>
+
+        <div class="settings-section-hint">
+            Agranda (o achica) los <strong>títulos</strong> y los <strong>párrafos</strong> en todo el sitio.
+            100&nbsp;% es el tamaño normal. Se aplica a todas las páginas públicas.
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Títulos <span class="type-scale__val" id="ts-head-val"><?= $tsHead ?>%</span></label>
+                <input type="range" class="type-scale__range" name="s[type_scale_headings]" id="ts-head"
+                       min="85" max="140" step="5" value="<?= $tsHead ?>"
+                       oninput="document.getElementById('ts-head-val').textContent=this.value+'%';document.getElementById('ts-prev-h').style.fontSize=(1.6*this.value/100)+'rem';">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Párrafos <span class="type-scale__val" id="ts-body-val"><?= $tsBody ?>%</span></label>
+                <input type="range" class="type-scale__range" name="s[type_scale_body]" id="ts-body"
+                       min="85" max="140" step="5" value="<?= $tsBody ?>"
+                       oninput="document.getElementById('ts-body-val').textContent=this.value+'%';document.getElementById('ts-prev-p').style.fontSize=(1*this.value/100)+'rem';">
+            </div>
+        </div>
+
+        <div class="type-scale__preview">
+            <div class="type-scale__preview-label">Vista previa</div>
+            <p class="type-scale__prev-h" id="ts-prev-h" style="font-size:<?= 1.6 * $tsHead / 100 ?>rem;">Título de ejemplo</p>
+            <p class="type-scale__prev-p" id="ts-prev-p" style="font-size:<?= 1 * $tsBody / 100 ?>rem;">Este es un párrafo de ejemplo para ver cómo se leería el texto de tu sitio con el tamaño elegido.</p>
+        </div>
     </div>
 
     <!-- ANNOUNCE BAR -->

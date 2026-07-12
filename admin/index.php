@@ -30,6 +30,8 @@ $SETTING_KEYS     = [
     'about_media_image', 'sustentabilidad_media_image',
     // Catálogo: cómo se muestran los atributos de variación en la ficha.
     'variations_display_mode',
+    // Escala tipográfica global del sitio (títulos y párrafos), % 85–140.
+    'type_scale_headings', 'type_scale_body',
 ];
 // Contenido de la página de inicio, editable desde su propia vista
 // (admin → Páginas → Inicio). Se guarda con la acción save_home para no
