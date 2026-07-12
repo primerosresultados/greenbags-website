@@ -387,74 +387,6 @@ function homeRender(string $error = ''): void {
     </section>
     <?php endif; ?>
 
-    <?php
-    // ============ Contacto directo con vendedores (tarjetas) ============
-    // Mismos datos que el footer (settings contact_person_*). Se muestran como
-    // tarjetas premium antes de las categorías para acercar la venta directa.
-    $sellers = [];
-    for ($i = 1; $i <= 2; $i++) {
-        $sName = trim((string) getSetting("contact_person_{$i}_name", ''));
-        if ($sName === '') continue;
-        $sellers[] = [
-            'name'  => $sName,
-            'role'  => trim((string) getSetting("contact_person_{$i}_role", '')),
-            'phone' => trim((string) getSetting("contact_person_{$i}_phone", '')),
-            'email' => trim((string) getSetting("contact_person_{$i}_email", '')),
-        ];
-    }
-    if ($sellers):
-    ?>
-    <!-- ============ Vendedores (tarjetas) ============ -->
-    <section class="home-sellers container">
-        <header class="home-section__head">
-            <h2 class="home-section__title">Habla con un ejecutivo</h2>
-            <span class="home-section__link home-section__link--static">Atención directa y sin intermediarios</span>
-        </header>
-        <div class="home-sellers__grid">
-            <?php foreach ($sellers as $sv):
-                $waPhone = preg_replace('/\D+/', '', $sv['phone']);
-                // Iniciales para el avatar (primeras letras de nombre y apellido).
-                $parts = preg_split('/\s+/', trim($sv['name']));
-                $ini   = mb_strtoupper(mb_substr($parts[0] ?? '', 0, 1)
-                       . (count($parts) > 1 ? mb_substr(end($parts), 0, 1) : ''));
-            ?>
-            <article class="home-seller">
-                <span class="home-seller__glow" aria-hidden="true"></span>
-                <div class="home-seller__top">
-                    <span class="home-seller__avatar" aria-hidden="true"><?= htmlspecialchars($ini) ?></span>
-                    <div class="home-seller__id">
-                        <strong class="home-seller__name"><?= htmlspecialchars($sv['name']) ?></strong>
-                        <?php if ($sv['role'] !== ''): ?>
-                            <span class="home-seller__role"><?= htmlspecialchars($sv['role']) ?></span>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                <ul class="home-seller__contacts">
-                    <?php if ($sv['phone'] !== ''): ?>
-                        <li>
-                            <span class="home-seller__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2.03z"/></svg></span>
-                            <a href="tel:<?= htmlspecialchars($waPhone) ?>"><?= htmlspecialchars($sv['phone']) ?></a>
-                        </li>
-                    <?php endif; ?>
-                    <?php if ($sv['email'] !== ''): ?>
-                        <li>
-                            <span class="home-seller__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
-                            <a href="mailto:<?= htmlspecialchars($sv['email']) ?>"><?= htmlspecialchars($sv['email']) ?></a>
-                        </li>
-                    <?php endif; ?>
-                </ul>
-                <?php if ($waPhone !== ''): ?>
-                    <a class="home-seller__cta" href="https://wa.me/<?= htmlspecialchars($waPhone) ?>" target="_blank" rel="noopener">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.8-1.9-.9-.3-.1-.5-.2-.6.2-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.2-.6-1.6-.9-2.1-.2-.5-.4-.5-.6-.5h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s1 2.6 1.1 2.7c.1.2 1.9 3 4.7 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.9-1.3A10 10 0 1 0 12 2z"/></svg>
-                        Escribir por WhatsApp
-                    </a>
-                <?php endif; ?>
-            </article>
-            <?php endforeach; ?>
-        </div>
-    </section>
-    <?php endif; ?>
-
     <?php if ($s['show_categories'] && $categories):
         $layout    = $s['categories_layout'];
         $catCount  = count($categories);
@@ -572,6 +504,74 @@ function homeRender(string $error = ''): void {
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
+    </section>
+    <?php endif; ?>
+
+    <?php
+    // ============ Contacto directo con vendedores (tarjetas) ============
+    // Mismos datos que el footer (settings contact_person_*). Se muestran como
+    // tarjetas premium antes de las categorías para acercar la venta directa.
+    $sellers = [];
+    for ($i = 1; $i <= 2; $i++) {
+        $sName = trim((string) getSetting("contact_person_{$i}_name", ''));
+        if ($sName === '') continue;
+        $sellers[] = [
+            'name'  => $sName,
+            'role'  => trim((string) getSetting("contact_person_{$i}_role", '')),
+            'phone' => trim((string) getSetting("contact_person_{$i}_phone", '')),
+            'email' => trim((string) getSetting("contact_person_{$i}_email", '')),
+        ];
+    }
+    if ($sellers):
+    ?>
+    <!-- ============ Vendedores (tarjetas) ============ -->
+    <section class="home-sellers container">
+        <header class="home-section__head">
+            <h2 class="home-section__title">Habla con un ejecutivo</h2>
+            <span class="home-section__link home-section__link--static">Atención directa y sin intermediarios</span>
+        </header>
+        <div class="home-sellers__grid">
+            <?php foreach ($sellers as $sv):
+                $waPhone = preg_replace('/\D+/', '', $sv['phone']);
+                // Iniciales para el avatar (primeras letras de nombre y apellido).
+                $parts = preg_split('/\s+/', trim($sv['name']));
+                $ini   = mb_strtoupper(mb_substr($parts[0] ?? '', 0, 1)
+                       . (count($parts) > 1 ? mb_substr(end($parts), 0, 1) : ''));
+            ?>
+            <article class="home-seller">
+                <span class="home-seller__glow" aria-hidden="true"></span>
+                <div class="home-seller__top">
+                    <span class="home-seller__avatar" aria-hidden="true"><?= htmlspecialchars($ini) ?></span>
+                    <div class="home-seller__id">
+                        <strong class="home-seller__name"><?= htmlspecialchars($sv['name']) ?></strong>
+                        <?php if ($sv['role'] !== ''): ?>
+                            <span class="home-seller__role"><?= htmlspecialchars($sv['role']) ?></span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <ul class="home-seller__contacts">
+                    <?php if ($sv['phone'] !== ''): ?>
+                        <li>
+                            <span class="home-seller__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2.03z"/></svg></span>
+                            <a href="tel:<?= htmlspecialchars($waPhone) ?>"><?= htmlspecialchars($sv['phone']) ?></a>
+                        </li>
+                    <?php endif; ?>
+                    <?php if ($sv['email'] !== ''): ?>
+                        <li>
+                            <span class="home-seller__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+                            <a href="mailto:<?= htmlspecialchars($sv['email']) ?>"><?= htmlspecialchars($sv['email']) ?></a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+                <?php if ($waPhone !== ''): ?>
+                    <a class="home-seller__cta" href="https://wa.me/<?= htmlspecialchars($waPhone) ?>" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.8-1.9-.9-.3-.1-.5-.2-.6.2-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.2-.6-1.6-.9-2.1-.2-.5-.4-.5-.6-.5h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s1 2.6 1.1 2.7c.1.2 1.9 3 4.7 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.9-1.3A10 10 0 1 0 12 2z"/></svg>
+                        Escribir por WhatsApp
+                    </a>
+                <?php endif; ?>
+            </article>
+            <?php endforeach; ?>
+        </div>
     </section>
     <?php endif; ?>
 

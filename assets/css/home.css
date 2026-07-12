@@ -461,11 +461,11 @@ main.home + .site-footer { margin-top: 0; }
     font-weight: 700; font-size: .92rem;
     text-decoration: none;
     color: #fff;
-    background: #25d366;
-    box-shadow: 0 8px 18px -8px rgba(37, 211, 102, .7);
+    background: var(--brand-primary, #51af3f);
+    box-shadow: 0 8px 18px -8px color-mix(in srgb, var(--brand-primary, #51af3f) 70%, transparent);
     transition: transform .15s, box-shadow .15s, background .15s;
 }
-.home-seller__cta:hover { transform: translateY(-1px); background: #20bd5a; box-shadow: 0 12px 22px -8px rgba(37, 211, 102, .8); }
+.home-seller__cta:hover { transform: translateY(-1px); background: var(--brand-primary-hover, #3f8f30); box-shadow: 0 12px 22px -8px color-mix(in srgb, var(--brand-primary, #51af3f) 80%, transparent); }
 
 /* ============ Categorías (bento + overlay) ============ */
 .home-cats__bento {
