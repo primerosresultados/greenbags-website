@@ -59,7 +59,7 @@ $exportQs = http_build_query(array_filter([
     </div>
 <?php else: ?>
 <form method="post" id="pbulk-form">
-    <input type="hidden" name="action" value="products_bulk_save">
+    <input type="hidden" name="action" value="products_bulk_save" id="pbulk-action">
     <input type="hidden" name="csrf" value="<?= csrfToken() ?>">
     <input type="hidden" name="search" value="<?= htmlspecialchars($bulkSearch) ?>">
     <input type="hidden" name="status" value="<?= htmlspecialchars($bulkStatus) ?>">
@@ -67,12 +67,16 @@ $exportQs = http_build_query(array_filter([
     <div class="card" style="padding:0;overflow-x:auto;">
     <table class="shop-table pbulk-table">
         <thead><tr>
+            <th style="text-align:center;"><input type="checkbox" id="pbulk-all" class="pbulk-check" title="Seleccionar todo"></th>
             <th>Foto</th><th>Nombre</th><th>SKU</th><th>Precio</th><th>Oferta</th>
             <th>Stock</th><th>Gest.</th><th>Estado stock</th><th>Estado</th><th>Dest.</th>
         </tr></thead>
         <tbody>
         <?php foreach ($rows as $p): $id = (int) $p['id']; ?>
             <tr>
+                <td style="text-align:center;">
+                    <input type="checkbox" name="del[]" value="<?= $id ?>" class="pbulk-check pbulk-del" title="Seleccionar para eliminar">
+                </td>
                 <td class="pbulk-photocell">
                     <label class="pbulk-photo" title="Cambiar foto principal">
                         <?php if (!empty($p['thumb'])): ?>
@@ -121,8 +125,11 @@ $exportQs = http_build_query(array_filter([
     </div>
 
     <div class="pbulk-savebar">
-        <span class="text-muted" style="font-size:.85rem;">Los cambios se aplican al guardar.</span>
-        <button type="submit" class="btn">Guardar cambios</button>
+        <span class="text-muted" style="font-size:.85rem;" id="pbulk-selinfo">Los cambios se aplican al guardar.</span>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+            <button type="button" class="btn btn--danger" id="pbulk-delete" hidden>Eliminar seleccionados</button>
+            <button type="submit" class="btn">Guardar cambios</button>
+        </div>
     </div>
 </form>
 <?php endif; ?>
@@ -156,6 +163,33 @@ $exportQs = http_build_query(array_filter([
     var form = document.getElementById('pbulk-form');
     if (!form) return;
     var csrf = <?= json_encode(csrfToken()) ?>;
+
+    // --- Selección para borrado masivo ---
+    var all = document.getElementById('pbulk-all');
+    var delBtn = document.getElementById('pbulk-delete');
+    var selInfo = document.getElementById('pbulk-selinfo');
+    var actionInput = document.getElementById('pbulk-action');
+    function selected(){ return Array.prototype.filter.call(form.querySelectorAll('.pbulk-del'), function(c){ return c.checked; }); }
+    function refreshSel(){
+        var n = selected().length;
+        if (delBtn) delBtn.hidden = n === 0;
+        if (delBtn) delBtn.textContent = 'Eliminar seleccionados (' + n + ')';
+        if (selInfo) selInfo.textContent = n > 0 ? (n + ' seleccionado(s)') : 'Los cambios se aplican al guardar.';
+        var boxes = form.querySelectorAll('.pbulk-del');
+        if (all) all.checked = n > 0 && n === boxes.length;
+    }
+    if (all) all.addEventListener('change', function(){
+        form.querySelectorAll('.pbulk-del').forEach(function(c){ c.checked = all.checked; });
+        refreshSel();
+    });
+    form.addEventListener('change', function(e){ if (e.target.closest('.pbulk-del')) refreshSel(); });
+    if (delBtn) delBtn.addEventListener('click', function(){
+        var n = selected().length;
+        if (!n) return;
+        if (!confirm('¿Eliminar ' + n + ' producto(s)? Esta acción no se puede deshacer.')) return;
+        if (actionInput) actionInput.value = 'products_bulk_delete';
+        form.submit();
+    });
 
     form.addEventListener('change', function(e){
         var input = e.target.closest('.pbulk-file');

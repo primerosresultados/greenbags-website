@@ -345,6 +345,16 @@ function productDelete(int $id): bool {
     return getDB()->prepare('DELETE FROM products WHERE id = ?')->execute([$id]);
 }
 
+/** Borra varios productos por id de una sola vez. @return int cantidad borrada. */
+function productBulkDelete(array $ids): int {
+    $ids = array_values(array_unique(array_filter(array_map('intval', $ids), fn($i) => $i > 0)));
+    if (!$ids) return 0;
+    $place = implode(',', array_fill(0, count($ids), '?'));
+    $stmt = getDB()->prepare("DELETE FROM products WHERE id IN ($place)");
+    $stmt->execute($ids);
+    return $stmt->rowCount();
+}
+
 /* ===================== Edición masiva (tabla / Excel) ===================== */
 
 /**

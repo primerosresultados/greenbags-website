@@ -64,6 +64,17 @@ function handleShopAdminActions(array $user, string $action): bool {
             ])));
             return true;
 
+        case 'products_bulk_delete':
+            csrfCheck();
+            $n = productBulkDelete((array) ($_POST['del'] ?? []));
+            flashSet('shop_msg', $n . ' producto(s) eliminados.');
+            redirect('/admin/?' . http_build_query(array_filter([
+                'view'   => 'products_bulk',
+                'search' => trim((string) ($_POST['search'] ?? '')),
+                'status' => (string) ($_POST['status'] ?? ''),
+            ])));
+            return true;
+
         case 'products_export':
             productsExportCsv($_GET); // imprime y hace exit
             return true;
