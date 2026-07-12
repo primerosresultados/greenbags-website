@@ -693,7 +693,7 @@
  *   3. Bottom: redes sociales y copyright sobre una línea separadora sutil.
  */
 .site-footer {
-    background: #0f172a;
+    background: #1e2c4a;
     color: #cbd5e1;
     margin-top: 3rem;
 }
@@ -708,10 +708,10 @@
     text-align: left;
 }
 
-/* ── Grilla de 3 columnas ── */
+/* ── Grilla: marca + una columna por vendedor + contacto general ── */
 .site-footer__columns {
     display: grid;
-    grid-template-columns: 1.2fr 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr 1fr 1.1fr;
     gap: 2.5rem 3rem;
     align-items: start;
 }
@@ -796,33 +796,29 @@
     flex-shrink: 0;
 }
 
-/* ── Contactos directos (personas) ── */
-.site-footer__people {
+/* ── Contacto directo: una columna por vendedor ── */
+.site-footer__person-col {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
+    gap: .5rem;
     text-align: left;
 }
-.site-footer__people-list {
+.site-footer__person-name {
+    color: #fff;
+    font-size: 1.05rem;
+    line-height: 1.25;
+}
+.site-footer__person-links {
     list-style: none;
-    margin: 0;
+    margin: .35rem 0 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 1.1rem;
-}
-.site-footer__person {
-    display: flex;
-    flex-direction: column;
-    gap: .15rem;
-    font-size: .95rem;
+    gap: .8rem;
     color: #cbd5e1;
+    font-size: .95rem;
 }
-.site-footer__person-name { color: #fff; font-size: 1rem; }
-.site-footer__person-role { color: #94a3b8; font-size: .8rem; }
-.site-footer__person a { color: #cbd5e1; text-decoration: none; transition: color .15s; }
-.site-footer__person a:hover { color: #fff; }
 .site-footer__pickup {
     display: inline-flex;
     align-items: center;
@@ -883,7 +879,7 @@
     .site-footer__inner { padding: 2.8rem 1.2rem 1.8rem; gap: 2rem; align-items: center; text-align: center; }
     .site-footer__columns { grid-template-columns: 1fr; gap: 2rem; justify-items: center; text-align: center; }
     .site-footer__brand-block,
-    .site-footer__people,
+    .site-footer__person-col,
     .site-footer__contact { align-items: center; text-align: center; }
     .site-footer__brand img { max-height: var(--footer-logo-h-mobile, 74px); }
     .site-footer__tagline { font-size: .95rem; }
