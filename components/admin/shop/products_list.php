@@ -10,7 +10,10 @@ $badge = fn(string $s) => '<span class="shop-badge shop-badge--' . $s . '">'
 ?>
 <header class="admin-header">
     <div><h1>Productos</h1><div class="admin-header__sub"><?= $total ?> producto(s)</div></div>
-    <a class="btn" href="/admin/?view=product&id=new">+ Nuevo producto</a>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+        <a class="btn btn--ghost" href="/admin/?view=products_bulk">Editar en tabla</a>
+        <a class="btn" href="/admin/?view=product&id=new">+ Nuevo producto</a>
+    </div>
 </header>
 
 <?php if ($msg): ?><div class="auth-alert auth-alert--success"><span><?= htmlspecialchars($msg) ?></span></div><?php endif; ?>

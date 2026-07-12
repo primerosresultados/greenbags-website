@@ -60,7 +60,7 @@ $activeLeads = $view === '' || $view === 'leads';
         </a>
     <?php endif; ?>
 
-    <a class="admin-sidebar__link<?= $is('products') || $is('product') ? ' admin-sidebar__link--active' : '' ?>" href="/admin/?view=products">
+    <a class="admin-sidebar__link<?= $is('products') || $is('product') || $is('products_bulk') ? ' admin-sidebar__link--active' : '' ?>" href="/admin/?view=products">
         <svg class="admin-sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
         <span>Productos</span>
     </a>
