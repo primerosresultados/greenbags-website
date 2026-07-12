@@ -377,6 +377,96 @@ main.home + .site-footer { margin-top: 0; }
 .home-benefit__title { display: block; font-size: .98rem; color: #0f172a; }
 .home-benefit__desc { margin: .15rem 0 0; color: #64748b; font-size: .85rem; line-height: 1.45; }
 
+/* ============ Vendedores (tarjetas mega pro) ============ */
+.home-section__link--static { cursor: default; }
+.home-sellers { margin-top: 3.2rem; }
+.home-sellers__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.4rem;
+}
+.home-seller {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    padding: 1.6rem 1.6rem 1.5rem;
+    border-radius: 20px;
+    background:
+        linear-gradient(165deg, color-mix(in srgb, var(--brand-primary, #51af3f) 8%, #fff) 0%, #fff 60%);
+    border: 1px solid color-mix(in srgb, var(--brand-primary, #51af3f) 16%, #e6ebe4);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, .04);
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.home-seller:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -18px color-mix(in srgb, var(--brand-primary, #51af3f) 55%, rgba(15, 23, 42, .35));
+    border-color: color-mix(in srgb, var(--brand-primary, #51af3f) 40%, #e6ebe4);
+}
+/* Halo decorativo superior derecho. */
+.home-seller__glow {
+    position: absolute;
+    top: -60px; right: -50px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--brand-primary, #51af3f) 30%, transparent) 0%, transparent 70%);
+    pointer-events: none;
+}
+.home-seller__top { display: flex; align-items: center; gap: 1rem; position: relative; }
+.home-seller__avatar {
+    flex: 0 0 auto;
+    width: 56px; height: 56px;
+    border-radius: 16px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 1.15rem; font-weight: 800; letter-spacing: .02em;
+    color: #fff;
+    background: linear-gradient(135deg, #14532d 0%, var(--brand-primary, #51af3f) 100%);
+    box-shadow: 0 8px 18px -8px color-mix(in srgb, var(--brand-primary, #51af3f) 70%, transparent);
+}
+.home-seller__id { display: flex; flex-direction: column; gap: .2rem; min-width: 0; }
+.home-seller__name { font-size: 1.15rem; font-weight: 800; color: #0f172a; letter-spacing: -.01em; }
+.home-seller__role {
+    align-self: flex-start;
+    font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+    color: var(--brand-primary, #3f8f30);
+    background: color-mix(in srgb, var(--brand-primary, #51af3f) 12%, #fff);
+    border: 1px solid color-mix(in srgb, var(--brand-primary, #51af3f) 22%, #fff);
+    padding: .18rem .5rem;
+    border-radius: 999px;
+}
+.home-seller__contacts {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-direction: column; gap: .7rem;
+}
+.home-seller__contacts li { display: flex; align-items: center; gap: .65rem; }
+.home-seller__ico {
+    flex: 0 0 auto;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px;
+    border-radius: 10px;
+    color: var(--brand-primary, #3f8f30);
+    background: color-mix(in srgb, var(--brand-primary, #51af3f) 12%, #fff);
+}
+.home-seller__contacts a {
+    color: #334155; text-decoration: none; font-size: .95rem; font-weight: 500;
+    word-break: break-word; transition: color .15s;
+}
+.home-seller__contacts a:hover { color: var(--brand-primary, #3f8f30); }
+.home-seller__cta {
+    margin-top: auto;
+    display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+    padding: .7rem 1rem;
+    border-radius: 12px;
+    font-weight: 700; font-size: .92rem;
+    text-decoration: none;
+    color: #fff;
+    background: #25d366;
+    box-shadow: 0 8px 18px -8px rgba(37, 211, 102, .7);
+    transition: transform .15s, box-shadow .15s, background .15s;
+}
+.home-seller__cta:hover { transform: translateY(-1px); background: #20bd5a; box-shadow: 0 12px 22px -8px rgba(37, 211, 102, .8); }
+
 /* ============ Categorías (bento + overlay) ============ */
 .home-cats__bento {
     display: grid; gap: 1.2rem;
