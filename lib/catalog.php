@@ -345,6 +345,117 @@ function productDelete(int $id): bool {
     return getDB()->prepare('DELETE FROM products WHERE id = ?')->execute([$id]);
 }
 
+/* ===================== Edición masiva (tabla / Excel) ===================== */
+
+/**
+ * Listado plano (sin paginar) para la tabla de edición masiva y el export.
+ * Trae las columnas editables + la imagen principal (media_id y thumb).
+ */
+function productBulkList(array $o = []): array {
+    $where = []; $params = [];
+    $search = trim((string) ($o['search'] ?? ''));
+    if ($search !== '') {
+        $where[] = '(p.name LIKE ? OR p.sku LIKE ?)';
+        $like = '%' . $search . '%';
+        array_push($params, $like, $like);
+    }
+    if (!empty($o['status']) && in_array($o['status'], ['draft', 'published', 'archived'], true)) {
+        $where[] = 'p.status = ?';
+        $params[] = $o['status'];
+    }
+    $whereSql = $where ? 'WHERE ' . implode(' AND ', $where) : '';
+    $limit = max(1, (int) ($o['limit'] ?? 2000));
+
+    $sql = "SELECT p.id, p.name, p.sku, p.type, p.status, p.price, p.sale_price,
+                   p.stock_qty, p.stock_status, p.manage_stock, p.featured, p.short_description,
+                   (SELECT pi.media_id FROM product_images pi WHERE pi.product_id = p.id
+                    ORDER BY pi.is_primary DESC, pi.sort_order LIMIT 1) AS primary_media_id,
+                   (SELECT m.thumb_path FROM product_images pi JOIN media_library m ON m.id = pi.media_id
+                    WHERE pi.product_id = p.id ORDER BY pi.is_primary DESC, pi.sort_order LIMIT 1) AS thumb
+            FROM products p $whereSql ORDER BY p.created_at DESC LIMIT ?";
+    $stmt = getDB()->prepare($sql);
+    $i = 1;
+    foreach ($params as $p) $stmt->bindValue($i++, $p, PDO::PARAM_STR);
+    $stmt->bindValue($i++, $limit, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
+
+/**
+ * Marca $mediaId como imagen principal del producto (la asocia si no existía).
+ * No toca el resto de la galería (solo baja el is_primary previo).
+ */
+function productSetPrimaryImage(int $productId, int $mediaId): void {
+    if ($productId <= 0 || $mediaId <= 0) return;
+    $db = getDB();
+    $st = $db->prepare('SELECT COUNT(*) FROM product_images WHERE product_id = ? AND media_id = ?');
+    $st->execute([$productId, $mediaId]);
+    $exists = (int) $st->fetchColumn() > 0;
+
+    $db->prepare('UPDATE product_images SET is_primary = 0 WHERE product_id = ?')->execute([$productId]);
+    if ($exists) {
+        $db->prepare('UPDATE product_images SET is_primary = 1, sort_order = -1 WHERE product_id = ? AND media_id = ?')
+           ->execute([$productId, $mediaId]);
+    } else {
+        $db->prepare('INSERT INTO product_images (product_id, media_id, sort_order, is_primary) VALUES (?, ?, -1, 1)')
+           ->execute([$productId, $mediaId]);
+    }
+}
+
+/**
+ * Actualiza en lote solo las columnas editables por tabla/Excel de cada producto
+ * (por id). No toca descripción larga, categorías, variaciones ni SEO.
+ * $rows: [ id => ['name','sku','price','sale_price','stock_qty','manage_stock',
+ *                 'stock_status','status','featured','short_description','primary_media_id'] ]
+ * @return int Cantidad de productos procesados con éxito.
+ */
+function productBulkUpdate(array $rows): int {
+    $db = getDB();
+    $stmt = $db->prepare(
+        'UPDATE products SET name=:name, sku=:sku, price=:price, sale_price=:sale_price,
+         min_price=:min_price, max_price=:max_price, stock_qty=:stock_qty, manage_stock=:manage_stock,
+         stock_status=:stock_status, status=:status, featured=:featured, short_description=:short_description
+         WHERE id=:id'
+    );
+    $n = 0;
+    foreach ($rows as $id => $r) {
+        $id = (int) $id;
+        if ($id <= 0 || !is_array($r)) continue;
+        $name = trim((string) ($r['name'] ?? ''));
+        if ($name === '') continue; // nunca vaciamos el nombre en lote
+
+        $price = max(0, (float) ($r['price'] ?? 0));
+        $sale  = ($r['sale_price'] ?? '') !== '' ? max(0, (float) $r['sale_price']) : null;
+        $stockStat = in_array($r['stock_status'] ?? '', ['in_stock', 'out_of_stock', 'backorder'], true)
+            ? $r['stock_status'] : 'in_stock';
+        $status = in_array($r['status'] ?? '', ['draft', 'published', 'archived'], true)
+            ? $r['status'] : 'draft';
+        try {
+            $stmt->execute([
+                'id'                => $id,
+                'name'              => mb_substr($name, 0, 255),
+                'sku'               => trim((string) ($r['sku'] ?? '')) ?: null,
+                'price'             => $price,
+                'sale_price'        => $sale,
+                'min_price'         => $sale !== null ? min($price, $sale) : $price,
+                'max_price'         => $price,
+                'stock_qty'         => (int) ($r['stock_qty'] ?? 0),
+                'manage_stock'      => !empty($r['manage_stock']) ? 1 : 0,
+                'stock_status'      => $stockStat,
+                'status'            => $status,
+                'featured'          => !empty($r['featured']) ? 1 : 0,
+                'short_description' => mb_substr(trim((string) ($r['short_description'] ?? '')), 0, 500) ?: null,
+            ]);
+            $mid = (int) ($r['primary_media_id'] ?? 0);
+            if ($mid > 0) productSetPrimaryImage($id, $mid);
+            $n++;
+        } catch (PDOException $e) {
+            // SKU duplicado u otro conflicto: se salta esa fila.
+        }
+    }
+    return $n;
+}
+
 /* ===================== Front ===================== */
 
 /** Productos publicados (opcional por categoría) con su imagen principal. */

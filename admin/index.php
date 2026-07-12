@@ -823,6 +823,10 @@ if ($user) {
         $shopPage    = max(1, (int) ($_GET['page'] ?? 1));
         $shopPerPage = 25;
         $shopProducts = productAdminList(['search' => $shopSearch, 'status' => $shopStatus, 'page' => $shopPage, 'perPage' => $shopPerPage]);
+    } elseif ($view === 'products_bulk') {
+        $bulkSearch   = trim($_GET['search'] ?? '');
+        $bulkStatus   = $_GET['status'] ?? '';
+        $bulkProducts = productBulkList(['search' => $bulkSearch, 'status' => $bulkStatus]);
     } elseif ($view === 'product') {
         $pid = $_GET['id'] ?? '';
         $product = ($pid !== 'new' && $pid !== '') ? productGet((int) $pid) : null;
@@ -986,6 +990,8 @@ if ($faviconPath && @file_exists($faviconAbs)):
             require __DIR__ . '/../components/admin/user_edit.php';
         } elseif ($view === 'products') {
             require __DIR__ . '/../components/admin/shop/products_list.php';
+        } elseif ($view === 'products_bulk') {
+            require __DIR__ . '/../components/admin/shop/products_bulk.php';
         } elseif ($view === 'product') {
             require __DIR__ . '/../components/admin/shop/product_edit.php';
         } elseif ($view === 'categories') {
