@@ -28,6 +28,8 @@ $SETTING_KEYS     = [
     'home_cta_title', 'home_cta_subtitle', 'home_cta_label', 'home_cta_url',
     // Imágenes de páginas internas (editables por panel vía tokens {{img:...}}).
     'about_media_image', 'sustentabilidad_media_image',
+    // Logos de certificaciones (página "Compromiso sustentable").
+    'cert_logo_1', 'cert_logo_2', 'cert_logo_3', 'cert_logo_4',
     // Catálogo: cómo se muestran los atributos de variación en la ficha.
     'variations_display_mode',
 ];
