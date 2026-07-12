@@ -32,6 +32,8 @@ $SETTING_KEYS     = [
     'cert_logo_1', 'cert_logo_2', 'cert_logo_3', 'cert_logo_4',
     // Catálogo: cómo se muestran los atributos de variación en la ficha.
     'variations_display_mode',
+    // Escala tipográfica global del sitio (títulos y párrafos), % 85–140.
+    'type_scale_headings', 'type_scale_body',
 ];
 // Contenido de la página de inicio, editable desde su propia vista
 // (admin → Páginas → Inicio). Se guarda con la acción save_home para no

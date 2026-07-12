@@ -586,8 +586,8 @@
     cursor: pointer;
     color: var(--sh-fg);
     font: inherit;
-    font-weight: 500;
-    font-size: .92rem;
+    font-weight: 600;
+    font-size: 1.02rem;
     padding: .55rem .8rem .55rem .9rem;
     border-radius: 10px;
     display: inline-flex;

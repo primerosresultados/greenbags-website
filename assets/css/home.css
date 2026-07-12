@@ -449,8 +449,8 @@ main.home + .site-footer { margin-top: 0; }
     background: color-mix(in srgb, var(--brand-primary, #51af3f) 12%, #fff);
 }
 .home-seller__contacts a {
-    color: #334155; text-decoration: none; font-size: .95rem; font-weight: 500;
-    word-break: break-word; transition: color .15s;
+    color: #0f172a; text-decoration: none; font-size: 1.06rem; font-weight: 700;
+    letter-spacing: -.01em; word-break: break-word; transition: color .15s;
 }
 .home-seller__contacts a:hover { color: var(--brand-primary, #3f8f30); }
 .home-seller__cta {
