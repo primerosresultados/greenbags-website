@@ -272,8 +272,8 @@
    ========================================================== */
 .admin-main {
     padding: 2rem 2.25rem 4rem;
-    max-width: 1200px;
     width: 100%;
+    min-width: 0;
     animation: admin-fade-in 220ms var(--ease-out-quart);
 }
 
