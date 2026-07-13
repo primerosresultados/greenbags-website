@@ -221,6 +221,28 @@
     line-height: 1;
     box-shadow: 0 0 0 2px var(--sh-bg);
 }
+.site-navbar__fav-badge {
+    position: absolute;
+    top: 1px; right: -2px;
+    min-width: 16px; height: 16px;
+    padding: 0 .28rem;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 999px;
+    background: #73BF6D;
+    color: #fff;
+    font-size: .62rem; font-weight: 700;
+    line-height: 1;
+    box-shadow: 0 0 0 2px var(--sh-bg);
+}
+.site-navbar__fav-badge[hidden] { display: none; }
+.site-navbar__acc-dot {
+    position: absolute;
+    top: 6px; right: 6px;
+    width: 8px; height: 8px;
+    border-radius: 999px;
+    background: #73BF6D;
+    box-shadow: 0 0 0 2px var(--sh-bg);
+}
 
 .site-navbar__cta {
     display: inline-flex;

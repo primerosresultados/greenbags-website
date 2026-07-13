@@ -29,6 +29,8 @@ require __DIR__ . '/home_clients.php';
 require __DIR__ . '/shop_front.php';
 require __DIR__ . '/quote_front.php';
 require __DIR__ . '/contact_front.php';
+require __DIR__ . '/customer_auth.php';
+require __DIR__ . '/account_front.php';
 require __DIR__ . '/home.php';
 
 // Errores: log a archivo, nunca mostrar en producción.

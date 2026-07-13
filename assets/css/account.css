@@ -1,0 +1,178 @@
+/* ===========================================================================
+ * GreenBags — /mi-cuenta y /favoritos
+ * ========================================================================= */
+
+.acct { padding: 2rem 1.2rem 3.5rem; }
+.acct-eyebrow {
+    margin: 0 0 .2rem; font-size: .78rem; font-weight: 700;
+    letter-spacing: .06em; text-transform: uppercase; color: #73BF6D;
+}
+.acct-title { margin: 0; font-size: 2rem; line-height: 1.1; color: var(--color-text-strong); }
+
+.acct-head {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 1rem; flex-wrap: wrap; margin-bottom: 1.4rem;
+}
+.acct-logout { margin: 0; }
+
+/* ---- Flash ---- */
+.acct-flash {
+    border-radius: var(--radius-lg); padding: .8rem 1rem; margin: 0 0 1.2rem;
+    font-size: .95rem; line-height: 1.45;
+}
+.acct-flash--ok  { background: #ecfdf3; color: #166534; border: 1px solid #bbf7d0; }
+.acct-flash--err { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+
+/* ---- Banner de verificación ---- */
+.acct-verify {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    flex-wrap: wrap;
+    background: #fffbeb; border: 1px solid #fde68a; color: #92400e;
+    border-radius: var(--radius-lg); padding: .9rem 1.1rem; margin-bottom: 1.4rem;
+    font-size: .95rem;
+}
+.acct-verify form { margin: 0; }
+
+/* ---- Grid dashboard ---- */
+.acct-grid {
+    display: grid; gap: 1.4rem;
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+    align-items: start;
+}
+@media (max-width: 880px) { .acct-grid { grid-template-columns: 1fr; } }
+
+.acct-card {
+    background: var(--color-bg); border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl); padding: 1.3rem 1.4rem;
+    box-shadow: var(--shadow-sm);
+}
+.acct-card + .acct-card { margin-top: 1.4rem; }
+.acct-card__title { margin: 0 0 1rem; font-size: 1.1rem; color: var(--color-text-strong); }
+.acct-side { display: block; }
+
+/* ---- Tabla de cotizaciones ---- */
+.acct-table-wrap { overflow-x: auto; }
+.acct-table { width: 100%; border-collapse: collapse; font-size: .93rem; }
+.acct-table th {
+    text-align: left; padding: .55rem .6rem; border-bottom: 2px solid var(--color-border);
+    color: var(--color-text-muted); font-weight: 600; white-space: nowrap;
+}
+.acct-table td { padding: .65rem .6rem; border-bottom: 1px solid var(--color-border); }
+.acct-table__num { font-weight: 600; color: var(--color-text-strong); }
+
+.acct-badge {
+    display: inline-block; padding: .2rem .6rem; border-radius: 999px;
+    font-size: .78rem; font-weight: 600; background: #f1f5f9; color: #475569;
+}
+.acct-badge.is-submitted { background: #eff6ff; color: #1d4ed8; }
+.acct-badge.is-responded { background: #f5f3ff; color: #6d28d9; }
+.acct-badge.is-won       { background: #ecfdf3; color: #15803d; }
+.acct-badge.is-lost      { background: #f3f4f6; color: #6b7280; }
+.acct-badge.is-expired   { background: #fef2f2; color: #b91c1c; }
+
+.acct-note { margin: 1rem 0 0; font-size: .85rem; color: var(--color-text-muted); }
+.acct-empty { text-align: center; padding: 1.5rem 0; }
+.acct-empty p { margin: 0 0 1rem; color: var(--color-text-muted); }
+
+/* ---- Formularios ---- */
+.acct-form { display: flex; flex-direction: column; gap: .9rem; }
+/* El atributo [hidden] debe ganarle a display:flex de .acct-form (tabs). */
+.acct-pane[hidden] { display: none; }
+.acct-field { display: flex; flex-direction: column; gap: .35rem; }
+.acct-field label { font-size: .85rem; font-weight: 600; color: var(--color-text); }
+.acct-opt { font-weight: 400; color: var(--color-text-subtle); }
+.acct-field input {
+    width: 100%; padding: .6rem .75rem; font-size: .95rem;
+    border: 1.5px solid var(--color-border-strong); border-radius: var(--radius);
+    background: var(--color-bg); color: var(--color-text);
+    transition: border-color .15s, box-shadow .15s;
+}
+.acct-field input:focus {
+    outline: none; border-color: #73BF6D; box-shadow: 0 0 0 3px rgba(115,191,109,.18);
+}
+.acct-field input:disabled { background: var(--color-bg-hover); color: var(--color-text-muted); }
+.acct-hint { font-size: .8rem; color: var(--color-text-subtle); }
+
+/* ---- Accesos rápidos ---- */
+.acct-card--links { display: flex; flex-direction: column; }
+.acct-quicklink {
+    display: flex; align-items: center; gap: .7rem;
+    padding: .7rem .2rem; text-decoration: none; color: var(--color-text);
+    border-bottom: 1px solid var(--color-border); font-weight: 500;
+}
+.acct-quicklink:last-child { border-bottom: none; }
+.acct-quicklink svg { color: #73BF6D; flex: none; }
+.acct-quicklink:hover { color: #4d9e46; }
+
+/* ---- Auth (login / registro) ---- */
+.acct--auth { display: flex; justify-content: center; }
+.acct-authcard {
+    width: 100%; max-width: 460px;
+    background: var(--color-bg); border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl); padding: 2rem; box-shadow: var(--shadow-md);
+}
+.acct-authcard--narrow { max-width: 420px; }
+.acct-authhead { text-align: center; margin-bottom: 1.4rem; }
+.acct-authhead h1 { margin: 0 0 .4rem; font-size: 1.7rem; color: var(--color-text-strong); }
+.acct-authhead p { margin: 0; color: var(--color-text-muted); font-size: .95rem; }
+
+.acct-tabs {
+    display: flex; gap: .3rem; background: var(--color-bg-app);
+    border-radius: 999px; padding: .3rem; margin-bottom: 1.4rem;
+}
+.acct-tab {
+    flex: 1; border: none; background: transparent; cursor: pointer;
+    padding: .55rem 0; border-radius: 999px; font-size: .92rem; font-weight: 600;
+    color: var(--color-text-muted); transition: background .15s, color .15s;
+}
+.acct-tab.is-active { background: var(--color-bg); color: var(--color-text-strong); box-shadow: var(--shadow-sm); }
+
+.acct-submit { margin-top: .3rem; width: 100%; justify-content: center; }
+.acct-alt { text-align: center; margin: .9rem 0 0; font-size: .9rem; }
+.acct-alt a { color: var(--color-text-muted); }
+
+/* ===========================================================================
+ * /favoritos
+ * ========================================================================= */
+
+.fav { padding: 2rem 1.2rem 3.5rem; }
+.fav-head {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; flex-wrap: wrap; margin-bottom: 1.4rem;
+}
+.fav-toolbar { margin: 0; }
+
+.fav-empty { text-align: center; padding: 2.5rem 1rem; color: var(--color-text-muted); }
+.fav-empty svg { margin-bottom: 1rem; }
+.fav-empty p { max-width: 480px; margin: 0 auto 1rem; line-height: 1.55; }
+.fav-empty__cta { display: flex; gap: .6rem; justify-content: center; flex-wrap: wrap; }
+
+.fav-grid {
+    display: grid; gap: 1.2rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+.fav-card {
+    position: relative; display: flex; flex-direction: column;
+    border: 1px solid var(--color-border); border-radius: var(--radius-lg);
+    overflow: hidden; background: var(--color-bg); transition: box-shadow .18s, transform .18s;
+}
+.fav-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+.fav-card__rm {
+    position: absolute; top: .5rem; right: .5rem; z-index: 2;
+    width: 30px; height: 30px; border: none; border-radius: 999px;
+    background: rgba(255,255,255,.92); color: #64748b; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,.12); transition: color .15s, transform .12s;
+}
+.fav-card__rm:hover { color: #ef4444; transform: scale(1.08); }
+.fav-card__img { aspect-ratio: 1; background: #f3f4f6; overflow: hidden; display: block; }
+.fav-card__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.fav-card__img--empty { background: repeating-linear-gradient(45deg,#f3f4f6,#f3f4f6 10px,#eceef0 10px,#eceef0 20px); }
+.fav-card__body { padding: .8rem .9rem 1rem; display: flex; flex-direction: column; gap: .45rem; }
+.fav-card__name {
+    font-weight: 600; color: var(--color-text-strong); text-decoration: none;
+    font-size: .95rem; line-height: 1.3;
+}
+.fav-card__name:hover { color: #4d9e46; }
+.fav-card__price { margin: 0; color: var(--color-text-muted); font-size: .9rem; }
+.fav-card__cta { margin-top: .3rem; align-self: flex-start; }

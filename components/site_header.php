@@ -143,12 +143,17 @@ $renderMenu = function () use ($pagesMain, $pageContact, $cats, $currentSlug, $i
 $favSvg = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
 $accSvg = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
 
-$renderActions = function () use ($cartCount, $cartSvg, $cartHref, $cartBtnId, $cartLabel, $favSvg, $accSvg) {
+$acctLogged = function_exists('currentCustomer') && currentCustomer();
+
+$renderActions = function () use ($cartCount, $cartSvg, $cartHref, $cartBtnId, $cartLabel, $favSvg, $accSvg, $acctLogged) {
     echo '<div class="site-navbar__actions">';
     echo '<a href="/favoritos" class="site-navbar__iconbtn site-navbar__iconbtn--fav" aria-label="Mis favoritos">'
-       . $favSvg . '</a>';
-    echo '<a href="/mi-cuenta" class="site-navbar__iconbtn site-navbar__iconbtn--acc" aria-label="Mi cuenta">'
-       . $accSvg . '</a>';
+       . $favSvg
+       . '<span class="site-navbar__fav-badge" hidden>0</span></a>';
+    echo '<a href="/mi-cuenta" class="site-navbar__iconbtn site-navbar__iconbtn--acc' . ($acctLogged ? ' is-logged' : '') . '" aria-label="' . ($acctLogged ? 'Mi cuenta (sesión iniciada)' : 'Mi cuenta') . '">'
+       . $accSvg
+       . ($acctLogged ? '<span class="site-navbar__acc-dot" aria-hidden="true"></span>' : '')
+       . '</a>';
     echo '<a href="' . $cartHref . '" id="' . $cartBtnId . '" class="site-navbar__cart" aria-label="' . htmlspecialchars($cartLabel) . ' (' . (int) $cartCount . ' ítems)">'
        . $cartSvg
        . ($cartCount > 0 ? '<span class="site-navbar__cart-badge">' . (int) $cartCount . '</span>' : '')

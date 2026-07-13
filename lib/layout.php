@@ -98,6 +98,7 @@ $cssVer = function (string $path): string {
 <link rel="stylesheet" href="<?= $h($cssVer('/assets/css/components.css')) ?>">
 <link rel="stylesheet" href="<?= $h($cssVer('/assets/css/shop.css')) ?>">
 <link rel="stylesheet" href="<?= $h($cssVer('/assets/css/home.css')) ?>">
+<link rel="stylesheet" href="<?= $h($cssVer('/assets/css/account.css')) ?>">
 <?php if (!$hideChrome): ?>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -234,7 +235,12 @@ function layoutEnd(): void {
             require __DIR__ . '/../components/whatsapp_float.php';
         }
     }
-    ?></body>
+    // Favoritos (wishlist en localStorage): global, también en páginas sin chrome
+    // por si el corazón aparece en un producto embebido.
+    $favMt = @filemtime(__DIR__ . '/../assets/js/favorites.js');
+    ?>
+    <script src="/assets/js/favorites.js<?= $favMt ? '?v=' . $favMt : '' ?>" defer></script>
+    </body>
 </html>
 <?php
 }

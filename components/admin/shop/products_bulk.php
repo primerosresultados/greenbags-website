@@ -95,8 +95,8 @@ $exportQs = http_build_query(array_filter([
                     <a class="pbulk-edit" href="/admin/?view=product&id=<?= $id ?>" title="Ficha completa">↗</a>
                 </td>
                 <td><input class="pbulk-in pbulk-in--sku" name="rows[<?= $id ?>][sku]" value="<?= htmlspecialchars((string) ($p['sku'] ?? '')) ?>" placeholder="—"></td>
-                <td><input class="pbulk-in pbulk-in--num" type="number" step="1" min="0" name="rows[<?= $id ?>][price]" value="<?= htmlspecialchars((string) $p['price']) ?>"></td>
-                <td><input class="pbulk-in pbulk-in--num" type="number" step="1" min="0" name="rows[<?= $id ?>][sale_price]" value="<?= $p['sale_price'] !== null ? htmlspecialchars((string) $p['sale_price']) : '' ?>" placeholder="—"></td>
+                <td><input class="pbulk-in pbulk-in--num" type="number" step="1" min="0" name="rows[<?= $id ?>][price]" value="<?= (int) round((float) $p['price']) ?>"></td>
+                <td><input class="pbulk-in pbulk-in--num" type="number" step="1" min="0" name="rows[<?= $id ?>][sale_price]" value="<?= $p['sale_price'] !== null ? (int) round((float) $p['sale_price']) : '' ?>" placeholder="—"></td>
                 <td><input class="pbulk-in pbulk-in--num pbulk-in--stock" type="number" step="1" name="rows[<?= $id ?>][stock_qty]" value="<?= (int) $p['stock_qty'] ?>"></td>
                 <td style="text-align:center;">
                     <input type="checkbox" name="rows[<?= $id ?>][manage_stock]" value="1" <?= (int) $p['manage_stock'] === 1 ? 'checked' : '' ?> title="Gestionar stock" class="pbulk-check">

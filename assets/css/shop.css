@@ -386,6 +386,25 @@
     transition: color .15s, border-color .15s, background .15s;
 }
 .shop-wishlist:hover { color: #ef4444; border-color: #fecaca; background: #fef2f2; }
+.shop-wishlist.is-fav { color: #ef4444; border-color: #fecaca; background: #fef2f2; }
+.shop-wishlist.is-fav svg { fill: #ef4444; }
+
+/* ---- Corazón overlay en cards del catálogo ---- */
+.shop-card-wrap { position: relative; display: flex; }
+.shop-card-wrap > .shop-card { flex: 1 1 auto; }
+.shop-favbtn {
+    position: absolute; top: .55rem; right: .55rem; z-index: 2;
+    width: 34px; height: 34px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: none; border-radius: 999px;
+    background: rgba(255,255,255,.92);
+    color: #64748b; cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,.12);
+    transition: color .15s, background .15s, transform .12s;
+}
+.shop-favbtn:hover { color: #ef4444; background: #fff; transform: scale(1.06); }
+.shop-favbtn.is-fav { color: #ef4444; }
+.shop-favbtn.is-fav svg { fill: #ef4444; }
 
 /* ---- Banner envío gratis ---- */
 .shop-freeship {

@@ -349,8 +349,14 @@ function quoteSubmit(array $data): array {
     $userAgent = substr((string) ($_SERVER['HTTP_USER_AGENT'] ?? ''), 0, 500);
     $ip = function_exists('clientIp') ? clientIp() : ($_SERVER['REMOTE_ADDR'] ?? null);
 
+    // Si hay un cliente logueado, ligamos la cotización a su cuenta (sin pisar
+    // un vínculo previo). Así aparece en el historial de /mi-cuenta.
+    $customerId = (function_exists('currentCustomer') && ($cust = currentCustomer()))
+        ? (int) $cust['id'] : null;
+
     getDB()->prepare(
         "UPDATE quotes SET
+            customer_id      = COALESCE(customer_id, ?),
             quote_number     = ?,
             status           = 'submitted',
             contact_name     = ?,
@@ -368,6 +374,7 @@ function quoteSubmit(array $data): array {
             user_agent       = ?
          WHERE id = ?"
     )->execute([
+        $customerId,
         $number, $name, $email, $phone,
         $company ?: null, $taxid ?: null, $position ?: null,
         $city ?: null, $region ?: null,
