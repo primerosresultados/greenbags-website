@@ -726,26 +726,6 @@ textarea.form-control {
                 require __DIR__ . '/_single_image_field.php';
             ?>
         </div>
-
-        <div style="border-top:1px solid #e5e7eb;padding-top:1.4rem;margin-top:1.4rem;">
-            <label class="form-label" style="display:block;font-weight:600;margin-bottom:.35rem;">Logos de certificaciones</label>
-            <div class="settings-section-hint" style="margin-bottom:1rem;">
-                Aparecen en la sección <strong>"Certificaciones"</strong> de la página "Compromiso sustentable". Subí un logo por slot (idealmente PNG con fondo transparente). Los slots vacíos no se muestran; si no cargás ninguno, la fila no aparece.
-            </div>
-            <div style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">
-                <?php for ($ci = 1; $ci <= 4; $ci++): ?>
-                    <div class="form-group" style="margin:0;">
-                        <?php
-                            $sifName  = 's[cert_logo_' . $ci . ']';
-                            $sifValue = (string) ($settings['cert_logo_' . $ci] ?? '');
-                            $sifLabel = 'Logo ' . $ci;
-                            $sifPlaceholder = '/uploads/library/greenbags/...png';
-                            require __DIR__ . '/_single_image_field.php';
-                        ?>
-                    </div>
-                <?php endfor; ?>
-            </div>
-        </div>
     </div>
 
     <!-- NOTIFICACIONES -->
