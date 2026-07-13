@@ -8,6 +8,10 @@ $reqPath = trim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH), '/');
 if ($reqPath !== '') {
     if (quotesEnabled() && quoteFrontRoute($reqPath)) exit;
     if (shopFrontRoute($reqPath)) exit;
+    // Cuenta de cliente (/mi-cuenta y subrutas) y favoritos: renderers a medida
+    // que reemplazan las páginas placeholder de la tabla `pages`.
+    if (function_exists('accountFrontRoute') && accountFrontRoute($reqPath)) exit;
+    if (function_exists('favoritesFrontRoute') && favoritesFrontRoute($reqPath)) exit;
     // URLs de tienda inexistentes → 404 real (evita indexar productos borrados).
     // Se renderiza inline: el bootstrap ya está cargado, no re-incluir 404.php.
     if (preg_match('#^(producto|categoria)/#', $reqPath)) {

@@ -1111,7 +1111,7 @@ main.home + .site-footer { margin-top: 0; }
 }
 @media (max-width: 480px) {
     .home { gap: 2rem; }
-    .home-hero__slide { min-height: clamp(380px, 60vh, 480px); padding: 2.4rem 0 3.4rem; }
+    .home-hero__slide { min-height: clamp(380px, 60vh, 480px); padding: 2.4rem 1.25rem 3.4rem; }
     .home-hero__title { font-size: clamp(1.7rem, 7.5vw, 2.1rem); line-height: 1.1; }
     .home-hero__subtitle { font-size: .92rem; line-height: 1.5; margin-bottom: 1.2rem; }
     /* Beneficios: 1 columna a < 480 para que respiren. */

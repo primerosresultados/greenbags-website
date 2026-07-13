@@ -262,6 +262,19 @@ $buyLabel      = $buyMode === 'quote'
     : 'Agregar al carrito';
 $hidePrices    = $buyMode === 'quote' && getSetting('quote_show_prices', '0') !== '1';
 
+// Atributos para el botón de favoritos (wishlist client-side, localStorage).
+// Se guarda un snapshot mínimo del producto para renderizar /favoritos sin
+// consultar la BD. El JS (assets/js/favorites.js) lee estos data-fav-*.
+$favImg   = (string) ($images[0]['thumb_path'] ?? $images[0]['file_path'] ?? '');
+$favPrice = $hidePrices
+    ? 'Cotizar'
+    : ($isVariable ? 'Desde ' . shopFormatPrice($p['min_price']) : shopFormatPrice($effective));
+$favAttrs = 'data-fav-id="' . (int) $p['id'] . '"'
+    . ' data-fav-slug="' . htmlspecialchars($p['slug']) . '"'
+    . ' data-fav-name="' . htmlspecialchars($p['name']) . '"'
+    . ' data-fav-img="' . htmlspecialchars($favImg) . '"'
+    . ' data-fav-price="' . htmlspecialchars($favPrice) . '"';
+
 // Display de variaciones: chips (default) vs select. Controlado por setting
 // global porque cuando un atributo tiene muchos valores (15+ tamaños), los
 // chips se desbordan y el cliente prefiere desplegables.
@@ -342,27 +355,6 @@ $varDisplay = getSetting('variations_display_mode', 'swatches') === 'select' ? '
                     <div class="shop-product__noimg">Sin imagen</div>
                 <?php endif; ?>
             </div>
-
-            <?php
-            // ===== Descripción larga (debajo de la galería, columna izq) =====
-            // Colapsada por defecto con "Leer más" para no alargar la ficha.
-            // Sólo se muestra el toggle si el texto supera cierto largo.
-            $descHtml = trim((string) $p['description']);
-            if ($descHtml !== ''):
-                $descLen  = mb_strlen(strip_tags($descHtml));
-                $needMore = $descLen > 320;
-            ?>
-                <section class="shop-product__desc<?= $needMore ? ' is-clamped' : '' ?>" id="prod-desc">
-                    <h2 class="shop-product__desc-title">Descripción</h2>
-                    <div class="shop-product__desc-body"><?= $descHtml /* HTML confiado: lo edita el admin */ ?></div>
-                    <?php if ($needMore): ?>
-                        <button type="button" class="shop-product__desc-toggle" aria-expanded="false" onclick="(function(b){var s=b.closest('.shop-product__desc');var open=s.classList.toggle('is-open');b.setAttribute('aria-expanded',open);b.querySelector('span').textContent=open?'Leer menos':'Leer más';})(this)">
-                            <span>Leer más</span>
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-                        </button>
-                    <?php endif; ?>
-                </section>
-            <?php endif; ?>
 
           </div><!-- /.shop-product__left -->
 
@@ -452,7 +444,7 @@ $varDisplay = getSetting('variations_display_mode', 'swatches') === 'select' ? '
                                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
                                 <span>Selecciona las opciones</span>
                             </button>
-                            <button type="button" class="shop-wishlist" aria-label="Guardar en favoritos">
+                            <button type="button" class="shop-wishlist" <?= $favAttrs ?> aria-label="Guardar en favoritos" aria-pressed="false">
                                 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                             </button>
                         </div>
@@ -545,7 +537,7 @@ $varDisplay = getSetting('variations_display_mode', 'swatches') === 'select' ? '
                                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
                                     <span><?= htmlspecialchars($buyLabel) ?></span>
                                 </button>
-                                <button type="button" class="shop-wishlist" aria-label="Guardar en favoritos">
+                                <button type="button" class="shop-wishlist" <?= $favAttrs ?> aria-label="Guardar en favoritos" aria-pressed="false">
                                     <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                                 </button>
                             </div>
@@ -625,6 +617,27 @@ $varDisplay = getSetting('variations_display_mode', 'swatches') === 'select' ? '
                         <?php if ($moq > 1): ?><p class="shop-tiers__moq">Compra mínima: <?= (int) $moq ?> unidades.</p><?php endif; ?>
                     </details>
                 <?php endif; ?>
+
+                <?php
+                // ===== Descripción larga (columna derecha, bajo el bloque de compra) =====
+                // Colapsada por defecto con "Leer más" para no alargar la ficha.
+                // Sólo se muestra el toggle si el texto supera cierto largo.
+                $descHtml = trim((string) $p['description']);
+                if ($descHtml !== ''):
+                    $descLen  = mb_strlen(strip_tags($descHtml));
+                    $needMore = $descLen > 320;
+                ?>
+                    <section class="shop-product__desc<?= $needMore ? ' is-clamped' : '' ?>" id="prod-desc">
+                        <h2 class="shop-product__desc-title">Descripción</h2>
+                        <div class="shop-product__desc-body"><?= $descHtml /* HTML confiado: lo edita el admin */ ?></div>
+                        <?php if ($needMore): ?>
+                            <button type="button" class="shop-product__desc-toggle" aria-expanded="false" onclick="(function(b){var s=b.closest('.shop-product__desc');var open=s.classList.toggle('is-open');b.setAttribute('aria-expanded',open);b.querySelector('span').textContent=open?'Leer menos':'Leer más';})(this)">
+                                <span>Leer más</span>
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+                            </button>
+                        <?php endif; ?>
+                    </section>
+                <?php endif; ?>
             </div>
 
         </div>
@@ -643,6 +656,23 @@ function shopRenderGrid(array $products): void {
         $eff   = productEffectivePrice($p);
         $sale  = productIsOnSale($p);
         $url   = '/producto/' . htmlspecialchars($p['slug']);
+        // Precio-snapshot para el botón de favoritos (mismo criterio que la card).
+        if ($hidePrices) {
+            $cardFavPrice = 'Cotizar';
+        } elseif (($p['type'] ?? 'simple') === 'variable') {
+            $cardFavPrice = 'Desde ' . shopFormatPrice($p['min_price'] ?: $eff);
+        } else {
+            $cardFavPrice = shopFormatPrice($eff);
+        }
+        echo '<div class="shop-card-wrap">';
+        echo '<button type="button" class="shop-favbtn" aria-label="Guardar en favoritos" aria-pressed="false"'
+           . ' data-fav-id="' . (int) $p['id'] . '"'
+           . ' data-fav-slug="' . htmlspecialchars($p['slug']) . '"'
+           . ' data-fav-name="' . htmlspecialchars($p['name']) . '"'
+           . ' data-fav-img="' . htmlspecialchars((string) ($p['img'] ?? '')) . '"'
+           . ' data-fav-price="' . htmlspecialchars($cardFavPrice) . '">'
+           . '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'
+           . '</button>';
         echo '<a class="shop-card" href="' . $url . '">';
         if (!empty($p['img'])) {
             // onerror: si la imagen 404ea, cae al placeholder rayado en vez del
@@ -664,6 +694,7 @@ function shopRenderGrid(array $products): void {
             echo '<span class="shop-price__now">' . shopFormatPrice($eff) . '</span>';
         }
         echo '</p></div></a>';
+        echo '</div>';
     }
     echo '</div>';
 }
