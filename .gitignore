@@ -11,6 +11,9 @@ config.php
 # Assets de marca del landing (hero, ecología, logo genérico de clientes):
 # se versionan para que el seed/migración los reproduzca en producción.
 !/uploads/library/greenbags/
+# Medios subidos desde el admin (logo, hero, categorías, logos de clientes):
+# se versionan para que el seed 055 los reproduzca en el dominio de producción.
+!/uploads/library/general/
 /install/installed.lock
 /install/.htaccess
 /respaldo/
