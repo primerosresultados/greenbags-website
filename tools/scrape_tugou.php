@@ -4,24 +4,29 @@
  *   GET /wp-json/wc/store/v1/products?per_page=100&page=N   (sin auth)
  *
  * Salida: tools/out/tugou.json  (array de rows normalizadas)
- * Flags:  --limit=N   (corta en N productos, para pruebas)
+ * Flags:  --limit=N       (corta en N productos, para pruebas)
+ *         --category=ID    (filtra por una categoría de tugou, ej. 22=Bolsas)
+ *         --out=archivo    (nombre del JSON de salida; default tugou.json)
  *
- * Nota: tugou oculta precios (price=0) e imágenes (images=[]) en la API.
- * Se importan igual: nombre, SKU, categorías y descripción.
+ * Nota: tugou oculta los precios (price=0). Las imágenes SÍ vienen en la API
+ * (antes no); se importan junto con nombre, SKU, categorías y descripción.
  */
 require __DIR__ . '/_cli.php';
 
 const TUGOU_API = 'https://tugou.cl/wp-json/wc/store/v1/products';
 
-$limit = (int) cliOpt('limit', 0);
+$limit    = (int) cliOpt('limit', 0);
+$category = (int) cliOpt('category', 0);       // 0 = todo el catálogo
+$outName  = (string) cliOpt('out', 'tugou.json');
 $perPage = 100;
 $page = 1;
 $rows = [];
 
-cliLog("Scrapeando tugou.cl (WooCommerce Store API)…");
+cliLog("Scrapeando tugou.cl (WooCommerce Store API)" . ($category ? " — categoría $category" : "") . "…");
 
 while (true) {
-    $url = TUGOU_API . '?per_page=' . $perPage . '&page=' . $page;
+    $url = TUGOU_API . '?per_page=' . $perPage . '&page=' . $page
+         . ($category ? '&category=' . $category : '');
     $res = importHttpGet($url, ['headers' => ['Accept: application/json']]);
     if (!$res['ok']) { cliLog("  ! Error página $page: " . ($res['error'] ?? '')); break; }
 
@@ -73,6 +78,6 @@ while (true) {
     usleep(250000); // cortesía
 }
 
-$out = cliOutDir() . '/tugou.json';
+$out = cliOutDir() . '/' . basename($outName);
 file_put_contents($out, json_encode($rows, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
 cliLog("OK → $out  (" . count($rows) . " productos)");
