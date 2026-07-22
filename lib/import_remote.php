@@ -154,7 +154,7 @@ function importNameRules(): array {
         'packaging-ecologico'       => '/\b(?:compostable|biodegradable|bagazo|bagasse|fibra|compost|almidon)(?:es|s)?\b|\bc?pla\b|\bcana de azucar\b/',
         'madera'                    => '/\b(?:madera|palillo|palito|revolvedor|baja lengua|chuzo|brocheta|mondadiente)(?:es|s)?\b/',
         'film-y-aluminio'           => '/\b(?:film|alusa\w*|emboplast|papel aluminio|papel de aluminio|foil|rollo film|rollo de aluminio|osmotico|cinta de embalaje|cinta embalaje|cinta para embalaje|cinta adhesiva|strech|stretch|pull pack)(?:es|s)?\b/',
-        'carton'                    => '/\b(?:caja|cartulina|papel acoplado|papel antigrasa|cartucho|brazo de reina|cucurucho|blonda|capsula|molde|resma|collarin|canoa)(?:es|s)?\b|(?<!tapa )\bcarton\b/',
+        'carton'                    => '/\b(?:caja|cartulina|papel acoplado|papel antigrasa|papel duofresh|duofresh|cartucho|brazo de reina|cucurucho|blonda|capsula|molde|resma|collarin|canoa)(?:es|s)?\b|(?<!tapa )\bcarton\b/',
         'personalizacion-productos' => '/\b(?:personaliza\w*|impreso|impresion|logo|corporativ\w*|publicit\w*|cordel|ovillo|elastico|hilo)(?:es|s)?\b/',
         'packaging-desechable'      => '/\b(?:vaso|plato|cubierto|tenedor|cuchara|cuchillo|pote|contenedor|bandeja|envase|tapa|copa|bowl|pocillo|domo|cubrevaso|balde|salsero|sorbete|pajilla|bombilla|mug|individual|portacubierto|servilleta|mantel|removedor|alambre|cubresandwich|colacion|delivery)(?:es|s)?\b/',
     ];

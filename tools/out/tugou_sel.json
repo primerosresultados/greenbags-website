@@ -1,0 +1,2857 @@
+[
+    {
+        "source": "tugou",
+        "sku": "TG-TG-GC001",
+        "name": "Gorro Clip de 20″ Blanco (10×100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-GC001.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-GC001v2.jpg"
+        ],
+        "source_categories": [
+            "Gorros, redecillas",
+            "Para Manipular"
+        ],
+        "permalink": "https://tugou.cl/product/gorro-clip-de-20-blanco-10x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-R001",
+        "name": "Redecilla Negra (10×100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-R001.jpg"
+        ],
+        "source_categories": [
+            "Gorros, redecillas",
+            "Para Manipular"
+        ],
+        "permalink": "https://tugou.cl/product/redecilla-negra-10x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-GPE10000",
+        "name": "Guante Polietileno (10x10x100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-GPE10000.jpg"
+        ],
+        "source_categories": [
+            "Guantes",
+            "Para Manipular"
+        ],
+        "permalink": "https://tugou.cl/product/guante-polietileno-10x10x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-GVF003",
+        "name": "Guante Vinilo s/polvo “L” (10×100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-GVF003.png"
+        ],
+        "source_categories": [
+            "Guantes",
+            "Para Manipular"
+        ],
+        "permalink": "https://tugou.cl/product/guante-vinilo-s-polvo-l-10x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-GVF002",
+        "name": "Guante Vinilo s/polvo “M” (10×100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-GVF002.png"
+        ],
+        "source_categories": [
+            "Guantes",
+            "Para Manipular"
+        ],
+        "permalink": "https://tugou.cl/product/guante-vinilo-s-polvo-m-10x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-GVF001",
+        "name": "Guante Vinilo s/polvo “S” (10×100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-GVF001.png"
+        ],
+        "source_categories": [
+            "Guantes",
+            "Para Manipular"
+        ],
+        "permalink": "https://tugou.cl/product/guante-vinilo-s-polvo-s-10x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-PE001",
+        "name": "Pechera De 28″x46″ (10×100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-PE001v1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-PE001v2.jpg"
+        ],
+        "source_categories": [
+            "Para Manipular",
+            "Pechera"
+        ],
+        "permalink": "https://tugou.cl/product/pechera-de-28x46-10x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-M003",
+        "name": "Mascarilla 3 Pliegues C/Filtro (40×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/09/TG-M003v1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/09/TG-M003v2.jpg"
+        ],
+        "source_categories": [
+            "Mascarilla",
+            "Para Manipular"
+        ],
+        "permalink": "https://tugou.cl/product/mascarilla-3-pliegues-c-filtro-40x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-SC001",
+        "name": "Cubrezapato azul antideslizante (10×100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/10/TG-SC001.webp"
+        ],
+        "source_categories": [
+            "Cubrezapatos",
+            "Para Manipular"
+        ],
+        "permalink": "https://tugou.cl/product/cubrezapato-azul-antideslizante-10x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-BU170-PC",
+        "name": "Balde polipapel 170oz Imp. Pop Corn (4×30)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-BU170-PCv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-BU85-PCv2.jpg"
+        ],
+        "source_categories": [
+            "Baldes",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/balde-polipapel-170oz-imp-pop-corn-4x30/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-BU24-PC",
+        "name": "Balde polipapel 24oz Imp. Pop Corn (10×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-BU24-PCv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-BU24-PCv2.jpg"
+        ],
+        "source_categories": [
+            "Baldes",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/balde-polipapel-24oz-imp-pop-corn-10x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-BU32-PC",
+        "name": "Balde polipapel 32oz Imp. Pop Corn (10×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-BU32-PCv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-BU24-PCv2.jpg"
+        ],
+        "source_categories": [
+            "Baldes",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/balde-polipapel-32oz-imp-pop-corn-10x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-BU46-PC",
+        "name": "Balde polipapel 46oz Imp. Pop Corn (10×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-BU46-PCv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-BU24-PCv2.jpg"
+        ],
+        "source_categories": [
+            "Baldes",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/balde-polipapel-46oz-imp-pop-corn-10x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-BU70W",
+        "name": "Balde polipapel 70oz Blanco (6×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-BU70Wv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-BU70Wv2.jpg"
+        ],
+        "source_categories": [
+            "Baldes",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/balde-polipapel-70oz-blanco-6x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-BU85-PC",
+        "name": "Balde polipapel 85oz Imp. Pop Corn (6×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-BU85-PCv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-BU85-PCv2.jpg"
+        ],
+        "source_categories": [
+            "Baldes",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/balde-polipapel-85oz-imp-pop-corn-6x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-LY-C30NT",
+        "name": "Bandeja Alum. 1100ml c/Tapa Cart-Alum.  (30×20)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/04/LY-C30NTv1.webp",
+            "https://tugou.cl/wp-content/uploads/2026/04/LY-C30NTv2.webp"
+        ],
+        "source_categories": [
+            "Bandejas y tapas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/bandeja-alum-1100ml-c-tapa-cart-alum-30x20/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-LY-C30NCL",
+        "name": "Bandeja Alum. 1100ml c/Tapa PP (30×20)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/04/LY-C30NCLv1.webp",
+            "https://tugou.cl/wp-content/uploads/2026/04/LY-C30NCLv2.webp"
+        ],
+        "source_categories": [
+            "Bandejas y tapas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/bandeja-alum-1100ml-c-tapa-pp-30x20/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-LY-C40NT",
+        "name": "Bandeja Alum. 2000ml c/Tapa Cart-Alum. (20×20)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/10/LY-C40NTv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/10/LY-C40NTv2.jpg"
+        ],
+        "source_categories": [
+            "Bandejas y tapas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/bandeja-alum-2000ml-c-tapa-cart-alum-20x20/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-LY-C40NCL",
+        "name": "Bandeja Alum. 2000ml c/Tapa PP (20×20)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/LY-C40CLv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/LY-C40CLv2.jpg"
+        ],
+        "source_categories": [
+            "Bandejas y tapas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/bandeja-alum-2000ml-c-tapa-pp-20x20/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-LY-C5NT",
+        "name": "Bandeja Alum. 250ml c/Tapa Cart-Alum. (50×20)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/04/LY-C5NTVv1.webp",
+            "https://tugou.cl/wp-content/uploads/2026/04/LY-C5NTVv2.webp"
+        ],
+        "source_categories": [
+            "Bandejas y tapas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/bandeja-alum-250ml-c-tapa-cart-alum-50x20/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-LY-C10NT",
+        "name": "Bandeja Alum. 500ml c/Tapa Cart-Alum. (50×20)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/LY-C10NT.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/LY-C10NTv2.jpg"
+        ],
+        "source_categories": [
+            "Bandejas y tapas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/bandeja-alum-500ml-c-tapa-cart-alum-50x20/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-LY-C10NCL",
+        "name": "Bandeja Alum. 500ml c/Tapa PP (50×20)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/LY-C10CLv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/LY-C10CLv2.jpg"
+        ],
+        "source_categories": [
+            "Bandejas y tapas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/bandeja-alum-500ml-c-tapa-pp-50x20/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-LY-C18NT",
+        "name": "Bandeja Alum. 600ml c/Tapa Cart-Alum. (30×20)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/LY-C18NT.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/LY-C18NTv2.jpg"
+        ],
+        "source_categories": [
+            "Bandejas y tapas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/bandeja-alum-600ml-c-tapa-cart-alum-30x20/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-LY-C18NCL",
+        "name": "Bandeja Alum. 600ml c/Tapa PP (30×20)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/LY-C18CLv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/LY-C18CLv2.jpg"
+        ],
+        "source_categories": [
+            "Bandejas y tapas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/bandeja-alum-600ml-c-tapa-pp-30x20/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-CM-RBP35X50",
+        "name": "Bolsa pull pack 35×50 (4×700)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/CM-RBP35X50.jpg"
+        ],
+        "source_categories": [
+            "Bolsas Prepicadas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/bolsa-pull-pack-35x50-4x700/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-PZBOXCH",
+        "name": "Caja chica p/ Pizza 25x25x4cm (1×100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/06/IY-PZBOXCHv1.webp",
+            "https://tugou.cl/wp-content/uploads/2026/06/IY-PZBOXCHv2.webp"
+        ],
+        "source_categories": [
+            "Cartuchos, cajas y otros",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/caja-chica-p-pizza-25x25x4cm-1x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-PZBOXGD",
+        "name": "Caja grande p/ Pizza 38x38x4cm (1×100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/09/IY-PZBOXGDv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/09/IY-PZBOXGDv2.jpg"
+        ],
+        "source_categories": [
+            "Cartuchos, cajas y otros",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/caja-grande-p-pizza-38x38x4cm-1x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-PZBOXMD",
+        "name": "Caja mediana p/ Pizza 32x32x4cm (1×100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/09/IY-PZBOXMDv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/09/IY-PZBOXMDv2.jpg"
+        ],
+        "source_categories": [
+            "Cartuchos, cajas y otros",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/caja-mediana-p-pizza-32x32x4cm-1x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-ND-CS1R-TG",
+        "name": "Caja Sushi 1 Roll Imp. Eco-Tugou (1×250)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/04/ND-CS1R-TGv1.webp",
+            "https://tugou.cl/wp-content/uploads/2026/04/ND-CS1R-TGv2.webp"
+        ],
+        "source_categories": [
+            "Cartuchos, cajas y otros",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/caja-sushi-1-roll-imp-eco-tugou-1x250/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-ND-CS2R-TG",
+        "name": "Caja Sushi 2 Rolls Imp. Eco-Tugou(1×250)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/04/ND-CS2R-TGv1.webp",
+            "https://tugou.cl/wp-content/uploads/2026/04/ND-CS2R-TGv2.webp"
+        ],
+        "source_categories": [
+            "Cartuchos, cajas y otros",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/caja-sushi-2-rolls-imp-eco-tugou1x250/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-ND-CS3R-TG",
+        "name": "Caja Sushi 3 Rolls Imp. Eco-Tugou (1×250)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/04/ND-CS3R-TGv1.webp",
+            "https://tugou.cl/wp-content/uploads/2026/04/ND-CS3R-TGv2.webp"
+        ],
+        "source_categories": [
+            "Cartuchos, cajas y otros",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/caja-sushi-3-rolls-imp-eco-tugou-1x250/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-CR1200K",
+        "name": "Caja bisagra 1200ml Kraft (4×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/04/IY-CR1200Kv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/04/IY-CR1200Kv2.png",
+            "https://tugou.cl/wp-content/uploads/2025/04/IY-CR1200Kv3.png"
+        ],
+        "source_categories": [
+            "Envases con tapa Bisagra",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/caja-bisagra-1200ml-kraft-4x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-CR1600K",
+        "name": "Caja bisagra 1600ml Kraft (4×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/04/IY-CR1600Kv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/04/IY-CR1600Kv2.png",
+            "https://tugou.cl/wp-content/uploads/2025/04/IY-CR1600Kv3.png"
+        ],
+        "source_categories": [
+            "Envases con tapa Bisagra",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/caja-bisagra-1600ml-kraft-4x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-CR2100K",
+        "name": "Caja bisagra 2100ml Kraft (4×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/04/IY-CR2100Kv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/04/IY-CR2100Kv2.png",
+            "https://tugou.cl/wp-content/uploads/2025/04/IY-CR2100Kv3.png"
+        ],
+        "source_categories": [
+            "Envases con tapa Bisagra",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/caja-bisagra-2100ml-kraft-4x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-CR500K",
+        "name": "Caja bisagra 500ml Kraft (4×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/04/IY-CR500Kv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/04/IY-CR500Kv2.png",
+            "https://tugou.cl/wp-content/uploads/2025/04/IY-CR500Kv3.png"
+        ],
+        "source_categories": [
+            "Envases con tapa Bisagra",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/caja-bisagra-500ml-kraft-4x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-CR700K",
+        "name": "Caja bisagra 700ml Kraft (4×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/04/IY-CR700Kv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/04/IY-CR700Kv2.png",
+            "https://tugou.cl/wp-content/uploads/2025/04/IY-CR700Kv3.png"
+        ],
+        "source_categories": [
+            "Envases con tapa Bisagra",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/caja-bisagra-700ml-kraft-4x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-CR900K",
+        "name": "Caja bisagra 900ml Kraft (4×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/04/IY-CR900Kv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/04/IY-CR900Kv2.png",
+            "https://tugou.cl/wp-content/uploads/2025/04/IY-CR900Kv3.png"
+        ],
+        "source_categories": [
+            "Envases con tapa Bisagra",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/caja-bisagra-900ml-kraft-4x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-CRV1200K",
+        "name": "Caja c/ventana 1200ml Kraft (4×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-CRV1200v1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-CRV1200v2.jpg"
+        ],
+        "source_categories": [
+            "Envases con tapa Bisagra",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/caja-c-ventana-1200ml-kraft-4x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-CRV1600K",
+        "name": "Caja c/ventana 1600ml Kraft (4×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-CRV1600v1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-CRV1600v2.jpg"
+        ],
+        "source_categories": [
+            "Envases con tapa Bisagra",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/caja-c-ventana-1600ml-kraft-4x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-CRV2100K",
+        "name": "Caja c/ventana 2100ml Kraft (4×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-CRV2100v1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-CRV2100v2.jpg"
+        ],
+        "source_categories": [
+            "Envases con tapa Bisagra",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/caja-c-ventana-2100ml-kraft-4x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-GO-P105W",
+        "name": "Plato 18cm Ø Blanco (20×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/04/GO-P105W.webp"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Platos"
+        ],
+        "permalink": "https://tugou.cl/product/plato-18cm-o-blanco-20x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-GO-P106W",
+        "name": "Plato 22cm Ø Blanco (10×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/10/GO-P106W.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Platos"
+        ],
+        "permalink": "https://tugou.cl/product/plato-22cm-o-blanco-10x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-GO-P109W",
+        "name": "Plato 26cm Ø Blanco (10×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/GO-P109W.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Platos"
+        ],
+        "permalink": "https://tugou.cl/product/plato-26cm-o-blanco-10x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-GO-P108W",
+        "name": "Plato 3Div. 22cm Ø Blanco (10×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/GO-P108W.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Platos"
+        ],
+        "permalink": "https://tugou.cl/product/plato-3div-22cm-o-blanco-10x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-GO-P110W",
+        "name": "Plato 3Div. 26cm Ø Blanco (10×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/04/GO-P110W.webp"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Platos"
+        ],
+        "permalink": "https://tugou.cl/product/plato-3div-26cm-o-blanco-10x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-10857",
+        "name": "20 oz. Sho bowl c/tapa domo (1X150)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-10857.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Potes y tapas"
+        ],
+        "permalink": "https://tugou.cl/product/20-oz-sho-bowl-c-tapa-domo-1x150/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-10865",
+        "name": "32 oz. Sho bowl c/tapa domo (1X150)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-10865v1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-10865v2.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Potes y tapas"
+        ],
+        "permalink": "https://tugou.cl/product/32-oz-sho-bowl-c-tapa-domo-1x150/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-DCR160B",
+        "name": "Base p/ Postre PS Redonda 160ml (45×16)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-DCR160B.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Potes y tapas"
+        ],
+        "permalink": "https://tugou.cl/product/base-p-postre-ps-redonda-160ml-45x16/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-DCR60B",
+        "name": "Base p/ Postre PS Redonda 60ml (69×20)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/10/TG-DCR60B.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Potes y tapas"
+        ],
+        "permalink": "https://tugou.cl/product/base-p-postre-ps-redonda-60ml-69x20/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-DCS110BC",
+        "name": "Base/Tapa p/ Postre PS cuadrado 110ml (50×10)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/10/tg-dcs110bcv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/10/tg-dcs110bcv2.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Potes y tapas"
+        ],
+        "permalink": "https://tugou.cl/product/base-tapa-p-postre-ps-cuadrado-110ml-50x10/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-DCS220BC",
+        "name": "Base/Tapa p/ Postre PS cuadrado 220ml (32×10)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-DCS220BCv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-DCS220BCv2.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Potes y tapas"
+        ],
+        "permalink": "https://tugou.cl/product/base-tapa-p-postre-ps-cuadrado-220ml-32x10/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-DCT180BC",
+        "name": "Base/Tapa p/ Postre PS Triang. 180ml (28×10)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-DCT180BCv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-DCT180BCv2.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Potes y tapas"
+        ],
+        "permalink": "https://tugou.cl/product/base-tapa-p-postre-ps-triang-180ml-28x10/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-DCT80BC",
+        "name": "Base/Tapa p/ Postre PS Triang. 80ml (45×12)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-DCT80BCv.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-DCT80BCv2.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Potes y tapas"
+        ],
+        "permalink": "https://tugou.cl/product/base-tapa-p-postre-ps-triang-80ml-45x12/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-HL-SBPLAFK1000-G",
+        "name": "Bowl 1000cc Papel PLA Kraft Imp. Generico (6×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/HL-SBPLAFK1000-G.jpeg",
+            "https://tugou.cl/wp-content/uploads/2025/01/HL-SBPLAFK1000-GV2.jpeg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Potes y tapas"
+        ],
+        "permalink": "https://tugou.cl/product/bowl-1000cc-polipapel-pla-kraft-imp-generico-6x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-PCS20B",
+        "name": "Pocillo Negro 2oz (1×2500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/10/IY-PCS20B.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Salseros y tapas"
+        ],
+        "permalink": "https://tugou.cl/product/pocillo-negro-2oz-1x2500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-PCS325B",
+        "name": "Pocillo Negro 3,25oz (1×2500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-PCS325Bv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-PCS325Bv2.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Salseros y tapas"
+        ],
+        "permalink": "https://tugou.cl/product/pocillo-negro-325oz-1x2500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-PCS05",
+        "name": "Pocillo Traslúcido 0.5oz (1×2500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/04/IY-PCS05.webp"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Salseros y tapas"
+        ],
+        "permalink": "https://tugou.cl/product/pocillo-traslucido-0-5oz-1x2500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-PCS075",
+        "name": "Pocillo Traslúcido 0.75oz (1×2500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-PCS075-1.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Salseros y tapas"
+        ],
+        "permalink": "https://tugou.cl/product/pocillo-traslucido-0-75oz-1x2500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-PCS15",
+        "name": "Pocillo Traslúcido 1,5oz (1×2500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-PCS15.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Salseros y tapas"
+        ],
+        "permalink": "https://tugou.cl/product/pocillo-traslucido-15oz-1x2500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-PCS10",
+        "name": "Pocillo Traslúcido 1oz (1×2.500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-PCS10.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-PSC10v2.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Salseros y tapas"
+        ],
+        "permalink": "https://tugou.cl/product/pocillo-traslucido-1oz-1x2-500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-PCS25",
+        "name": "Pocillo Traslucido 2.5oz (1×2500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-PCS25.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Salseros y tapas"
+        ],
+        "permalink": "https://tugou.cl/product/pocillo-traslucido-2-5oz-1x2500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-PCS20",
+        "name": "Pocillo Traslúcido 2oz (1×2500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-PCS20.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Salseros y tapas"
+        ],
+        "permalink": "https://tugou.cl/product/pocillo-traslucido-2oz-1x2500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-PCS325",
+        "name": "Pocillo Traslúcido 3,25oz (1×2500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-PCS325.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Salseros y tapas"
+        ],
+        "permalink": "https://tugou.cl/product/pocillo-traslucido-325oz-1x2500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-PPC10T",
+        "name": "Salsero 1oz de Papel Antigrasa (20×250)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/09/IY-PPC10T.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Salseros Papel"
+        ],
+        "permalink": "https://tugou.cl/product/salsero-1oz-de-papel-antigrasa-20x250/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-CT12",
+        "name": "Copa 12oz PS Base/Tapa (20juegos x 25)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-CT12.jpg"
+        ],
+        "source_categories": [
+            "Copas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/copa-12oz-ps-base-tapa-20juegos-x-25/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-CT08",
+        "name": "Copa 8oz PS Base/Tapa (20juegos x 25)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-CT08.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-CT08-A.jpg"
+        ],
+        "source_categories": [
+            "Copas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/copa-8oz-ps-base-tapa-20juegos-x-25/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-LY-Y465",
+        "name": "Pavera de Aluminio 7,0L, top465x350x70mm alt. (1×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/01/LY-Y465.jpg"
+        ],
+        "source_categories": [
+            "Bandejas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/pavera-de-aluminio-70l-top465x350x70mm-alt-1x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-SW-SB26S",
+        "name": "Contenedor Kraft 26oz (8×45)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/SW-SB26Sv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/SW-SB26Sv2.jpg"
+        ],
+        "source_categories": [
+            "Envases y tapas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/contenedor-kraft-26oz-8x45/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-SW-SB40S",
+        "name": "Contenedor Kraft 40oz (8×45)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/SW-SB40Sv1.jpg"
+        ],
+        "source_categories": [
+            "Envases y tapas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/contenedor-kraft-40oz-8x45/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-8012N",
+        "name": "Plato oval negro con div. (2×150)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-8012Nv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-8012Nv2.jpg"
+        ],
+        "source_categories": [
+            "Envases y tapas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/plato-oval-negro-con-div-2x150/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-8010N",
+        "name": "Plato oval negro s/div. (2×150)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-8010N.png"
+        ],
+        "source_categories": [
+            "Envases y tapas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/plato-oval-negro-s-div-2x150/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-8012",
+        "name": "Plato oval transparente con div. (2×150)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-8012-1.jpg"
+        ],
+        "source_categories": [
+            "Envases y tapas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/plato-oval-transparente-con-div-2x150/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-8010",
+        "name": "Plato oval transparente s/div. (2×150)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-8010.png"
+        ],
+        "source_categories": [
+            "Envases y tapas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/plato-oval-transparente-s-div-2x150/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-8000",
+        "name": "Tapa p/plato oval Tugou (2×150)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-8000.jpg"
+        ],
+        "source_categories": [
+            "Envases y tapas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/tapa-p-plato-oval-tugou-2x150/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-SW-LSRC26",
+        "name": "Tapa PET p/contenedor 26oz (8×45)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/SW-LSRC26.jpg"
+        ],
+        "source_categories": [
+            "Envases y tapas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/tapa-pet-p-contenedor-26oz-8x45/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-SW-LSRC40",
+        "name": "Tapa PET p/contenedor 40oz (8×45)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/SW-LSRC40.jpg"
+        ],
+        "source_categories": [
+            "Envases y tapas",
+            "Para Envasar"
+        ],
+        "permalink": "https://tugou.cl/product/tapa-pet-p-contenedor-40oz-8x45/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-FC045",
+        "name": "Pote Polipapel 4.5oz Blanco (20×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-FC045.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Potes"
+        ],
+        "permalink": "https://tugou.cl/product/pote-polipapel-4-5oz-blanco-20x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-FC04",
+        "name": "Pote Polipapel 4oz Blanco (20×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-FC04.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Potes"
+        ],
+        "permalink": "https://tugou.cl/product/pote-polipapel-4oz-blanco-20x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-RBP16SSK",
+        "name": "Envase Kraft 16oz p/llevar (10×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-RBP16SS.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Potes bisagra"
+        ],
+        "permalink": "https://tugou.cl/product/envase-kraft-16oz-p-llevar-10x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-RBP26SSK",
+        "name": "Envase Kraft 26oz p/llevar (10×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-RBP26SSK.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Potes bisagra"
+        ],
+        "permalink": "https://tugou.cl/product/envase-kraft-26oz-p-llevar-10x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-RBP32SSK",
+        "name": "Envase Kraft 32oz p/llevar (10×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/05/IY-RBP32SSK.jpg"
+        ],
+        "source_categories": [
+            "Para Envasar",
+            "Potes bisagra"
+        ],
+        "permalink": "https://tugou.cl/product/envase-kraft-32oz-p-llevar-10x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-BBTK001",
+        "name": "Bandeja #1 tipo Canoa Kraft PE 4oz (4×250)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-BBTK001.jpg"
+        ],
+        "source_categories": [
+            "Bandejas",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/bandeja-1-tipo-canoa-kraft-pe-4oz-4x250/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-BBTK002",
+        "name": "Bandeja #2 tipo Canoa Kraft PE 6oz (4×250)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-BBTK002.jpg"
+        ],
+        "source_categories": [
+            "Bandejas",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/bandeja-2-tipo-canoa-kraft-pe-6oz-4x250/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-BBTK003",
+        "name": "Bandeja #3 tipo Canoa Kraft PE 10oz (4×250)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-BBTK003.jpg"
+        ],
+        "source_categories": [
+            "Bandejas",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/bandeja-3-tipo-canoa-kraft-pe-10oz-4x250/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-BBTK004",
+        "name": "Bandeja #4 tipo Canoa Kraft PE 13oz (4×250)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-BBTK004.jpg"
+        ],
+        "source_categories": [
+            "Bandejas",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/bandeja-4-tipo-canoa-kraft-pe-13oz-4x250/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-BBTK005",
+        "name": "Bandeja #5 tipo Canoa Kraft PE 23oz (4×250)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-BBTK005.jpg"
+        ],
+        "source_categories": [
+            "Bandejas",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/bandeja-5-tipo-canoa-kraft-pe-23oz-4x250/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-BBTK006",
+        "name": "Bandeja #6 tipo Canoa Kraft PE 32oz (4×250)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-BBTK006.jpg"
+        ],
+        "source_categories": [
+            "Bandejas",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/bandeja-6-tipo-canoa-kraft-pe-32oz-4x250/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-ST6197W",
+        "name": "Bombilla blanca 6mm x 19,7 – 3capas (10×500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-ST6197W.jpg"
+        ],
+        "source_categories": [
+            "Bombillas, revolvedores y palillos",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/bombilla-blanca-6mm-x-197-3capas-10x500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-WST6197W",
+        "name": "Bombilla blanca 6mm x 19,7 – 3capas Envuelta (10×500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-WST6197W.jpg"
+        ],
+        "source_categories": [
+            "Bombillas, revolvedores y palillos",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/bombilla-blanca-6mm-x-197-3capas-envuelta-10x500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-ST8254W",
+        "name": "Bombilla blanca 8mm x 25,4 – 3capas (8×500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-ST8254W.jpg"
+        ],
+        "source_categories": [
+            "Bombillas, revolvedores y palillos",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/bombilla-blanca-8mm-x-254-3capas-8x500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-WST8254W",
+        "name": "Bombilla blanca 8mm x 25,4 – 3capas Envuelta (8×500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-WST8254W.jpg"
+        ],
+        "source_categories": [
+            "Bombillas, revolvedores y palillos",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/bombilla-blanca-8mm-x-254-3capas-envuelta-8x500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-ST6197B",
+        "name": "Bombilla negra 6mm x 19,7 – 3capas (10×500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-ST6197B.jpg"
+        ],
+        "source_categories": [
+            "Bombillas, revolvedores y palillos",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/bombilla-negra-6mm-x-197-3capas-10x500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-WST6197B",
+        "name": "Bombilla negra 6mm x 19,7 – 3capas Envuelta (10×500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-WST6197B.jpg"
+        ],
+        "source_categories": [
+            "Bombillas, revolvedores y palillos",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/bombilla-negra-6mm-x-197-3capas-envuelta-10x500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-ST8254B",
+        "name": "Bombilla negra 8mm x 25,4 – 3capas (8×500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/10/IY-ST8254B.jpg"
+        ],
+        "source_categories": [
+            "Bombillas, revolvedores y palillos",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/bombilla-negra-8mm-x-254-3capas-8x500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-WST8254B",
+        "name": "Bombilla negra 8mm x 25,4 – 3capas Envuelta (8×500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-WST8254B-1.jpg"
+        ],
+        "source_categories": [
+            "Bombillas, revolvedores y palillos",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/bombilla-negra-8mm-x-254-3capas-envuelta-8x500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-YS-BS20025",
+        "name": "Brocheta de Bamboo 250×2,5mm (100×200)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/YS-BS20025v1-scaled-1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/YS-BS20025v2-scaled-1.jpg"
+        ],
+        "source_categories": [
+            "Bombillas, revolvedores y palillos",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/brocheta-de-bamboo-250x25mm-100x200/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-CG6510",
+        "name": "Copa Gelatera 200cc (16X100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-CG6510.webp"
+        ],
+        "source_categories": [
+            "Copas",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/copa-gelatera-200cc-50x32/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-TCG10",
+        "name": "Tapa p/ Copa Gelatera 200cc (100×16)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-TCG10.jpg"
+        ],
+        "source_categories": [
+            "Copas",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/tapa-p-copa-gelatera-200cc-100x16/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-YS-IS70A",
+        "name": "Cuchara de helado 7cm (200x50u)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/YS-IS70v1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/YS-IS70v3.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/YS-IS70v2.jpg"
+        ],
+        "source_categories": [
+            "Cubiertos",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/cuchara-de-helado-7cm-200x50u/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-YS-S160B",
+        "name": "Cuchara de madera 16cm (10×100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/YS-S160Bv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/YS-S160Bv2.jpg"
+        ],
+        "source_categories": [
+            "Cubiertos",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/cuchara-de-madera-16cm-10x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-YS-IS1110",
+        "name": "Cuchara de Té/postre 11×2.4 (20×100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/YS-IS1110.jpg"
+        ],
+        "source_categories": [
+            "Cubiertos",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/cuchara-de-te-postre-11x2-4-20x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-YS-K160B",
+        "name": "Cuchillo de madera 16cm (10×100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/YS-K160Bv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/YS-K160Bv2.jpg"
+        ],
+        "source_categories": [
+            "Cubiertos",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/cuchillo-de-madera-16cm-10x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-YS-WSET5",
+        "name": "Kit Ten+Cuchi embolsado Kraft (1×500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/YS-WSET5.jpg"
+        ],
+        "source_categories": [
+            "Cubiertos",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/kit-tencuchi-embolsado-kraft-1x500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-YS-WSET6",
+        "name": "Kit Ten+Cuchi+Cucha embolsado Kraft (1×500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/YS-WSET6.jpg"
+        ],
+        "source_categories": [
+            "Cubiertos",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/kit-tencuchicucha-embolsado-kraft-1x500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-YS-WSET6N",
+        "name": "Kit Ten+Cuchi+Cucha+Serv embolsado Kraft (1×500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/YS-WSET6N.jpg"
+        ],
+        "source_categories": [
+            "Cubiertos",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/kit-tencuchicuchaserv-embolsado-kraft-1x500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-YS-WSET5N",
+        "name": "Kit Ten+Cuchi+Serv embolsado Kraft (1×500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/YS-WSET5N.jpg"
+        ],
+        "source_categories": [
+            "Cubiertos",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/kit-tencuchiserv-embolsado-kraft-1x500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-YS-F160B",
+        "name": "Tenedor de madera 16cm (10×100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/YS-F160Bv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/YS-F160Bv2.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/YS-F160Bv3.jpg"
+        ],
+        "source_categories": [
+            "Cubiertos",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/tenedor-de-madera-16cm-10x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-GH-GWT009TU",
+        "name": "Mug 12oz de viaje, Imp. Re-Utiliza (1×25)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/GH-GWT009TU.jpg"
+        ],
+        "source_categories": [
+            "Mug",
+            "Para la Mesa"
+        ],
+        "permalink": "https://tugou.cl/product/mug-12oz-de-viaje-imp-re-utiliza-1x25/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-GT-P011",
+        "name": "Plato 18 cms. Bagasse (20×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/gt-p011.jpg"
+        ],
+        "source_categories": [
+            "Para la Mesa",
+            "Platos"
+        ],
+        "permalink": "https://tugou.cl/product/plato-18-cms-bagasse-20x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-GT-P012",
+        "name": "Plato 23 cms. 3div. Bagasse (10×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/gt-p012.jpg"
+        ],
+        "source_categories": [
+            "Para la Mesa",
+            "Platos"
+        ],
+        "permalink": "https://tugou.cl/product/plato-23-cms-3div-bagasse-10x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-GT-P013",
+        "name": "Plato 23 cms. Bagasse (10×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/10/gt-p013.jpg"
+        ],
+        "source_categories": [
+            "Para la Mesa",
+            "Platos"
+        ],
+        "permalink": "https://tugou.cl/product/plato-23-cms-bagasse-10x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-GT-P007",
+        "name": "Plato 26 cms. 3div. Bagasse (10×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/gt-p007.jpg"
+        ],
+        "source_categories": [
+            "Para la Mesa",
+            "Platos"
+        ],
+        "permalink": "https://tugou.cl/product/plato-26-cms-3div-bagasse-10x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-GT-P005",
+        "name": "Plato 26 cms. Bagasse (10×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/gt-p005.jpg"
+        ],
+        "source_categories": [
+            "Para la Mesa",
+            "Platos"
+        ],
+        "permalink": "https://tugou.cl/product/plato-26-cms-bagasse-10x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-PB26PP3D",
+        "name": "Plato blanco PP 26cm 3div. (10×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-PB26PP3Dv1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-PB26PP3Dv2.jpg"
+        ],
+        "source_categories": [
+            "Para la Mesa",
+            "Platos"
+        ],
+        "permalink": "https://tugou.cl/product/plato-blanco-pp-26cm-3div-10x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-FB-SE23X23-TG",
+        "name": "Servilleta 23×23 Imp Tugou (30×200)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/FB-SE23X23-TG.jpg"
+        ],
+        "source_categories": [
+            "Para la Mesa",
+            "Servilletas"
+        ],
+        "permalink": "https://tugou.cl/product/servilleta-23x23-imp-tugou-30x200/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-FB-SE30X30-TG",
+        "name": "Servilleta 30×30 Imp Tugou (24×200)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/FB-SE30X30-TG.jpg"
+        ],
+        "source_categories": [
+            "Para la Mesa",
+            "Servilletas"
+        ],
+        "permalink": "https://tugou.cl/product/servilleta-30x30-imp-tugou-24x200/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-SEL1414",
+        "name": "Servilleta lunch (20x500u)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/04/TG-SEL1414.webp"
+        ],
+        "source_categories": [
+            "Para la Mesa",
+            "Servilletas"
+        ],
+        "permalink": "https://tugou.cl/product/servilleta-lunch-20x500u/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-SO16R",
+        "name": "Vaso PS 16oz Rojo int. Blanco (20×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-SO16Rv1.webp",
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-SO16Rv2.webp",
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-SO16Rv3.webp"
+        ],
+        "source_categories": [
+            "Para la Mesa",
+            "Vasos"
+        ],
+        "permalink": "https://tugou.cl/product/vaso-ps-16oz-rojo-int-blanco-20x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-INR-VREC12",
+        "name": "Vaso Recto 12oz PP Natural (1×100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/04/INR-VREC12.png"
+        ],
+        "source_categories": [
+            "Para la Mesa",
+            "Vasos"
+        ],
+        "permalink": "https://tugou.cl/product/vaso-recto-12oz-pp-natural-1x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-SN-PETPCI4",
+        "name": "Inserto 92mm Ø 4oz PET p/vaso 12/20oz (10×100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/09/SN-PETPCI4.jpg"
+        ],
+        "source_categories": [
+            "Para la Mesa",
+            "Vasos y Tapas"
+        ],
+        "permalink": "https://tugou.cl/product/inserto-92mm-o-4oz-pet-p-vaso-12-20oz-10x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-SN-PLACI4",
+        "name": "Inserto 92mm Ø 4oz PLA p/vaso 12/20oz (10×100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/09/SN-PLACI4.jpg"
+        ],
+        "source_categories": [
+            "Para la Mesa",
+            "Vasos y Tapas"
+        ],
+        "permalink": "https://tugou.cl/product/inserto-92mm-o-4oz-pla-p-vaso-12-20oz-10x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-SN-PETCI98",
+        "name": "Inserto 98mm Ø 5oz PET p/vaso 16-24oz (10×100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/09/SN-PETCI98.jpg"
+        ],
+        "source_categories": [
+            "Para la Mesa",
+            "Vasos y Tapas"
+        ],
+        "permalink": "https://tugou.cl/product/inserto-98mm-o-pet-p-vaso-16-24oz-10x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-SN-PLACI98",
+        "name": "Inserto 98mm Ø PLA p/vaso 16-24oz (10×100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/09/SN-PLACI98.jpg"
+        ],
+        "source_categories": [
+            "Para la Mesa",
+            "Vasos y Tapas"
+        ],
+        "permalink": "https://tugou.cl/product/inserto-98mm-o-pla-p-vaso-16-24oz-10x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-LSDPET1024",
+        "name": "Tapa 10-24oz PET c/ranura (20×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-LSDPET1024v1.png",
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-LSDPET1024v2.png",
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-LSDPET1024v3.jpg"
+        ],
+        "source_categories": [
+            "Para la Mesa",
+            "Vasos y Tapas"
+        ],
+        "permalink": "https://tugou.cl/product/tapa-10-24oz-pet-c-ranura-20x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-HL-LBG1220",
+        "name": "Tapa 12oz-20oz Bagasse (20×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/04/HL-LBG1220v1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/04/HL-LBG1220v2.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/04/HL-LBG1220v3.jpg"
+        ],
+        "source_categories": [
+            "Para la Mesa",
+            "Vasos y Tapas"
+        ],
+        "permalink": "https://tugou.cl/product/tapa-12oz-20oz-bagasse-20x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-HL-LBG08",
+        "name": "Tapa 8oz Bagasse (20×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/04/HL-LBG08v1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/04/HL-LBG08v2.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/04/HL-LBG08v3.jpg"
+        ],
+        "source_categories": [
+            "Para la Mesa",
+            "Vasos y Tapas"
+        ],
+        "permalink": "https://tugou.cl/product/tapa-8oz-bagasse-20x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-HL-WBLSTFW1220",
+        "name": "Tapa blanca 10-20oz Papel WBased apilable (20×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/04/HL-WBLSTFW1220v1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/04/HL-WBLSTFW1220v2.jpg"
+        ],
+        "source_categories": [
+            "Para la Mesa",
+            "Vasos y Tapas"
+        ],
+        "permalink": "https://tugou.cl/product/tapa-blanca-10-20oz-papel-wbased-apilable-20x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-HL-WBLSTFW08",
+        "name": "Tapa blanca 8oz Papel WBased apilable (20×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/04/HL-WBLSTFW08v1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/04/HL-WBLSTFW08v2.jpg"
+        ],
+        "source_categories": [
+            "Para la Mesa",
+            "Vasos y Tapas"
+        ],
+        "permalink": "https://tugou.cl/product/tapa-blanca-8oz-papel-wbased-apilable-20x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-CM-DC222815",
+        "name": "Bolsa Kraft 22x28x15cm. Asa troquel Plast. (1×300)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/CM-DC222815v1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/CM-DC222815.jpg"
+        ],
+        "source_categories": [
+            "Bolsas",
+            "Envolver y Llevar"
+        ],
+        "permalink": "https://tugou.cl/product/bolsa-kraft-22x28x15cm-asa-troquel-plast-1x300/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-CM-DC223615",
+        "name": "Bolsa Kraft 22x36x15cm. Asa troquel Plast. (1×300)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/CM-DC223615v1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/CM-DC223615.jpg"
+        ],
+        "source_categories": [
+            "Bolsas",
+            "Envolver y Llevar"
+        ],
+        "permalink": "https://tugou.cl/product/bolsa-kraft-22x36x15cm-asa-troquel-plast-1x300/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-CM-DC224115",
+        "name": "Bolsa Kraft 22x41x15cm. Asa troquel Plast. (1×300)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/CM-DC224115v1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/CM-DC224115.jpg"
+        ],
+        "source_categories": [
+            "Bolsas",
+            "Envolver y Llevar"
+        ],
+        "permalink": "https://tugou.cl/product/bolsa-kraft-22x41x15cm-asa-troquel-plast-1x300/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-CM-T100",
+        "name": "Saco Kraft Café 1kg (1×1000)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/04/CM-TLINEA.webp"
+        ],
+        "source_categories": [
+            "Bolsas",
+            "Envolver y Llevar"
+        ],
+        "permalink": "https://tugou.cl/product/saco-kraft-cafe-1kg-1x1000/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-CM-T200",
+        "name": "Saco Kraft Café 2kg (1×1000)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/CM-TLINEA-serviria-para-todos-los-productos-CM-T-4.png"
+        ],
+        "source_categories": [
+            "Bolsas",
+            "Envolver y Llevar"
+        ],
+        "permalink": "https://tugou.cl/product/saco-kraft-cafe-2kg-1x1000/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-CM-T300",
+        "name": "Saco Kraft Café 3kg (1×1000)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/CM-TLINEA-serviria-para-todos-los-productos-CM-T-4.png"
+        ],
+        "source_categories": [
+            "Bolsas",
+            "Envolver y Llevar"
+        ],
+        "permalink": "https://tugou.cl/product/saco-kraft-cafe-3kg-1x1000/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-CM-T400",
+        "name": "Saco Kraft Café 4kg (1×500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/CM-TLINEA-serviria-para-todos-los-productos-CM-T-4.png"
+        ],
+        "source_categories": [
+            "Bolsas",
+            "Envolver y Llevar"
+        ],
+        "permalink": "https://tugou.cl/product/saco-kraft-cafe-4kg-1x500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-CM-T500",
+        "name": "Saco Kraft Café 5kg (1×500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/CM-TLINEA-serviria-para-todos-los-productos-CM-T.png"
+        ],
+        "source_categories": [
+            "Bolsas",
+            "Envolver y Llevar"
+        ],
+        "permalink": "https://tugou.cl/product/saco-kraft-cafe-5kg-1x500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-CM-T600",
+        "name": "Saco Kraft Café 6kg (1×500)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/CM-TLINEA-serviria-para-todos-los-productos-CM-T-1.png"
+        ],
+        "source_categories": [
+            "Bolsas",
+            "Envolver y Llevar"
+        ],
+        "permalink": "https://tugou.cl/product/saco-kraft-cafe-6kg-1x500/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-SL12/16",
+        "name": "Cubrevaso 12/16oz Kraft (20×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-SL12-16.jpg"
+        ],
+        "source_categories": [
+            "Cubrevasos",
+            "Envolver y Llevar"
+        ],
+        "permalink": "https://tugou.cl/product/cubrevaso-12-16oz-kraft-20x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-SL12/20",
+        "name": "Cubrevaso 12/20oz Kraft (1×1000)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/04/TG-SL12-20.webp"
+        ],
+        "source_categories": [
+            "Cubrevasos",
+            "Envolver y Llevar"
+        ],
+        "permalink": "https://tugou.cl/product/cubrevaso-12-20oz-kraft-1x1000/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-SL08/10",
+        "name": "Cubrevaso 8/10oz Kraft (10×100)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/04/TG-SL08-10.webp"
+        ],
+        "source_categories": [
+            "Cubrevasos",
+            "Envolver y Llevar"
+        ],
+        "permalink": "https://tugou.cl/product/cubrevaso-8-10oz-kraft-10x100/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IY-SL08",
+        "name": "Cubrevaso 8oz Kraft (20×50)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IY-SL08.jpg"
+        ],
+        "source_categories": [
+            "Cubrevasos",
+            "Envolver y Llevar"
+        ],
+        "permalink": "https://tugou.cl/product/cubrevaso-8oz-kraft-20x50/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-CIP-CF28300",
+        "name": "Cling Film PVC 28cm x 300m – Caja cortadora (1×6)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/CIP-CF28300.jpg"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Film y rollo alimentos"
+        ],
+        "permalink": "https://tugou.cl/product/cling-film-pvc-28cm-x-300m-caja-cortadora-1x6/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-PVFE301400",
+        "name": "Film PVC p/Alimentos 30cm x 1.400mts. (1 rollo)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/04/TG-PVFE301400v1.png",
+            "https://tugou.cl/wp-content/uploads/2025/04/TG-PVFE301400v2.png"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Film y rollo alimentos"
+        ],
+        "permalink": "https://tugou.cl/product/film-pvc-p-alimentos-30cm-x-1-400mts-1-rollo/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-PVFE381400",
+        "name": "Film PVC p/Alimentos 38cm x 1.400mts. (1 rollo)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/04/TG-PVFE381400v1.png",
+            "https://tugou.cl/wp-content/uploads/2025/04/TG-PVFE381400v2.png"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Film y rollo alimentos"
+        ],
+        "permalink": "https://tugou.cl/product/film-pvc-p-alimentos-38cm-x-1-400mts-1-rollo/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-PVFE451400",
+        "name": "Film PVC p/Alimentos 45cm x 1.400mts. (1 rollo)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/04/TG-PVFE451400v1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/04/TG-PVFE451400v2.png"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Film y rollo alimentos"
+        ],
+        "permalink": "https://tugou.cl/product/film-pvc-p-alimentos-45cm-x-1-400mts-1-rollo/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-LY-AL300100",
+        "name": "Rollo de Aluminio 30cm x 100m (1×6)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/LY-AL300100.jpg"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Film y rollo alimentos"
+        ],
+        "permalink": "https://tugou.cl/product/rollo-de-aluminio-30cm-x-100m-1x6/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IC-INT10000035E",
+        "name": "Papel Duofresh Especial 30×37 cm. Imp. Black (7×400)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/01/IC-INT10000035E.jpg"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Papel Acoplado"
+        ],
+        "permalink": "https://tugou.cl/product/papel-duofresh-especial-30x37-cm-imp-black-7x400/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IC-INT10000037E",
+        "name": "Papel Duofresh Especial 30×37 cm. Imp. Splash (7×400)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/01/IC-INT10000037E.jpg"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Papel Acoplado"
+        ],
+        "permalink": "https://tugou.cl/product/papel-duofresh-especial-30x37-cm-imp-splash-7x400/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IC-INT10000036E",
+        "name": "Papel Duofresh Especial 30×37 cm. Imp. Street (7×400)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/01/IC-INT10000036E.jpg"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Papel Acoplado"
+        ],
+        "permalink": "https://tugou.cl/product/papel-duofresh-especial-30x37-cm-imp-street-7x400/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IC-INT50006",
+        "name": "Papel Duofresh Especial Blanco 33x44cm. (1×1000)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IC-INT50006v1-1.webp",
+            "https://tugou.cl/wp-content/uploads/2025/01/IC-INT50006v2-1.webp",
+            "https://tugou.cl/wp-content/uploads/2025/01/IC-INT50006v2.webp"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Papel Acoplado"
+        ],
+        "permalink": "https://tugou.cl/product/papel-duofresh-especial-blanco-33x44cm-1x1000/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IC-PMB7000253E",
+        "name": "Papel Duofresh Metalizado 33x37cm Imp. Black (1×1000)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/01/IC-PMB7000253E.jpg"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Papel Acoplado"
+        ],
+        "permalink": "https://tugou.cl/product/papel-duofresh-metalizado-33x37cm-imp-black-1x1000/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IC-PMB10001",
+        "name": "Papel Duofresh Metalizado 33x37cm Imp. Cuadrille Negro (1×1000)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/09/IC-PMB10001.jpg"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Papel Acoplado"
+        ],
+        "permalink": "https://tugou.cl/product/papel-duofresh-metalizado-33x37cm-imp-cuadrille-negro-1x1000/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IC-PMB7000252E",
+        "name": "Papel Duofresh Metalizado 33x37cm Imp. Splash (1×1000)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/01/IC-PMB7000252E.jpg"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Papel Acoplado"
+        ],
+        "permalink": "https://tugou.cl/product/papel-duofresh-metalizado-33x37cm-imp-splash-1x1000/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IC-PMB7000251E",
+        "name": "Papel Duofresh Metalizado 33x37cm Imp. Street (1×1000)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2026/01/IC-PMB7000251E.jpg"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Papel Acoplado"
+        ],
+        "permalink": "https://tugou.cl/product/papel-duofresh-metalizado-33x37cm-imp-street-1x1000/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-IC-INT50000",
+        "name": "Papel Duofresh Premiun Blanco 20x20cm. Imp. Tugou (1×1000)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/IC-INT50000.png"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Papel Acoplado"
+        ],
+        "permalink": "https://tugou.cl/product/papel-duofresh-premiun-blanco-20x20cm-imp-tugou-1x1000/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-CE47100",
+        "name": "Cinta de Embalaje 47mm x 100mts (1×36)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-CE47100.jpg"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Rollos y Cintas embalaje"
+        ],
+        "permalink": "https://tugou.cl/product/cinta-de-embalaje-47mm-x-100mts-1x36/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-CE75100",
+        "name": "Cinta de Embalaje 75mm x 100mts (1×36)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-CE75100.jpg"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Rollos y Cintas embalaje"
+        ],
+        "permalink": "https://tugou.cl/product/cinta-de-embalaje-75mm-x-100mts-1x36/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-FPA15",
+        "name": "Film Paletizador Automatico 15kg. (1u)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-FPA15.jpg"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Rollos y Cintas embalaje"
+        ],
+        "permalink": "https://tugou.cl/product/film-paletizador-automatico-15kg-1u/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-FPM217",
+        "name": "Film Paletizador manual (1×6)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/04/TG-FPM217v1.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/04/TG-FPM217v2.jpg"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Rollos y Cintas embalaje"
+        ],
+        "permalink": "https://tugou.cl/product/film-paletizador-manual-1x6/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-FPM2",
+        "name": "Film Paletizador manual 2kg (1×6)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/01/tg-fpm2.jpg",
+            "https://tugou.cl/wp-content/uploads/2025/01/TG-FPM2v2.jpg"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Rollos y Cintas embalaje"
+        ],
+        "permalink": "https://tugou.cl/product/film-paletizador-manual-2kg-1x6/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-FPM2N",
+        "name": "Film Paletizador manual Negro 2kg (1×6)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/04/TG-FPM2Nv1.png",
+            "https://tugou.cl/wp-content/uploads/2025/04/TG-FPM2Nv2.png",
+            "https://tugou.cl/wp-content/uploads/2025/04/TG-FPM2Nv3.png"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Rollos y Cintas embalaje"
+        ],
+        "permalink": "https://tugou.cl/product/film-paletizador-manual-negro-2kg-1x6/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-FPMPER2",
+        "name": "Film Paletizador Manual Perforado 500mm x 25micras x 180mt (1×6)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/04/TG-FPMPER2v1.png",
+            "https://tugou.cl/wp-content/uploads/2025/04/TG-FPMPER2v2.png",
+            "https://tugou.cl/wp-content/uploads/2025/04/TG-FPMPER2v3.png"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Rollos y Cintas embalaje"
+        ],
+        "permalink": "https://tugou.cl/product/film-paletizador-manual-perforado-500mm-x-25micras-x-180mt-1x6/"
+    },
+    {
+        "source": "tugou",
+        "sku": "TG-TG-FPM2R",
+        "name": "Film Paletizador manual Rojo 2kg (1×6)",
+        "price": 0,
+        "currency": "CLP",
+        "description": "",
+        "short_description": "",
+        "image_urls": [
+            "https://tugou.cl/wp-content/uploads/2025/04/TG-FPM2Rv1.png",
+            "https://tugou.cl/wp-content/uploads/2025/04/TG-FPM2Rv2.png",
+            "https://tugou.cl/wp-content/uploads/2025/04/TG-FPM2Rv3.png"
+        ],
+        "source_categories": [
+            "Envolver y Llevar",
+            "Rollos y Cintas embalaje"
+        ],
+        "permalink": "https://tugou.cl/product/film-paletizador-manual-rojo-2kg-1x6/"
+    }
+]
