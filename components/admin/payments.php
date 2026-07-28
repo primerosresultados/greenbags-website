@@ -16,7 +16,7 @@ $on = fn(string $k) => ($settings[$k] ?? '0') === '1';
 <header class="admin-header">
     <div>
         <h1>Pagos</h1>
-        <div class="admin-header__sub">Configurá las pasarelas y métodos de pago que verá el cliente al finalizar la compra.</div>
+        <div class="admin-header__sub">Configura las pasarelas y métodos de pago que verá el cliente al finalizar la compra.</div>
     </div>
 </header>
 
@@ -34,7 +34,7 @@ $on = fn(string $k) => ($settings[$k] ?? '0') === '1';
     <div class="card">
         <h3 class="card__title">Flow</h3>
         <p class="text-muted" style="margin:0 0 1rem;font-size:.88rem;">
-            Pasarela chilena con tarjetas, Webpay, transferencia y otros medios. Generá tu API Key y Secret Key en
+            Pasarela chilena con tarjetas, Webpay, transferencia y otros medios. Genera tu API Key y Secret Key en
             <a href="https://www.flow.cl/app/web/misDatos.php" target="_blank" rel="noopener">flow.cl → Mis datos</a>.
         </p>
         <p class="form__field">
@@ -61,9 +61,9 @@ $on = fn(string $k) => ($settings[$k] ?? '0') === '1';
     <div class="card">
         <h3 class="card__title">MercadoPago (Checkout Pro)</h3>
         <p class="text-muted" style="margin:0 0 .6rem;font-size:.88rem;">
-            Generá las credenciales en
+            Genera las credenciales en
             <a href="https://www.mercadopago.cl/developers/panel/app" target="_blank" rel="noopener">mercadopago → Tus integraciones</a>.
-            Usá las claves de prueba mientras pruebas el flujo.
+            Usa las claves de prueba mientras pruebas el flujo.
         </p>
         <p class="auth-alert auth-alert--info" style="margin:0 0 1rem;font-size:.85rem;">
             <strong>Pendiente de integración:</strong> las credenciales se guardan, pero el botón aún no aparece en el checkout hasta conectar la API real de MercadoPago.
@@ -85,7 +85,7 @@ $on = fn(string $k) => ($settings[$k] ?? '0') === '1';
     <div class="card">
         <h3 class="card__title">Transbank Webpay Plus</h3>
         <p class="text-muted" style="margin:0 0 .6rem;font-size:.88rem;">
-            Generá tu código de comercio en el portal de Transbank. Si dejás los campos vacíos podés usar las credenciales públicas de integración.
+            Genera tu código de comercio en el portal de Transbank. Si dejas los campos vacíos puedes usar las credenciales públicas de integración.
         </p>
         <p class="auth-alert auth-alert--info" style="margin:0 0 1rem;font-size:.85rem;">
             <strong>Pendiente de integración:</strong> las credenciales se guardan, pero el botón aún no aparece en el checkout hasta conectar la API real de Transbank.
@@ -134,7 +134,7 @@ Email para enviar comprobante: …"><?= $g('pay_bank_transfer_instructions') ?><
     <div class="card">
         <h3 class="card__title">Pago contra entrega</h3>
         <p class="text-muted" style="margin:0 0 1rem;font-size:.88rem;">
-            El cliente paga al recibir el pedido. La orden queda en <code>pending</code> y la confirmás cuando coordinás el cobro.
+            El cliente paga al recibir el pedido. La orden queda en <code>pending</code> y la confirmas cuando coordinas el cobro.
         </p>
         <p class="form__field">
             <label style="display:flex;align-items:center;gap:.5rem;">

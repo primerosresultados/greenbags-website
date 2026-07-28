@@ -33,10 +33,10 @@ function contactSettings(): array {
     $defaults = [
         'contact_eyebrow'             => 'Estamos para ayudarte',
         'contact_title'               => 'Hablemos',
-        'contact_intro'               => 'Elegí el canal que más te acomode. Respondemos en horario hábil, normalmente en menos de 4 horas.',
+        'contact_intro'               => 'Elige el canal que más te acomode. Respondemos en horario hábil, normalmente en menos de 4 horas.',
         'contact_methods_title'       => 'Canales directos',
-        'contact_form_title'          => 'Escribinos un mensaje',
-        'contact_form_intro'          => 'Contanos en qué podemos ayudarte y un ejecutivo te responde a la brevedad.',
+        'contact_form_title'          => 'Escríbenos un mensaje',
+        'contact_form_intro'          => 'Cuéntanos en qué podemos ayudarte y un ejecutivo te responde a la brevedad.',
         'contact_form_success_title'  => '¡Gracias por escribirnos!',
         'contact_form_success_body'   => 'Recibimos tu mensaje y te vamos a contactar en las próximas horas hábiles.',
         'contact_map_title'           => 'Dónde estamos',
@@ -171,7 +171,7 @@ function contactPageRender(): void {
                 'icon'  => '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2.03z"/></svg>',
                 'label' => 'Teléfono',
                 'value' => (string) $b['business_phone'],
-                'hint'  => $b['business_hours'] !== '' ? (string) $b['business_hours'] : 'Llamanos en horario comercial',
+                'hint'  => $b['business_hours'] !== '' ? (string) $b['business_hours'] : 'Llámanos en horario comercial',
                 'href'  => 'tel:' . $telHref,
                 'cta'   => 'Llamar ahora',
                 'tone'  => 'phone',
@@ -189,7 +189,7 @@ function contactPageRender(): void {
                 'icon'  => '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
                 'label' => 'Visitanos',
                 'value' => $addrLine !== '' ? $addrLine : 'Ver ubicación en el mapa',
-                'hint'  => $b['business_hours'] !== '' ? (string) $b['business_hours'] : 'Coordiná tu visita por WhatsApp',
+                'hint'  => $b['business_hours'] !== '' ? (string) $b['business_hours'] : 'Coordina tu visita por WhatsApp',
                 'href'  => $b['business_maps_url'] !== '' ? (string) $b['business_maps_url'] : '#contact-map',
                 'cta'   => 'Cómo llegar',
                 'tone'  => 'map',
@@ -261,7 +261,7 @@ function contactPageRender(): void {
                                 </label>
                                 <label class="contact-form__field">
                                     <span class="contact-form__label">Mensaje <em>*</em></span>
-                                    <textarea name="message" rows="5" required placeholder="Contanos en qué podemos ayudarte"></textarea>
+                                    <textarea name="message" rows="5" required placeholder="Cuéntanos en qué podemos ayudarte"></textarea>
                                 </label>
                                 <div class="contact-form__submit">
                                     <button type="submit" class="btn contact-form__btn">

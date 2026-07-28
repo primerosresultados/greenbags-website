@@ -28,7 +28,7 @@ if ($faviconPath && @file_exists($faviconAbs)): ?>
         </div>
 
         <h1>Bienvenido</h1>
-        <p class="auth-subtitle">Iniciá sesión para acceder al panel.</p>
+        <p class="auth-subtitle">Inicia sesión para acceder al panel.</p>
 
         <?php if (!empty($loginError)): ?>
             <div class="auth-alert auth-alert--error">

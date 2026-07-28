@@ -171,8 +171,8 @@ function accountRenderDashboard(array $c): void {
     <?php if (!$verified): ?>
         <div class="acct-verify">
             <div>
-                <strong>Verificá tu email.</strong>
-                Te enviamos un correo a <?= htmlspecialchars((string) $c['email']) ?>. Revisá tu bandeja (y el spam).
+                <strong>Verifica tu email.</strong>
+                Te enviamos un correo a <?= htmlspecialchars((string) $c['email']) ?>. Revisa tu bandeja (y el spam).
             </div>
             <form method="post" action="/mi-cuenta">
                 <input type="hidden" name="csrf" value="<?= csrfToken() ?>">
@@ -219,7 +219,7 @@ function accountRenderDashboard(array $c): void {
                     </table>
                 </div>
                 <?php $bizEmail = trim((string) getSetting('business_email', '')) ?: 'contacto@greenbags.cl'; ?>
-                <p class="acct-note">¿Consultas sobre una cotización? Escribinos a
+                <p class="acct-note">¿Consultas sobre una cotización? Escríbenos a
                     <a href="mailto:<?= htmlspecialchars($bizEmail) ?>"><?= htmlspecialchars($bizEmail) ?></a>
                     con el número.</p>
             <?php endif; ?>
@@ -291,7 +291,7 @@ function accountRenderAuth(): void {
 
     layoutStart([
         'title'        => 'Mi cuenta — Ingresar',
-        'description'  => 'Ingresá o creá tu cuenta de GreenBags para seguir tus cotizaciones.',
+        'description'  => 'Ingresa o crea tu cuenta de GreenBags para seguir tus cotizaciones.',
         'current_slug' => 'mi-cuenta',
     ]);
     ?>
@@ -299,7 +299,7 @@ function accountRenderAuth(): void {
     <div class="acct-authcard">
         <div class="acct-authhead">
             <h1>Mi cuenta</h1>
-            <p>Ingresá para ver tus cotizaciones, tu historial y tus datos.</p>
+            <p>Ingresa para ver tus cotizaciones, tu historial y tus datos.</p>
         </div>
 
         <?php if ($msg): ?><div class="acct-flash acct-flash--ok"><?= htmlspecialchars($msg) ?></div><?php endif; ?>
@@ -411,7 +411,7 @@ function accountRenderRecover(): void {
     <div class="acct-authcard acct-authcard--narrow">
         <div class="acct-authhead">
             <h1>Recuperar contraseña</h1>
-            <p>Ingresá tu email y te enviamos un enlace para crear una nueva.</p>
+            <p>Ingresa tu email y te enviamos un enlace para crear una nueva.</p>
         </div>
         <?php if ($msg): ?><div class="acct-flash acct-flash--ok"><?= htmlspecialchars($msg) ?></div><?php endif; ?>
         <form method="post" action="/mi-cuenta" class="acct-form">
@@ -448,7 +448,7 @@ function accountRenderReset(): void {
         </div>
         <?php if ($err): ?><div class="acct-flash acct-flash--err"><?= htmlspecialchars($err) ?></div><?php endif; ?>
         <?php if (!$valid): ?>
-            <p>El enlace expiró o no es válido. <a href="/mi-cuenta/recuperar">Pedí uno nuevo</a>.</p>
+            <p>El enlace expiró o no es válido. <a href="/mi-cuenta/recuperar">Pide uno nuevo</a>.</p>
         <?php else: ?>
             <form method="post" action="/mi-cuenta" class="acct-form">
                 <input type="hidden" name="csrf" value="<?= csrfToken() ?>">
@@ -481,7 +481,7 @@ function favoritesFrontRoute(string $path): bool {
 function favoritesRenderPage(): void {
     layoutStart([
         'title'        => 'Mis favoritos',
-        'description'  => 'Tus productos favoritos en GreenBags — guardá lo que más te interesa.',
+        'description'  => 'Tus productos favoritos en GreenBags — guarda lo que más te interesa.',
         'current_slug' => 'favoritos',
     ]);
     ?>
@@ -495,7 +495,7 @@ function favoritesRenderPage(): void {
 
     <div id="fav-empty" class="fav-empty">
         <svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="#73BF6D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        <p>Todavía no guardaste favoritos. Tocá el corazón en cualquier producto para guardarlo acá.</p>
+        <p>Todavía no guardaste favoritos. Toca el corazón en cualquier producto para guardarlo acá.</p>
         <p class="fav-empty__cta">
             <a href="/catalogo" class="btn">Ir a la tienda</a>
             <a href="/cotizacion" class="btn btn--secondary">Ver mi cotización</a>

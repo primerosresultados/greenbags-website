@@ -11,7 +11,7 @@
 <?php if ($msg = flashGet('pw_must_change')): ?>
     <div class="auth-alert auth-alert--error" style="max-width:480px;"><span><?= htmlspecialchars($msg) ?></span></div>
 <?php elseif (!empty($user['must_change_password'])): ?>
-    <div class="auth-alert auth-alert--error" style="max-width:480px;"><span>Debés definir una nueva contraseña antes de seguir usando el panel.</span></div>
+    <div class="auth-alert auth-alert--error" style="max-width:480px;"><span>Debes definir una nueva contraseña antes de seguir usando el panel.</span></div>
 <?php endif; ?>
 
 <div class="card" style="max-width:480px;">

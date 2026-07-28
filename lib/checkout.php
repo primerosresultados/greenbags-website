@@ -80,7 +80,7 @@ function checkoutRenderForm(?array $formData = null, ?string $error = null): voi
             </svg>
         </div>
         <h1>Tu carrito está vacío</h1>
-        <p>Todavía no agregaste productos. Volvé a la tienda y empezamos de cero.</p>
+        <p>Todavía no agregaste productos. Vuelve a la tienda y empezamos de cero.</p>
         <a href="/catalogo" class="btn shop-checkout__empty-cta">Ir al catálogo</a>
     </div>
 </main>
@@ -123,7 +123,7 @@ function checkoutRenderForm(?array $formData = null, ?string $error = null): voi
     <?php if (!$methods): ?>
         <div class="shop-checkout__alert shop-checkout__alert--warn" role="alert">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <span>No hay métodos de pago disponibles. Pedí al administrador del sitio que active al menos uno desde <strong>Pagos</strong>.</span>
+            <span>No hay métodos de pago disponibles. Pide al administrador del sitio que active al menos uno desde <strong>Pagos</strong>.</span>
         </div>
     <?php endif; ?>
 
@@ -213,7 +213,7 @@ function checkoutRenderForm(?array $formData = null, ?string $error = null): voi
                         <span class="shop-checkout__num">3</span>
                         <div>
                             <h2 class="shop-checkout__card-title">Método de pago</h2>
-                            <p class="shop-checkout__card-sub">Elegí cómo querés pagar tu pedido.</p>
+                            <p class="shop-checkout__card-sub">Elige cómo quieres pagar tu pedido.</p>
                         </div>
                     </header>
                     <?php if ($methods): ?>
@@ -318,7 +318,7 @@ function checkoutRenderConfirmation(string $orderNumber): void {
         http_response_code(404);
         layoutStart(['title' => 'Orden no encontrada']);
         echo '<main class="container shop"><h1>Orden no encontrada</h1>'
-           . '<p>No pudimos encontrar esa orden. Si llegaste acá desde un email, revisá el enlace.</p>'
+           . '<p>No pudimos encontrar esa orden. Si llegaste acá desde un email, revisa el enlace.</p>'
            . '<p><a href="/catalogo" class="btn">Volver al catálogo</a></p></main>';
         layoutEnd();
         return;
@@ -369,12 +369,12 @@ function checkoutRenderConfirmation(string $orderNumber): void {
     <?php elseif ($isFailed): ?>
         <div class="shop-checkout__alert shop-checkout__alert--error">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <span>El pago no se pudo completar. Podés volver a intentarlo desde el carrito.</span>
+            <span>El pago no se pudo completar. Puedes volver a intentarlo desde el carrito.</span>
         </div>
     <?php elseif ($method === 'flow'): ?>
         <div class="shop-checkout__alert shop-checkout__alert--info">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            <span>Estamos esperando la confirmación de Flow. Si ya completaste el pago, actualizá esta página en unos segundos.</span>
+            <span>Estamos esperando la confirmación de Flow. Si ya completaste el pago, actualiza esta página en unos segundos.</span>
         </div>
     <?php elseif ($instructions !== ''): ?>
         <section class="shop-checkout__card shop-order__instructions">
@@ -382,7 +382,7 @@ function checkoutRenderConfirmation(string $orderNumber): void {
                 <span class="shop-checkout__num">i</span>
                 <div>
                     <h2 class="shop-checkout__card-title">Instrucciones de pago — <?= htmlspecialchars($methodLabel) ?></h2>
-                    <p class="shop-checkout__card-sub">Indicá el número <strong><?= htmlspecialchars($order['order_number']) ?></strong> al momento de pagar.</p>
+                    <p class="shop-checkout__card-sub">Indica el número <strong><?= htmlspecialchars($order['order_number']) ?></strong> al momento de pagar.</p>
                 </div>
             </header>
             <pre><?= htmlspecialchars($instructions) ?></pre>
@@ -461,13 +461,13 @@ function checkoutHandlePost(): void {
 
     $methods = paymentsAvailable();
     if (!isset($methods[$data['payment_method']])) {
-        checkoutRenderForm($data, 'Elegí un método de pago válido.');
+        checkoutRenderForm($data, 'Elige un método de pago válido.');
         return;
     }
     if ($data['first_name'] === '' || $data['last_name'] === '' || $data['phone'] === ''
         || $data['address_line1'] === '' || $data['city'] === ''
         || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-        checkoutRenderForm($data, 'Revisá los campos obligatorios (nombre, email, teléfono, dirección, ciudad).');
+        checkoutRenderForm($data, 'Revisa los campos obligatorios (nombre, email, teléfono, dirección, ciudad).');
         return;
     }
 
@@ -480,7 +480,7 @@ function checkoutHandlePost(): void {
     } catch (Throwable $e) {
         if ($db->inTransaction()) $db->rollBack();
         error_log('checkout create error: ' . $e->getMessage());
-        checkoutRenderForm($data, 'No se pudo crear la orden. Probá nuevamente.');
+        checkoutRenderForm($data, 'No se pudo crear la orden. Prueba nuevamente.');
         return;
     }
 

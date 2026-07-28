@@ -27,7 +27,7 @@ $defaultSubj = 'Cotización ' . ($quote['quote_number'] ?? '') . ' — ' . getSe
 $defaultBody = "Hola " . ($quote['contact_name'] ?? '') . ",\n\n"
              . "Gracias por solicitarnos una cotización. Adjuntamos a continuación los detalles:\n\n"
              . "[ ESCRIBÍ ACÁ TU PROPUESTA: precios, condiciones de pago, plazos, descuentos por volumen, etc. ]\n\n"
-             . "Si tenés dudas, podemos ayudarte por WhatsApp o teléfono.\n\n"
+             . "Si tienes dudas, podemos ayudarte por WhatsApp o teléfono.\n\n"
              . "Saludos,\n"
              . "Equipo " . getSetting('site_name', 'Mi Sitio');
 ?>

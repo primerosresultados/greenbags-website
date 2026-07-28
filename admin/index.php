@@ -76,7 +76,7 @@ if ($action === 'login') {
     $result = login($_POST['email'] ?? '', $_POST['password'] ?? '');
     if ($result === 'ok') redirect('/admin/');
     $loginError = $result === 'rate_limited'
-        ? 'Demasiados intentos fallidos. Esperá 15 minutos.'
+        ? 'Demasiados intentos fallidos. Espera 15 minutos.'
         : 'Credenciales inválidas.';
 }
 
@@ -99,7 +99,7 @@ if ($user) {
     if (!empty($user['must_change_password'])) {
         $allowedActions = ['change_password', 'logout', ''];
         if (!in_array($action, $allowedActions, true) || ($action === '' && $view !== 'account')) {
-            flashSet('pw_must_change', 'Debés cambiar tu contraseña antes de continuar.');
+            flashSet('pw_must_change', 'Debes cambiar tu contraseña antes de continuar.');
             redirect('/admin/?view=account');
         }
         $view = 'account';
@@ -506,7 +506,7 @@ if ($user) {
         csrfCheck();
         $targetId = (int) ($_POST['id'] ?? 0);
         if ($targetId <= 0 || $targetId === (int) $user['id']) {
-            flashSet('user_error', 'No podés modificar tu propio estado de acceso.');
+            flashSet('user_error', 'No puedes modificar tu propio estado de acceso.');
             redirect('/admin/?view=users');
         }
         $target = userGet($targetId);
@@ -516,7 +516,7 @@ if ($user) {
         }
         $willDeactivate = (int) $target['is_active'] === 1;
         if ($willDeactivate && activeUserCount() <= 1) {
-            flashSet('user_error', 'No podés desactivar al último usuario activo.');
+            flashSet('user_error', 'No puedes desactivar al último usuario activo.');
             redirect('/admin/?view=user&id=' . $targetId);
         }
         userSetActive($targetId, !$willDeactivate);
@@ -528,7 +528,7 @@ if ($user) {
         csrfCheck();
         $targetId = (int) ($_POST['id'] ?? 0);
         if ($targetId <= 0 || $targetId === (int) $user['id']) {
-            flashSet('user_error', 'No podés eliminar tu propia cuenta.');
+            flashSet('user_error', 'No puedes eliminar tu propia cuenta.');
             redirect('/admin/?view=users');
         }
         $target = userGet($targetId);
@@ -537,7 +537,7 @@ if ($user) {
             redirect('/admin/?view=users');
         }
         if ((int) $target['is_active'] === 1 && activeUserCount() <= 1) {
-            flashSet('user_error', 'No podés eliminar al último usuario activo.');
+            flashSet('user_error', 'No puedes eliminar al último usuario activo.');
             redirect('/admin/?view=user&id=' . $targetId);
         }
         userDelete($targetId);
