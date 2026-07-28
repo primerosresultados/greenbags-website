@@ -52,9 +52,9 @@ $displayName = userDisplayName($userRec);
     <h3 class="card__title">Resetear contraseña</h3>
     <p class="text-muted" style="margin:0 0 1rem;font-size:.88rem;">
         <?php if ($isSelf): ?>
-            Para cambiar tu propia contraseña con verificación, andá a <a href="/admin/?view=account">Mi cuenta</a>.
+            Para cambiar tu propia contraseña con verificación, ve a <a href="/admin/?view=account">Mi cuenta</a>.
         <?php else: ?>
-            Definí una nueva contraseña. Se le pedirá que la cambie al iniciar sesión.
+            Define una nueva contraseña. Se le pedirá que la cambie al iniciar sesión.
         <?php endif; ?>
     </p>
 
@@ -85,7 +85,7 @@ $displayName = userDisplayName($userRec);
             <?php if ((int) $userRec['is_active']): ?>
                 Desactivar el usuario impide que pueda iniciar sesión. Los datos se mantienen.
             <?php else: ?>
-                Reactivá al usuario para que pueda volver a entrar al panel.
+                Reactiva al usuario para que pueda volver a entrar al panel.
             <?php endif; ?>
         </p>
         <form method="post" style="margin:0;">

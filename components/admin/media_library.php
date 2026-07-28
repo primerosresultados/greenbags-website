@@ -46,7 +46,7 @@ $kb = fn(int $b) => $b < 1024 * 1024 ? round($b / 1024) . ' KB' : round($b / 102
 <header class="ml-hero">
     <div class="ml-hero__title">
         <h1>Central de Medios</h1>
-        <p>Biblioteca global de imágenes — organizá, etiquetá y reusá en cualquier página del sitio.</p>
+        <p>Biblioteca global de imágenes — organiza, etiqueta y reúsa en cualquier página del sitio.</p>
     </div>
     <div class="ml-hero__stats">
         <div class="ml-stat"><span class="ml-stat__num"><?= number_format($totalAll) ?></span><span class="ml-stat__lbl">imágenes</span></div>
@@ -146,8 +146,8 @@ $kb = fn(int $b) => $b < 1024 * 1024 ? round($b / 1024) . ' KB' : round($b / 102
                 </svg>
             </div>
             <div class="ml-dropzone__text">
-                <strong>Arrastrá imágenes aquí</strong>
-                <span>o <button type="button" class="ml-link" onclick="document.getElementById('ml-file-input').click()">elegí desde tu equipo</button></span>
+                <strong>Arrastra imágenes aquí</strong>
+                <span>o <button type="button" class="ml-link" onclick="document.getElementById('ml-file-input').click()">elige desde tu equipo</button></span>
                 <small>JPG · PNG · WebP · hasta 10MB cada una · se convierten a WebP optimizado<?= $current ? ' · destino: <strong>' . htmlspecialchars($current['name']) . '</strong>' : '' ?></small>
             </div>
             <div class="ml-dropzone__queue" id="ml-queue" hidden></div>

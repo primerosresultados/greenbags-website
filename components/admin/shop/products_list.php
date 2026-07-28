@@ -37,7 +37,7 @@ $badge = fn(string $s) => '<span class="shop-badge shop-badge--' . $s . '">'
     <thead><tr><th></th><th>Producto</th><th>SKU</th><th>Precio</th><th>Stock</th><th>Estado</th><th></th></tr></thead>
     <tbody>
     <?php if (!$rows): ?>
-        <tr><td colspan="7" style="text-align:center;padding:2rem;color:#6b7280;">No hay productos. <a href="/admin/?view=product&id=new">Creá el primero →</a></td></tr>
+        <tr><td colspan="7" style="text-align:center;padding:2rem;color:#6b7280;">No hay productos. <a href="/admin/?view=product&id=new">Crea el primero →</a></td></tr>
     <?php endif; ?>
     <?php foreach ($rows as $p):
         $eff = productEffectivePrice($p);
