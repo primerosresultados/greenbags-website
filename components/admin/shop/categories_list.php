@@ -16,7 +16,7 @@ $err = flashGet('shop_err');
     <thead><tr><th>Nombre</th><th>Slug</th><th>Productos</th><th>Estado</th><th></th></tr></thead>
     <tbody>
     <?php if (!$categories): ?>
-        <tr><td colspan="5" style="text-align:center;padding:2rem;color:#6b7280;">No hay categorías. <a href="/admin/?view=category&id=new">Creá la primera →</a></td></tr>
+        <tr><td colspan="5" style="text-align:center;padding:2rem;color:#6b7280;">No hay categorías. <a href="/admin/?view=category&id=new">Crea la primera →</a></td></tr>
     <?php endif; ?>
     <?php foreach ($categories as $c): ?>
         <tr>

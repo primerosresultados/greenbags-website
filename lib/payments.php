@@ -34,7 +34,7 @@ function paymentsAllMethods(): array {
         ],
         'mercadopago' => [
             'label'       => 'MercadoPago',
-            'description' => 'Pagás con tarjeta, débito o saldo en MercadoPago.',
+            'description' => 'Pagas con tarjeta, débito o saldo en MercadoPago.',
             'enabled'     => getSetting('pay_mercadopago_enabled', '0') === '1',
             'configured'  => trim((string) getSetting('mp_access_token', '')) !== ''
                           && trim((string) getSetting('mp_public_key', '')) !== '',
@@ -57,7 +57,7 @@ function paymentsAllMethods(): array {
         ],
         'cod' => [
             'label'       => 'Pago contra entrega',
-            'description' => 'Pagás cuando recibís el pedido.',
+            'description' => 'Pagas cuando recibes el pedido.',
             'enabled'     => getSetting('pay_cod_enabled', '0') === '1',
             'configured'  => true,
             'kind'        => 'offline',

@@ -2,7 +2,7 @@
 <header class="admin-header">
     <div>
         <h1>Banners del hero</h1>
-        <div class="admin-header__sub">Carrusel del bloque destacado de la home. Arrastrá el orden con <code>sort_order</code>.</div>
+        <div class="admin-header__sub">Carrusel del bloque destacado de la home. Arrastra el orden con <code>sort_order</code>.</div>
     </div>
     <a href="/admin/?view=banner&id=new" class="btn">+ Nuevo banner</a>
 </header>

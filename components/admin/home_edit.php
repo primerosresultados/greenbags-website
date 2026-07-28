@@ -137,7 +137,7 @@ textarea.form-control { resize:vertical; min-height:90px; line-height:1.5; }
     <!-- SECCIONES VISIBLES -->
     <div class="card">
         <h3 class="card__title">👁️ Secciones visibles</h3>
-        <div class="settings-section-hint">Activá o desactivá bloques del inicio.</div>
+        <div class="settings-section-hint">Activa o desactiva bloques del inicio.</div>
         <div class="home-toggles">
             <?php foreach ([
                 'home_show_story'      => 'Bloque de marca',

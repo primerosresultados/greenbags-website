@@ -339,7 +339,7 @@ function quoteSubmit(array $data): array {
 
     $items = quoteItems();
     if (!$items && $message === '') {
-        return ['ok' => false, 'error' => 'Agregá productos o un mensaje describiendo qué necesitás.'];
+        return ['ok' => false, 'error' => 'Agrega productos o un mensaje describiendo qué necesitas.'];
     }
 
     $number  = quoteGenerateNumber();

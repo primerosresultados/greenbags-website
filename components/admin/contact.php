@@ -101,10 +101,10 @@ $contactPage = $contactPage ?? null;
             </label>
         </p>
         <p class="form__field"><label>Título del formulario
-            <input type="text" name="c[contact_form_title]" value="<?= $g('contact_form_title') ?>" placeholder="Escribinos un mensaje">
+            <input type="text" name="c[contact_form_title]" value="<?= $g('contact_form_title') ?>" placeholder="Escríbenos un mensaje">
         </label></p>
         <p class="form__field"><label>Intro del formulario
-            <textarea name="c[contact_form_intro]" rows="2" placeholder="Contanos en qué podemos ayudarte..."><?= $g('contact_form_intro') ?></textarea>
+            <textarea name="c[contact_form_intro]" rows="2" placeholder="Cuéntanos en qué podemos ayudarte..."><?= $g('contact_form_intro') ?></textarea>
         </label></p>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;">
             <p class="form__field" style="margin:0;"><label>Título del mensaje de éxito
@@ -120,8 +120,8 @@ $contactPage = $contactPage ?? null;
     <div class="card">
         <h3 class="card__title">Mapa embebido</h3>
         <p class="text-muted" style="margin:0 0 1rem;font-size:.88rem;">
-            Pegá el <strong>src</strong> del <code>&lt;iframe&gt;</code> que te da Google Maps
-            (Compartir → Insertar un mapa → copiá el valor de <code>src=...</code>).
+            Pega el <strong>src</strong> del <code>&lt;iframe&gt;</code> que te da Google Maps
+            (Compartir → Insertar un mapa → copia el valor de <code>src=...</code>).
         </p>
         <p class="form__field">
             <label style="display:flex;align-items:center;gap:.5rem;margin:0 0 .8rem;">
@@ -141,7 +141,7 @@ $contactPage = $contactPage ?? null;
     <div class="card">
         <h3 class="card__title">Sucursales</h3>
         <p class="text-muted" style="margin:0 0 1rem;font-size:.88rem;">
-            Si tenés sucursales activas cargadas en <a href="/admin/?view=business">Negocio → Sucursales</a>, se listan acá como tarjetas.
+            Si tienes sucursales activas cargadas en <a href="/admin/?view=business">Negocio → Sucursales</a>, se listan acá como tarjetas.
         </p>
         <p class="form__field">
             <label style="display:flex;align-items:center;gap:.5rem;margin:0 0 .8rem;">
@@ -158,7 +158,7 @@ $contactPage = $contactPage ?? null;
     <div class="card">
         <h3 class="card__title">SEO</h3>
         <p class="form__field" style="margin:0;"><label>Meta description <small class="text-muted">(opcional — si está vacía, usa la intro del hero)</small>
-            <input type="text" name="c[contact_meta_description]" value="<?= $g('contact_meta_description') ?>" maxlength="300" placeholder="Contactanos por WhatsApp, email o teléfono...">
+            <input type="text" name="c[contact_meta_description]" value="<?= $g('contact_meta_description') ?>" maxlength="300" placeholder="Contáctanos por WhatsApp, email o teléfono...">
         </label></p>
     </div>
 

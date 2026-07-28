@@ -696,7 +696,7 @@ function homeRender(string $error = ''): void {
                         </span>
                         <h2 class="home-hero__contact-title" id="cotizar-modal-title">Cotiza tu packaging</h2>
                     </div>
-                    <p class="home-hero__contact-sub">Contanos qué necesitás y te respondemos en menos de 24 hs hábiles, sin compromiso.</p>
+                    <p class="home-hero__contact-sub">Cuéntanos qué necesitas y te respondemos en menos de 24 hs hábiles, sin compromiso.</p>
                     <?php if ($error): ?>
                         <p class="home-hero__contact-error"><?= htmlspecialchars($error) ?></p>
                     <?php endif; ?>
@@ -726,7 +726,7 @@ function homeRender(string $error = ''): void {
                         </p>
                         <p>
                             <label class="visually-hidden" for="hh-message">Mensaje</label>
-                            <textarea id="hh-message" name="message" rows="3" placeholder="¿Qué packaging necesitás? Cantidades, tipo de producto, etc."></textarea>
+                            <textarea id="hh-message" name="message" rows="3" placeholder="¿Qué packaging necesitas? Cantidades, tipo de producto, etc."></textarea>
                         </p>
                         <button type="submit" class="btn home-hero__contact-btn">Solicitar cotización</button>
                         <p class="home-hero__contact-trust">
