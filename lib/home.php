@@ -15,6 +15,37 @@
  * inicio". Sin configuración, usa defaults razonables tomados del negocio.
  */
 
+/**
+ * Lista de textos numerados (home_x_1 … home_x_N). Descarta los vacíos, así
+ * borrar el campo en el panel quita el ítem del sitio.
+ * @param array<int,string> $defaults valores por defecto, en orden
+ */
+function homeListSetting(string $prefix, int $count, array $defaults = []): array {
+    $out = [];
+    for ($i = 1; $i <= $count; $i++) {
+        $v = trim((string) getSetting($prefix . $i, $defaults[$i - 1] ?? ''));
+        if ($v !== '') $out[] = ['text' => $v, 'idx' => $i];
+    }
+    return $out;
+}
+
+/**
+ * Pares título/texto numerados (home_x_1_title / home_x_1_desc). Se conserva
+ * `idx` porque los íconos son fijos por posición: si el cliente borra el
+ * segundo ítem, el tercero mantiene su ícono.
+ * @param array<int,array{0:string,1:string}> $defaults
+ */
+function homePairsSetting(string $prefix, int $count, array $defaults = []): array {
+    $out = [];
+    for ($i = 1; $i <= $count; $i++) {
+        $t = trim((string) getSetting("{$prefix}{$i}_title", $defaults[$i - 1][0] ?? ''));
+        $d = trim((string) getSetting("{$prefix}{$i}_desc",  $defaults[$i - 1][1] ?? ''));
+        if ($t === '' && $d === '') continue;
+        $out[] = ['title' => $t, 'desc' => $d, 'idx' => $i];
+    }
+    return $out;
+}
+
 function homeSettings(): array {
     $layout = (string) getSetting('home_categories_layout', 'bento');
     if (!in_array($layout, ['bento', 'grid', 'carousel', 'masonry'], true)) {
@@ -46,6 +77,46 @@ function homeSettings(): array {
             'trim',
             explode('|', (string) getSetting('home_clients_names', ''))
         ), fn($v) => $v !== '')),
+
+        // ---- Copy que antes vivía fijo en el template ----
+        // Todo esto se edita en admin → Inicio. getSetting sólo usa el default
+        // cuando la clave no existe en la tabla: una vez sembrada (migración
+        // 063), vaciar el campo en el panel oculta el texto en el sitio.
+        'hero_points' => homeListSetting('home_hero_point_', 3, [
+            'Despacho en 24-48 hs', 'Packaging certificado', '+15 años de experiencia',
+        ]),
+        'hero_wa_label' => trim((string) getSetting('home_hero_wa_label', 'Escribir por WhatsApp')),
+
+        'benefits' => homePairsSetting('home_benefit_', 4, [
+            ['Envíos rápidos',          'Despacho en 24-48 horas.'],
+            ['Pago seguro',             'Múltiples medios de pago.'],
+            ['Cambios y devoluciones',  'Hasta 10 días.'],
+            ['Atención al cliente',     'Te respondemos por WhatsApp.'],
+        ]),
+
+        'story_kicker'     => trim((string) getSetting('home_story_kicker', 'Empresa chilena')),
+        'story_chip'       => trim((string) getSetting('home_story_chip', 'Entregas confiables')),
+        'story_badge_num'  => trim((string) getSetting('home_story_badge_num', '+15')),
+        'story_badge_text' => trim((string) getSetting('home_story_badge_text', 'años de experiencia')),
+        'story_feats' => homePairsSetting('home_story_feat_', 3, [
+            ['Atención personalizada',    'Rapidez y trato directo con quienes toman las decisiones.'],
+            ['Responsabilidad ambiental', 'Productos certificados y opciones sustentables a tu escala.'],
+            ['Para cada canal',           'Horeca, retail, industria y emprendedores.'],
+        ]),
+
+        'cats_title'       => trim((string) getSetting('home_cats_title', 'Nuestras Categorías')),
+        'cats_link'        => trim((string) getSetting('home_cats_link', 'Ver catálogo →')),
+        'sellers_title'    => trim((string) getSetting('home_sellers_title', 'Habla con un ejecutivo')),
+        'sellers_subtitle' => trim((string) getSetting('home_sellers_subtitle', 'Atención directa y sin intermediarios')),
+        'featured_title'   => trim((string) getSetting('home_featured_title', 'Lo más buscado')),
+        'featured_link'    => trim((string) getSetting('home_featured_link', 'Ver todo →')),
+
+        'quote_title'    => trim((string) getSetting('home_quote_title', 'Cotiza tu packaging')),
+        'quote_subtitle' => trim((string) getSetting('home_quote_subtitle', 'Cuéntanos qué necesitas y te respondemos en menos de 24 hs hábiles, sin compromiso.')),
+        'quote_button'   => trim((string) getSetting('home_quote_button', 'Solicitar cotización')),
+        'quote_trust'    => trim((string) getSetting('home_quote_trust', 'Sin compromiso · Respuesta por WhatsApp o email')),
+        'quote_ok_title' => trim((string) getSetting('home_quote_ok_title', '¡Gracias por escribirnos!')),
+        'quote_ok_text'  => trim((string) getSetting('home_quote_ok_text', 'Te responderemos a la brevedad.')),
     ];
 }
 
@@ -147,6 +218,25 @@ function homeRender(string $error = ''): void {
         ]];
     }
 
+    // Los íconos del copy editable son fijos por posición: el cliente cambia
+    // el texto desde el panel, no el dibujo.
+    $heroPointIcons = [
+        1 => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/></svg>',
+        2 => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>',
+        3 => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M8.5 13L7 22l5-3 5 3-1.5-9"/></svg>',
+    ];
+    $benefitIcons = [
+        1 => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/></svg>',
+        2 => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+        3 => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>',
+        4 => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>',
+    ];
+    $storyFeatIcons = [
+        1 => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+        2 => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>',
+        3 => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>',
+    ];
+
     layoutStart([
         'title'        => '',  // home: solo el site_name
         'description'  => $s['hero_subtitle'],
@@ -175,11 +265,13 @@ function homeRender(string $error = ''): void {
                                 <?php if (!empty($b['subtitle'])): ?>
                                     <p class="home-hero__subtitle"><?= htmlspecialchars($b['subtitle']) ?></p>
                                 <?php endif; ?>
-                                <ul class="home-hero__points">
-                                    <li><span class="home-hero__point-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/></svg></span>Despacho en 24-48 hs</li>
-                                    <li><span class="home-hero__point-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></span>Packaging certificado</li>
-                                    <li><span class="home-hero__point-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M8.5 13L7 22l5-3 5 3-1.5-9"/></svg></span>+15 años de experiencia</li>
-                                </ul>
+                                <?php if ($s['hero_points']): ?>
+                                    <ul class="home-hero__points">
+                                        <?php foreach ($s['hero_points'] as $pt): ?>
+                                            <li><span class="home-hero__point-ico" aria-hidden="true"><?= $heroPointIcons[$pt['idx']] ?? $heroPointIcons[1] ?></span><?= htmlspecialchars($pt['text']) ?></li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                <?php endif; ?>
                                 <div class="home-hero__cta">
                                     <?php if (!empty($b['cta_label']) && !empty($b['cta_url'])):
                                         // Los CTA de cotización abren el modal "Cotiza tu packaging"
@@ -192,8 +284,8 @@ function homeRender(string $error = ''): void {
                                             <a href="<?= htmlspecialchars($b['cta_url']) ?>" class="btn btn--lg"><?= htmlspecialchars($b['cta_label']) ?></a>
                                         <?php endif; ?>
                                     <?php endif; ?>
-                                    <?php if ($i === 0 && $waUrl): ?>
-                                        <a href="<?= htmlspecialchars($waUrl) ?>" target="_blank" rel="noopener" class="btn btn--ghost btn--lg">Escribir por WhatsApp</a>
+                                    <?php if ($i === 0 && $waUrl && $s['hero_wa_label'] !== ''): ?>
+                                        <a href="<?= htmlspecialchars($waUrl) ?>" target="_blank" rel="noopener" class="btn btn--ghost btn--lg"><?= htmlspecialchars($s['hero_wa_label']) ?></a>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -304,40 +396,41 @@ function homeRender(string $error = ''): void {
                     <div class="home-story__media--empty"></div>
                 <?php endif; ?>
                 <span class="home-story__media-frame" aria-hidden="true"></span>
-                <div class="home-story__chip" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/></svg>
-                    <span>Entregas confiables</span>
-                </div>
-                <div class="home-story__badge" aria-hidden="true">
-                    <span class="home-story__badge-num">+15</span>
-                    <span class="home-story__badge-txt">años de<br>experiencia</span>
-                </div>
+                <?php if ($s['story_chip'] !== ''): ?>
+                    <div class="home-story__chip" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/></svg>
+                        <span><?= htmlspecialchars($s['story_chip']) ?></span>
+                    </div>
+                <?php endif; ?>
+                <?php if ($s['story_badge_num'] !== '' || $s['story_badge_text'] !== ''): ?>
+                    <div class="home-story__badge" aria-hidden="true">
+                        <span class="home-story__badge-num"><?= htmlspecialchars($s['story_badge_num']) ?></span>
+                        <span class="home-story__badge-txt"><?= nl2br(htmlspecialchars($s['story_badge_text'])) ?></span>
+                    </div>
+                <?php endif; ?>
             </div>
             <div class="home-story__copy">
-                <p class="home-story__kicker" data-reveal>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                    Empresa chilena
-                </p>
+                <?php if ($s['story_kicker'] !== ''): ?>
+                    <p class="home-story__kicker" data-reveal>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <?= htmlspecialchars($s['story_kicker']) ?>
+                    </p>
+                <?php endif; ?>
                 <h2 class="home-story__title" data-reveal style="--reveal-delay:.08s"><?= htmlspecialchars($s['story_title']) ?></h2>
                 <p class="home-story__body" data-reveal style="--reveal-delay:.16s"><?= nl2br(htmlspecialchars($s['story_body'])) ?></p>
-                <ul class="home-story__feats">
-                    <?php foreach ([
-                        ['ico' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
-                         'title' => 'Atención personalizada', 'desc' => 'Rapidez y trato directo con quienes toman las decisiones.', 'delay' => '.22s'],
-                        ['ico' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>',
-                         'title' => 'Responsabilidad ambiental', 'desc' => 'Productos certificados y opciones sustentables a tu escala.', 'delay' => '.3s'],
-                        ['ico' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>',
-                         'title' => 'Para cada canal', 'desc' => 'Horeca, retail, industria y emprendedores.', 'delay' => '.38s'],
-                    ] as $f): ?>
-                        <li class="home-story__feat" data-reveal style="--reveal-delay:<?= $f['delay'] ?>">
-                            <span class="home-story__feat-ico" aria-hidden="true"><?= $f['ico'] ?></span>
-                            <span class="home-story__feat-txt">
-                                <strong><?= $f['title'] ?></strong>
-                                <span><?= $f['desc'] ?></span>
-                            </span>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
+                <?php if ($s['story_feats']): ?>
+                    <ul class="home-story__feats">
+                        <?php foreach ($s['story_feats'] as $n => $f): ?>
+                            <li class="home-story__feat" data-reveal style="--reveal-delay:<?= (0.22 + $n * 0.08) ?>s">
+                                <span class="home-story__feat-ico" aria-hidden="true"><?= $storyFeatIcons[$f['idx']] ?? $storyFeatIcons[1] ?></span>
+                                <span class="home-story__feat-txt">
+                                    <strong><?= htmlspecialchars($f['title']) ?></strong>
+                                    <span><?= htmlspecialchars($f['desc']) ?></span>
+                                </span>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
                 <?php if ($s['story_cta_label'] && $s['story_cta_url']): ?>
                     <a href="<?= htmlspecialchars($s['story_cta_url']) ?>" class="btn home-story__cta" data-reveal style="--reveal-delay:.46s">
                         <span><?= htmlspecialchars($s['story_cta_label']) ?></span>
@@ -363,24 +456,15 @@ function homeRender(string $error = ''): void {
     </section>
     <?php endif; ?>
 
-    <?php if ($s['show_benefits']): ?>
+    <?php if ($s['show_benefits'] && $s['benefits']): ?>
     <!-- ============ Beneficios ============ -->
     <section class="home-benefits container">
-        <?php foreach ([
-            ['ico' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/></svg>',
-             'title' => 'Envíos rápidos', 'desc' => 'Despacho en 24-48 horas.'],
-            ['ico' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
-             'title' => 'Pago seguro',    'desc' => 'Múltiples medios de pago.'],
-            ['ico' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>',
-             'title' => 'Cambios y devoluciones', 'desc' => 'Hasta 10 días.'],
-            ['ico' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>',
-             'title' => 'Atención al cliente', 'desc' => 'Te respondemos por WhatsApp.'],
-        ] as $b): ?>
+        <?php foreach ($s['benefits'] as $b): ?>
             <div class="home-benefit">
-                <span class="home-benefit__ico"><?= $b['ico'] ?></span>
+                <span class="home-benefit__ico"><?= $benefitIcons[$b['idx']] ?? $benefitIcons[1] ?></span>
                 <div>
-                    <strong class="home-benefit__title"><?= $b['title'] ?></strong>
-                    <p class="home-benefit__desc"><?= $b['desc'] ?></p>
+                    <strong class="home-benefit__title"><?= htmlspecialchars($b['title']) ?></strong>
+                    <p class="home-benefit__desc"><?= htmlspecialchars($b['desc']) ?></p>
                 </div>
             </div>
         <?php endforeach; ?>
@@ -403,8 +487,10 @@ function homeRender(string $error = ''): void {
     <!-- ============ Categorías ============ -->
     <section class="home-cats <?= $sectionMod ?> container" data-layout="<?= htmlspecialchars($layout) ?>">
         <header class="home-section__head">
-            <h2 class="home-section__title">Nuestras Categorías</h2>
-            <a href="/catalogo" class="home-section__link">Ver catálogo →</a>
+            <h2 class="home-section__title"><?= htmlspecialchars($s['cats_title']) ?></h2>
+            <?php if ($s['cats_link'] !== ''): ?>
+                <a href="/catalogo" class="home-section__link"><?= htmlspecialchars($s['cats_link']) ?></a>
+            <?php endif; ?>
         </header>
 
         <?php if ($layout === 'carousel'): ?>
@@ -527,8 +613,10 @@ function homeRender(string $error = ''): void {
     <!-- ============ Vendedores (tarjetas) ============ -->
     <section class="home-sellers container">
         <header class="home-section__head">
-            <h2 class="home-section__title">Habla con un ejecutivo</h2>
-            <span class="home-section__link home-section__link--static">Atención directa y sin intermediarios</span>
+            <h2 class="home-section__title"><?= htmlspecialchars($s['sellers_title']) ?></h2>
+            <?php if ($s['sellers_subtitle'] !== ''): ?>
+                <span class="home-section__link home-section__link--static"><?= htmlspecialchars($s['sellers_subtitle']) ?></span>
+            <?php endif; ?>
         </header>
         <div class="home-sellers__grid">
             <?php foreach ($sellers as $sv):
@@ -579,8 +667,10 @@ function homeRender(string $error = ''): void {
     <!-- ============ Productos destacados ============ -->
     <section class="home-featured container">
         <header class="home-section__head">
-            <h2 class="home-section__title">Lo más buscado</h2>
-            <a href="/catalogo" class="home-section__link">Ver todo →</a>
+            <h2 class="home-section__title"><?= htmlspecialchars($s['featured_title']) ?></h2>
+            <?php if ($s['featured_link'] !== ''): ?>
+                <a href="/catalogo" class="home-section__link"><?= htmlspecialchars($s['featured_link']) ?></a>
+            <?php endif; ?>
         </header>
         <div class="shop-grid">
             <?php foreach ($featured as $p):
@@ -687,16 +777,18 @@ function homeRender(string $error = ''): void {
                     <span class="home-hero__contact-icon--ok" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                     </span>
-                    <h2 class="home-hero__contact-title" id="cotizar-modal-title">¡Gracias por escribirnos!</h2>
-                    <p class="home-hero__contact-sub">Te responderemos a la brevedad.</p>
+                    <h2 class="home-hero__contact-title" id="cotizar-modal-title"><?= htmlspecialchars($s['quote_ok_title']) ?></h2>
+                    <p class="home-hero__contact-sub"><?= htmlspecialchars($s['quote_ok_text']) ?></p>
                 <?php else: ?>
                     <div class="home-hero__contact-head">
                         <span class="home-hero__contact-badge" aria-hidden="true">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
                         </span>
-                        <h2 class="home-hero__contact-title" id="cotizar-modal-title">Cotiza tu packaging</h2>
+                        <h2 class="home-hero__contact-title" id="cotizar-modal-title"><?= htmlspecialchars($s['quote_title']) ?></h2>
                     </div>
-                    <p class="home-hero__contact-sub">Cuéntanos qué necesitas y te respondemos en menos de 24 hs hábiles, sin compromiso.</p>
+                    <?php if ($s['quote_subtitle'] !== ''): ?>
+                        <p class="home-hero__contact-sub"><?= htmlspecialchars($s['quote_subtitle']) ?></p>
+                    <?php endif; ?>
                     <?php if ($error): ?>
                         <p class="home-hero__contact-error"><?= htmlspecialchars($error) ?></p>
                     <?php endif; ?>
@@ -728,11 +820,13 @@ function homeRender(string $error = ''): void {
                             <label class="visually-hidden" for="hh-message">Mensaje</label>
                             <textarea id="hh-message" name="message" rows="3" placeholder="¿Qué packaging necesitas? Cantidades, tipo de producto, etc."></textarea>
                         </p>
-                        <button type="submit" class="btn home-hero__contact-btn">Solicitar cotización</button>
-                        <p class="home-hero__contact-trust">
-                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                            Sin compromiso · Respuesta por WhatsApp o email
-                        </p>
+                        <button type="submit" class="btn home-hero__contact-btn"><?= htmlspecialchars($s['quote_button']) ?></button>
+                        <?php if ($s['quote_trust'] !== ''): ?>
+                            <p class="home-hero__contact-trust">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                                <?= htmlspecialchars($s['quote_trust']) ?>
+                            </p>
+                        <?php endif; ?>
                     </form>
                 <?php endif; ?>
             </div>

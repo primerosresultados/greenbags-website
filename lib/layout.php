@@ -98,6 +98,7 @@ $cssVer = function (string $path): string {
 <link rel="stylesheet" href="<?= $h($cssVer('/assets/css/components.css')) ?>">
 <link rel="stylesheet" href="<?= $h($cssVer('/assets/css/shop.css')) ?>">
 <link rel="stylesheet" href="<?= $h($cssVer('/assets/css/home.css')) ?>">
+<link rel="stylesheet" href="<?= $h($cssVer('/assets/css/blocks.css')) ?>">
 <link rel="stylesheet" href="<?= $h($cssVer('/assets/css/account.css')) ?>">
 <?php if (!$hideChrome): ?>
 <link rel="preconnect" href="https://fonts.googleapis.com">

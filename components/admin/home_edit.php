@@ -63,6 +63,43 @@ textarea.form-control { resize:vertical; min-height:90px; line-height:1.5; }
             </div>
             <a class="btn" href="/admin/?view=banners">Administrar banners →</a>
         </div>
+
+        <div class="form-group" style="margin-top:1.5rem;">
+            <label class="form-label">Puntos debajo del título</label>
+            <span class="form-hint" style="margin:0 0 .6rem;">Las tres frases cortas con ícono que acompañan al banner. Deja vacío el campo para ocultar ese punto.</span>
+            <div class="form-row">
+                <?php for ($i = 1; $i <= 3; $i++): ?>
+                    <input class="form-control" type="text" name="s[home_hero_point_<?= $i ?>]"
+                           value="<?= $g("home_hero_point_{$i}") ?>" placeholder="Punto <?= $i ?>">
+                <?php endfor; ?>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Texto del botón de WhatsApp</label>
+            <input class="form-control" type="text" name="s[home_hero_wa_label]" value="<?= $g('home_hero_wa_label') ?>" placeholder="Escribir por WhatsApp">
+            <span class="form-hint">Sólo aparece si cargaste un número de WhatsApp en Negocio.</span>
+        </div>
+    </div>
+
+    <!-- BENEFICIOS -->
+    <div class="card">
+        <h3 class="card__title">✅ Franja de beneficios</h3>
+        <div class="settings-section-hint">
+            Las cuatro tarjetas que se superponen al hero (envíos, pago, devoluciones, atención).
+            Los íconos son fijos; vaciar título y texto oculta esa tarjeta.
+        </div>
+        <?php foreach ([1 => 'Envíos rápidos', 2 => 'Pago seguro', 3 => 'Cambios y devoluciones', 4 => 'Atención al cliente'] as $i => $ph): ?>
+            <div class="form-row" style="margin-bottom:1rem;">
+                <div class="form-group" style="margin:0;">
+                    <label class="form-label">Beneficio <?= $i ?> — título</label>
+                    <input class="form-control" type="text" name="s[home_benefit_<?= $i ?>_title]" value="<?= $g("home_benefit_{$i}_title") ?>" placeholder="<?= htmlspecialchars($ph) ?>">
+                </div>
+                <div class="form-group" style="margin:0;">
+                    <label class="form-label">Beneficio <?= $i ?> — texto</label>
+                    <input class="form-control" type="text" name="s[home_benefit_<?= $i ?>_desc]" value="<?= $g("home_benefit_{$i}_desc") ?>" placeholder="Descripción corta">
+                </div>
+            </div>
+        <?php endforeach; ?>
     </div>
 
     <!-- BLOQUE DE MARCA -->
@@ -95,6 +132,77 @@ textarea.form-control { resize:vertical; min-height:90px; line-height:1.5; }
                 $sifPlaceholder = '/uploads/library/greenbags/...jpg';
                 require __DIR__ . '/_single_image_field.php';
             ?>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Antetítulo</label>
+                <input class="form-control" type="text" name="s[home_story_kicker]" value="<?= $g('home_story_kicker') ?>" placeholder="Empresa chilena">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Etiqueta sobre la foto</label>
+                <input class="form-control" type="text" name="s[home_story_chip]" value="<?= $g('home_story_chip') ?>" placeholder="Entregas confiables">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Insignia — número</label>
+                <input class="form-control" type="text" name="s[home_story_badge_num]" value="<?= $g('home_story_badge_num') ?>" placeholder="+15">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Insignia — texto</label>
+                <textarea class="form-control" name="s[home_story_badge_text]" rows="2" style="min-height:0;"><?= $g('home_story_badge_text') ?></textarea>
+                <span class="form-hint">Un salto de línea acá se respeta en el sitio.</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Puntos del bloque</label>
+            <span class="form-hint" style="margin:0 0 .6rem;">Los tres ítems con ícono debajo del texto.</span>
+            <?php foreach ([1 => 'Atención personalizada', 2 => 'Responsabilidad ambiental', 3 => 'Para cada canal'] as $i => $ph): ?>
+                <div class="form-row" style="margin-bottom:1rem;">
+                    <input class="form-control" type="text" name="s[home_story_feat_<?= $i ?>_title]" value="<?= $g("home_story_feat_{$i}_title") ?>" placeholder="<?= htmlspecialchars($ph) ?>">
+                    <input class="form-control" type="text" name="s[home_story_feat_<?= $i ?>_desc]" value="<?= $g("home_story_feat_{$i}_desc") ?>" placeholder="Descripción corta">
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+
+    <!-- TÍTULOS DE SECCIÓN -->
+    <div class="card">
+        <h3 class="card__title">🏷️ Títulos de las secciones</h3>
+        <div class="settings-section-hint">
+            Encabezados de las franjas de categorías, ejecutivos y productos destacados.
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Categorías — título</label>
+                <input class="form-control" type="text" name="s[home_cats_title]" value="<?= $g('home_cats_title') ?>" placeholder="Nuestras Categorías">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Categorías — link a la derecha</label>
+                <input class="form-control" type="text" name="s[home_cats_link]" value="<?= $g('home_cats_link') ?>" placeholder="Ver catálogo →">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Ejecutivos — título</label>
+                <input class="form-control" type="text" name="s[home_sellers_title]" value="<?= $g('home_sellers_title') ?>" placeholder="Habla con un ejecutivo">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Ejecutivos — bajada</label>
+                <input class="form-control" type="text" name="s[home_sellers_subtitle]" value="<?= $g('home_sellers_subtitle') ?>" placeholder="Atención directa y sin intermediarios">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Destacados — título</label>
+                <input class="form-control" type="text" name="s[home_featured_title]" value="<?= $g('home_featured_title') ?>" placeholder="Lo más buscado">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Destacados — link a la derecha</label>
+                <input class="form-control" type="text" name="s[home_featured_link]" value="<?= $g('home_featured_link') ?>" placeholder="Ver todo →">
+            </div>
         </div>
     </div>
 
@@ -131,6 +239,42 @@ textarea.form-control { resize:vertical; min-height:90px; line-height:1.5; }
         <div class="form-group">
             <label class="form-label">Texto del botón</label>
             <input class="form-control" type="text" name="s[home_cta_label]" value="<?= $g('home_cta_label') ?>" placeholder="Solicitar cotización">
+        </div>
+    </div>
+
+    <!-- MODAL DE COTIZACIÓN -->
+    <div class="card">
+        <h3 class="card__title">💬 Formulario de cotización</h3>
+        <div class="settings-section-hint">
+            La ventana que se abre al tocar “Solicitar cotización” en cualquier parte del inicio.
+        </div>
+        <div class="form-group">
+            <label class="form-label">Título</label>
+            <input class="form-control" type="text" name="s[home_quote_title]" value="<?= $g('home_quote_title') ?>" placeholder="Cotiza tu packaging">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Bajada</label>
+            <textarea class="form-control" name="s[home_quote_subtitle]" rows="2" style="min-height:0;"><?= $g('home_quote_subtitle') ?></textarea>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Texto del botón de envío</label>
+                <input class="form-control" type="text" name="s[home_quote_button]" value="<?= $g('home_quote_button') ?>" placeholder="Solicitar cotización">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Línea de confianza (al pie)</label>
+                <input class="form-control" type="text" name="s[home_quote_trust]" value="<?= $g('home_quote_trust') ?>" placeholder="Sin compromiso · Respuesta por WhatsApp o email">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">Mensaje de éxito — título</label>
+                <input class="form-control" type="text" name="s[home_quote_ok_title]" value="<?= $g('home_quote_ok_title') ?>" placeholder="¡Gracias por escribirnos!">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Mensaje de éxito — texto</label>
+                <input class="form-control" type="text" name="s[home_quote_ok_text]" value="<?= $g('home_quote_ok_text') ?>" placeholder="Te responderemos a la brevedad.">
+            </div>
         </div>
     </div>
 

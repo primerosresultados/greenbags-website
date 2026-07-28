@@ -45,6 +45,19 @@ $HOME_KEYS        = [
     'home_story_title', 'home_story_body', 'home_story_cta_label', 'home_story_cta_url', 'home_story_image',
     'home_cta_title', 'home_cta_subtitle', 'home_cta_label', 'home_cta_url',
     'home_clients_title',
+    // Copy que antes estaba fijo en el template (ver homeSettings()).
+    'home_hero_point_1', 'home_hero_point_2', 'home_hero_point_3', 'home_hero_wa_label',
+    'home_benefit_1_title', 'home_benefit_1_desc', 'home_benefit_2_title', 'home_benefit_2_desc',
+    'home_benefit_3_title', 'home_benefit_3_desc', 'home_benefit_4_title', 'home_benefit_4_desc',
+    'home_story_kicker', 'home_story_chip', 'home_story_badge_num', 'home_story_badge_text',
+    'home_story_feat_1_title', 'home_story_feat_1_desc',
+    'home_story_feat_2_title', 'home_story_feat_2_desc',
+    'home_story_feat_3_title', 'home_story_feat_3_desc',
+    'home_cats_title', 'home_cats_link',
+    'home_sellers_title', 'home_sellers_subtitle',
+    'home_featured_title', 'home_featured_link',
+    'home_quote_title', 'home_quote_subtitle', 'home_quote_button', 'home_quote_trust',
+    'home_quote_ok_title', 'home_quote_ok_text',
 ];
 $HOME_TOGGLES     = ['home_show_benefits', 'home_show_categories', 'home_show_featured', 'home_show_story', 'home_show_clients'];
 // Settings exclusivas del módulo "Mailing" (separadas para no mezclarse con
@@ -285,7 +298,9 @@ if ($user) {
         }
         foreach ($HOME_KEYS as $k) {
             if (array_key_exists($k, $submitted)) {
-                setSetting($k, (string) $submitted[$k]);
+                // Los textarea del navegador mandan CRLF: normalizamos a LF
+                // para que guardar sin tocar nada no altere el valor.
+                setSetting($k, str_replace("\r\n", "\n", (string) $submitted[$k]));
             }
         }
         flashSet('home_success', 'Página de inicio actualizada.');
@@ -728,6 +743,16 @@ if ($user) {
                         'INSERT INTO pages (slug, title, body, meta_description, og_image, hide_chrome, is_published, exclude_from_menu) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
                     );
                     $stmt->execute([$slug, $title, $body, $meta, $ogImage, $hide, $pub, $exclMenu]);
+                    $id = (int) getDB()->lastInsertId();
+                }
+                // Bloques de contenido (editor visual). Llegan completos y en
+                // orden desde el form; blocksSaveForPage reemplaza el set.
+                // Sólo se tocan si el editor confirmó haber serializado la
+                // lista: sin esa marca (JS caído) se dejan como estaban en vez
+                // de borrarlos.
+                if (($_POST['blocks_serialized'] ?? '0') === '1') {
+                    $postedBlocks = $_POST['blocks'] ?? [];
+                    blocksSaveForPage($id, is_array($postedBlocks) ? $postedBlocks : []);
                 }
                 flashSet('page_success', 'Página guardada.');
                 redirect('/admin/?view=pages');

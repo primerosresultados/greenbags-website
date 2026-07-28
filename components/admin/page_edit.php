@@ -22,20 +22,34 @@ $isNew = empty($page['id']);
     <input type="hidden" name="id" value="<?= (int) ($page['id'] ?? 0) ?>">
 
     <div class="card">
-        <h3 class="card__title">Contenido</h3>
+        <h3 class="card__title">Datos de la página</h3>
 
         <p class="form__field"><label>Slug <small class="text-muted">(URL: /slug)</small>
             <input name="slug" value="<?= htmlspecialchars($page['slug'] ?? '') ?>" required pattern="[a-z0-9-]+" placeholder="sobre-nosotros">
         </label></p>
 
-        <p class="form__field"><label>Título
+        <p class="form__field" style="margin:0;"><label>Título
             <input name="title" value="<?= htmlspecialchars($page['title'] ?? '') ?>" required>
         </label></p>
-
-        <p class="form__field" style="margin:0;"><label>Contenido <small class="text-muted">(HTML permitido)</small>
-            <textarea name="body" rows="18" style="font-family:var(--font-family-mono);font-size:.88rem;"><?= htmlspecialchars($page['body'] ?? '') ?></textarea>
-        </label></p>
     </div>
+
+    <?php require __DIR__ . '/page_blocks.php'; ?>
+
+    <?php
+    // El HTML crudo sigue disponible, pero deja de ser la forma principal de
+    // editar: sólo se usa mientras la página no tenga bloques (o para pegar
+    // algo puntual). Colapsado para no invitar a tocarlo sin necesidad.
+    $legacyBody = (string) ($page['body'] ?? '');
+    ?>
+    <details class="card" <?= trim($legacyBody) !== '' && empty($blkBlocks) ? 'open' : '' ?>>
+        <summary style="cursor:pointer;font-weight:600;color:#0f172a;">
+            Contenido avanzado (HTML)
+            <small class="text-muted" style="font-weight:400;">— sólo se muestra si la página no tiene bloques</small>
+        </summary>
+        <p class="form__field" style="margin:1rem 0 0;">
+            <textarea name="body" rows="14" style="font-family:var(--font-family-mono);font-size:.88rem;"><?= htmlspecialchars($legacyBody) ?></textarea>
+        </p>
+    </details>
 
     <div class="card">
         <h3 class="card__title">SEO & publicación</h3>
