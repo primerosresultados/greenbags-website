@@ -884,7 +884,7 @@ if ($user) {
             $stmt->execute([$leadId]);
             $notes = $stmt->fetchAll();
         }
-    } elseif (!in_array($view, ['account', 'media', 'users', 'user', 'mailing', 'business', 'contact', 'quotes', 'quote'], true)) {
+    } elseif (!in_array($view, ['account', 'media', 'users', 'user', 'mailing', 'business', 'contact', 'quotes', 'quote', 'products_upload'], true)) {
         $stats['total']     = (int) $db->query('SELECT COUNT(*) FROM leads')->fetchColumn();
         $stats['today']     = (int) $db->query('SELECT COUNT(*) FROM leads WHERE DATE(created_at) = CURDATE()')->fetchColumn();
         $stats['this_week'] = (int) $db->query('SELECT COUNT(*) FROM leads WHERE created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)')->fetchColumn();
@@ -994,6 +994,8 @@ if ($faviconPath && @file_exists($faviconAbs)):
             require __DIR__ . '/../components/admin/shop/products_list.php';
         } elseif ($view === 'products_bulk') {
             require __DIR__ . '/../components/admin/shop/products_bulk.php';
+        } elseif ($view === 'products_upload') {
+            require __DIR__ . '/../components/admin/shop/products_upload.php';
         } elseif ($view === 'product') {
             require __DIR__ . '/../components/admin/shop/product_edit.php';
         } elseif ($view === 'categories') {

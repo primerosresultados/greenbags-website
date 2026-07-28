@@ -5,6 +5,8 @@
  * Cada acción valida CSRF y redirige (patrón POST-redirect-GET del proyecto).
  */
 
+require_once __DIR__ . '/products_upload.php';
+
 /** Devuelve true si la acción fue de tienda y ya se manejó (con redirect). */
 function handleShopAdminActions(array $user, string $action): bool {
     switch ($action) {
@@ -89,6 +91,26 @@ function handleShopAdminActions(array $user, string $action): bool {
                 flashSet('shop_err', $res['error'] ?? 'No se pudo importar el archivo.');
             }
             redirect('/admin/?view=products_bulk');
+            return true;
+
+        case 'products_template':
+            productsUploadTemplateCsv(); // imprime y hace exit
+            return true;
+
+        case 'products_upload':
+            csrfCheck();
+            $res = productsUploadCsv($_FILES['file'] ?? null);
+            if (!empty($res['ok'])) {
+                flashSet('shop_msg', ($res['created'] ?? 0) . ' producto(s) creados y '
+                    . ($res['updated'] ?? 0) . ' actualizado(s).'
+                    . (!empty($res['skipped']) ? ' ' . $res['skipped'] . ' fila(s) omitida(s).' : ''));
+            } else {
+                flashSet('shop_err', $res['error'] ?? 'No se pudo procesar el archivo.');
+            }
+            if (!empty($res['errors'])) {
+                flashSet('shop_upload_detail', json_encode(array_values($res['errors']), JSON_UNESCAPED_UNICODE));
+            }
+            redirect('/admin/?view=products_upload');
             return true;
     }
     return false;
