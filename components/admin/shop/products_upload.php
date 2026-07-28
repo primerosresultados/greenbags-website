@@ -9,7 +9,7 @@ $spec   = productsUploadSpec();
 <header class="admin-header">
     <div>
         <h1>Carga masiva de productos</h1>
-        <div class="admin-header__sub">Subí un CSV y creá o actualizá muchos productos de una vez</div>
+        <div class="admin-header__sub">Sube un CSV y crea o actualiza muchos productos de una vez</div>
     </div>
     <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
         <a class="btn btn--ghost" href="/admin/?view=products">← Volver al listado</a>
@@ -32,8 +32,8 @@ $spec   = productsUploadSpec();
     <section class="card pup-step">
         <div class="pup-step__n">1</div>
         <div>
-            <h2>Descargá el ejemplo</h2>
-            <p class="text-muted">Un CSV con los encabezados correctos y 3 productos de ejemplo. Abrilo con Excel o Google Sheets.</p>
+            <h2>Descarga el ejemplo</h2>
+            <p class="text-muted">Un CSV con los encabezados correctos y 3 productos de ejemplo. Ábrelo con Excel o Google Sheets.</p>
             <a class="btn" href="/admin/?action=products_template">Descargar ejemplo CSV</a>
         </div>
     </section>
@@ -41,10 +41,10 @@ $spec   = productsUploadSpec();
     <section class="card pup-step">
         <div class="pup-step__n">2</div>
         <div>
-            <h2>Completá tus productos</h2>
+            <h2>Completa tus productos</h2>
             <p class="text-muted">
-                Borrá las filas de ejemplo y cargá las tuyas: <strong>una fila por producto</strong>.
-                Guardá el archivo como CSV (sirve separado por <code>;</code> o por <code>,</code>).
+                Borra las filas de ejemplo y carga las tuyas: <strong>una fila por producto</strong>.
+                Guarda el archivo como CSV (sirve separado por <code>;</code> o por <code>,</code>).
             </p>
         </div>
     </section>
@@ -52,7 +52,7 @@ $spec   = productsUploadSpec();
     <section class="card pup-step">
         <div class="pup-step__n">3</div>
         <div>
-            <h2>Subí el archivo</h2>
+            <h2>Sube el archivo</h2>
             <p class="text-muted">Se procesa al instante. Si una fila tiene un error, se salta y te lo mostramos acá.</p>
             <form method="post" enctype="multipart/form-data" class="pup-form" onsubmit="return this.file.value !== '';">
                 <input type="hidden" name="action" value="products_upload">
@@ -90,8 +90,8 @@ $spec   = productsUploadSpec();
     <ul class="pup-notes text-muted">
         <li>Si el <code>sku</code> ya existe en el catálogo, la fila <strong>actualiza</strong> ese producto en vez de duplicarlo.</li>
         <li>Las categorías que no existan se crean automáticamente.</li>
-        <li>Si completás <code>imagen_url</code> en un producto que ya tiene fotos, se reemplaza la galería.</li>
-        <li>Máximo <?= PRODUCTS_UPLOAD_MAX_ROWS ?> filas y <?= PRODUCTS_UPLOAD_MAX_IMAGES ?> imágenes por archivo (subí el resto en otro archivo).</li>
+        <li>Si completas <code>imagen_url</code> en un producto que ya tiene fotos, se reemplaza la galería.</li>
+        <li>Máximo <?= PRODUCTS_UPLOAD_MAX_ROWS ?> filas y <?= PRODUCTS_UPLOAD_MAX_IMAGES ?> imágenes por archivo (sube el resto en otro archivo).</li>
         <li>Para editar precios y stock de lo que ya está cargado, es más rápido <a href="/admin/?view=products_bulk">Editar en tabla</a>.</li>
     </ul>
 </div>

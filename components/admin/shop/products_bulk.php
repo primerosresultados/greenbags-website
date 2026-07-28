@@ -14,7 +14,7 @@ $exportQs = http_build_query(array_filter([
 <header class="admin-header">
     <div>
         <h1>Editar en tabla</h1>
-        <div class="admin-header__sub"><?= count($rows) ?> producto(s) — editá precios, stock, estado y fotos de un tirón</div>
+        <div class="admin-header__sub"><?= count($rows) ?> producto(s) — edita precios, stock, estado y fotos de un tirón</div>
     </div>
     <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
         <a class="btn btn--ghost" href="/admin/?view=products">← Volver al listado</a>
@@ -55,7 +55,7 @@ $exportQs = http_build_query(array_filter([
 
 <?php if (!$rows): ?>
     <div class="card" style="padding:2rem;text-align:center;color:#6b7280;">
-        No hay productos. <a href="/admin/?view=product&id=new">Creá el primero →</a>
+        No hay productos. <a href="/admin/?view=product&id=new">Crea el primero →</a>
     </div>
 <?php else: ?>
 <form method="post" id="pbulk-form">

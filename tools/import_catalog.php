@@ -27,7 +27,7 @@ $count = 0;
 
 foreach ($sources as $src) {
     $file = cliOutDir() . "/$src.json";
-    if (!is_file($file)) { cliLog("! No existe $file (corré el scraper primero). Salto."); continue; }
+    if (!is_file($file)) { cliLog("! No existe $file (corre el scraper primero). Salto."); continue; }
     $rows = json_decode((string) file_get_contents($file), true);
     if (!is_array($rows)) { cliLog("! $file inválido. Salto."); continue; }
 

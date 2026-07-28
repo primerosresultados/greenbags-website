@@ -622,7 +622,7 @@ textarea.form-control {
 
         <div class="logo-size" data-logo-size>
             <div class="settings-section-hint" style="margin-top:1rem;">
-                <strong>Tamaño del logo.</strong> Ajustá el alto (en píxeles) para escritorio y celular. La vista previa se actualiza en vivo.
+                <strong>Tamaño del logo.</strong> Ajusta el alto (en píxeles) para escritorio y celular. La vista previa se actualiza en vivo.
             </div>
             <div class="logo-size__row">
                 <div class="logo-size__ctrl">
@@ -640,7 +640,7 @@ textarea.form-control {
                     <?php if ($logoSrc !== ''): ?>
                         <img class="logo-size__img" src="<?= htmlspecialchars($logoSrc) ?>" alt="Vista previa del logo" style="height:<?= $lhD ?>px">
                     <?php else: ?>
-                        <div class="logo-size__ph" style="height:<?= $lhD ?>px">Subí un logo para verlo</div>
+                        <div class="logo-size__ph" style="height:<?= $lhD ?>px">Sube un logo para verlo</div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -650,7 +650,7 @@ textarea.form-control {
     <div class="card">
         <h3 class="card__title">📝 Logo del Footer</h3>
         <div class="settings-section-hint">
-            Usa el mismo archivo de logo (se muestra en blanco sobre el fondo oscuro del pie de página). Acá solo ajustás su tamaño.
+            Usa el mismo archivo de logo (se muestra en blanco sobre el fondo oscuro del pie de página). Acá solo ajustas su tamaño.
         </div>
         <div class="logo-size" data-logo-size>
             <div class="logo-size__row">
@@ -669,7 +669,7 @@ textarea.form-control {
                     <?php if ($logoSrc !== ''): ?>
                         <img class="logo-size__img" src="<?= htmlspecialchars($logoSrc) ?>" alt="Vista previa del logo (footer)" style="height:<?= $flhD ?>px">
                     <?php else: ?>
-                        <div class="logo-size__ph" style="height:<?= $flhD ?>px">Subí un logo para verlo</div>
+                        <div class="logo-size__ph" style="height:<?= $flhD ?>px">Sube un logo para verlo</div>
                     <?php endif; ?>
                 </div>
             </div>

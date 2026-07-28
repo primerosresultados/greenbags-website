@@ -294,7 +294,7 @@ function productsUploadCsv(?array $file): array {
     }
     if (!isset($map['nombre']) && !isset($map['id'])) {
         fclose($fh);
-        return ['ok' => false, 'error' => 'El archivo no tiene la columna "nombre". Descargá el ejemplo y usá esos encabezados.'];
+        return ['ok' => false, 'error' => 'El archivo no tiene la columna "nombre". Descarga el ejemplo y usa esos encabezados.'];
     }
 
     @set_time_limit(300);
@@ -310,7 +310,7 @@ function productsUploadCsv(?array $file): array {
         $line++;
         if ($row === [null] || implode('', array_map('trim', array_map('strval', $row))) === '') continue;
         if ($processed >= PRODUCTS_UPLOAD_MAX_ROWS) {
-            $addError('Se procesaron las primeras ' . PRODUCTS_UPLOAD_MAX_ROWS . ' filas. Subí el resto en otro archivo.');
+            $addError('Se procesaron las primeras ' . PRODUCTS_UPLOAD_MAX_ROWS . ' filas. Sube el resto en otro archivo.');
             break;
         }
         $processed++;
@@ -353,7 +353,7 @@ function productsUploadCsv(?array $file): array {
         }
         if ($filled('estado')) {
             $s = productsUploadStatus((string) $val('estado'));
-            if ($s === null) { $addError("Fila $line: estado inválido (" . $val('estado') . "). Usá publicado, borrador o archivado."); $skipped++; continue; }
+            if ($s === null) { $addError("Fila $line: estado inválido (" . $val('estado') . "). Usa publicado, borrador o archivado."); $skipped++; continue; }
             $f['status'] = $s;
         }
         if ($filled('estado_stock')) {

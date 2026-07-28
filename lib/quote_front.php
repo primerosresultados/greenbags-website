@@ -51,7 +51,7 @@ function quoteRenderPage(): void {
     <?php if ($err): ?><p class="alert alert--error shop-cart__alert"><?= htmlspecialchars($err) ?></p><?php endif; ?>
 
     <?php if (!$items && !$set['intro_text']): ?>
-        <p class="shop-cart__empty">Todavía no agregaste productos. Podés navegar el catálogo y agregar productos a tu cotización, o describir lo que necesitás en el formulario de abajo.</p>
+        <p class="shop-cart__empty">Todavía no agregaste productos. Puedes navegar el catálogo y agregar productos a tu cotización, o describir lo que necesitas en el formulario de abajo.</p>
     <?php elseif ($items): ?>
         <div class="shop-cart__wrap">
             <table class="shop-cart__table">
@@ -173,8 +173,8 @@ function quoteRenderPage(): void {
                 <p class="lead-form__field"><label>Región<input name="region" value="<?= htmlspecialchars((string) ($_POST['region'] ?? '')) ?>"></label></p>
             </div>
             <p class="lead-form__field">
-                <label>Mensaje / Detalle de lo que necesitás
-                    <textarea name="message" rows="5" placeholder="Si no agregaste productos del catálogo, contanos qué buscás: tipo de packaging, cantidades, frecuencia de compra, etc."><?= htmlspecialchars((string) ($_POST['message'] ?? '')) ?></textarea>
+                <label>Mensaje / Detalle de lo que necesitas
+                    <textarea name="message" rows="5" placeholder="Si no agregaste productos del catálogo, cuéntanos qué buscas: tipo de packaging, cantidades, frecuencia de compra, etc."><?= htmlspecialchars((string) ($_POST['message'] ?? '')) ?></textarea>
                 </label>
             </p>
             <p class="lead-form__submit">

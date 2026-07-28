@@ -113,8 +113,8 @@ function customerRegister(array $data): array {
     $phone   = trim((string) ($data['phone']   ?? ''));
     $company = trim((string) ($data['company'] ?? ''));
 
-    if ($name === '')                                 return ['ok' => false, 'error' => 'Ingresá tu nombre.'];
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL))   return ['ok' => false, 'error' => 'Ingresá un email válido.'];
+    if ($name === '')                                 return ['ok' => false, 'error' => 'Ingresa tu nombre.'];
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL))   return ['ok' => false, 'error' => 'Ingresa un email válido.'];
     if (strlen($pass) < 8)                            return ['ok' => false, 'error' => 'La contraseña debe tener al menos 8 caracteres.'];
 
     $db = getDB();
@@ -129,7 +129,7 @@ function customerRegister(array $data): array {
         // Si es un invitado sin contraseña (guest checkout previo), activamos su
         // cuenta en vez de rechazarlo. Si ya tiene contraseña, es una cuenta real.
         if (!empty($existing['password_hash'])) {
-            return ['ok' => false, 'error' => 'Ya existe una cuenta con ese email. Iniciá sesión.'];
+            return ['ok' => false, 'error' => 'Ya existe una cuenta con ese email. Inicia sesión.'];
         }
         $db->prepare(
             'UPDATE customers SET first_name = ?, last_name = ?, password_hash = ?, phone = ?,
@@ -168,7 +168,7 @@ function customerLogin(string $email, string $password): array {
     $ip = function_exists('clientIp') ? clientIp() : ($_SERVER['REMOTE_ADDR'] ?? '');
 
     if (!customerRateLimitOk($email, $ip)) {
-        return ['ok' => false, 'error' => 'Demasiados intentos. Esperá unos minutos e intentá de nuevo.'];
+        return ['ok' => false, 'error' => 'Demasiados intentos. Espera unos minutos e intenta de nuevo.'];
     }
 
     $st = getDB()->prepare('SELECT id, password_hash, is_active FROM customers WHERE email = ?');
@@ -237,19 +237,19 @@ function customerSendVerification(int $id, string $email, string $name, string $
         : '/mi-cuenta/verificar?token=' . urlencode($token);
     $biz  = function_exists('getSetting') ? (string) getSetting('business_name', 'GreenBags') : 'GreenBags';
 
-    $subject = 'Verificá tu email — ' . $biz;
+    $subject = 'Verifica tu email — ' . $biz;
     $text = "Hola " . $name . ",\n\n"
           . "Gracias por crear tu cuenta en " . $biz . ".\n"
-          . "Confirmá tu email haciendo clic en este enlace:\n\n"
+          . "Confirma tu email haciendo clic en este enlace:\n\n"
           . $link . "\n\n"
-          . "Si no creaste esta cuenta, podés ignorar este mensaje.\n";
+          . "Si no creaste esta cuenta, puedes ignorar este mensaje.\n";
     $html = '<p>Hola ' . htmlspecialchars($name) . ',</p>'
           . '<p>Gracias por crear tu cuenta en <strong>' . htmlspecialchars($biz) . '</strong>.</p>'
-          . '<p>Confirmá tu email:</p>'
+          . '<p>Confirma tu email:</p>'
           . '<p><a href="' . htmlspecialchars($link) . '" style="display:inline-block;background:#22c55e;color:#fff;'
           . 'padding:.7rem 1.3rem;border-radius:8px;text-decoration:none;font-weight:600;">Verificar mi email</a></p>'
-          . '<p style="color:#64748b;font-size:.9rem;">O copiá este enlace: ' . htmlspecialchars($link) . '</p>'
-          . '<p style="color:#64748b;font-size:.85rem;">Si no creaste esta cuenta, ignorá este mensaje.</p>';
+          . '<p style="color:#64748b;font-size:.9rem;">O copia este enlace: ' . htmlspecialchars($link) . '</p>'
+          . '<p style="color:#64748b;font-size:.85rem;">Si no creaste esta cuenta, ignora este mensaje.</p>';
 
     if (function_exists('sendMailDetailed')) {
         sendMailDetailed($email, $subject, $text, $html);
@@ -267,7 +267,7 @@ function customerResendVerification(int $id): array {
     if (!empty($c['email_verified_at'])) return ['ok' => true, 'already' => true];
 
     if (!empty($c['verify_sent_at']) && (time() - strtotime((string) $c['verify_sent_at'])) < 120) {
-        return ['ok' => false, 'error' => 'Ya te enviamos un correo hace poco. Revisá tu bandeja (y el spam).'];
+        return ['ok' => false, 'error' => 'Ya te enviamos un correo hace poco. Revisa tu bandeja (y el spam).'];
     }
     $token = (string) ($c['verify_token'] ?: bin2hex(random_bytes(32)));
     getDB()->prepare('UPDATE customers SET verify_token = ?, verify_sent_at = NOW() WHERE id = ?')
@@ -275,7 +275,7 @@ function customerResendVerification(int $id): array {
     try {
         customerSendVerification($id, (string) $c['email'], (string) $c['first_name'], $token);
     } catch (Throwable $e) {
-        return ['ok' => false, 'error' => 'No pudimos enviar el correo. Intentá más tarde.'];
+        return ['ok' => false, 'error' => 'No pudimos enviar el correo. Intenta más tarde.'];
     }
     return ['ok' => true];
 }
@@ -316,13 +316,13 @@ function customerRequestReset(string $email): void {
     $subject = 'Restablecer tu contraseña — ' . $biz;
     $text = "Hola " . $c['name'] . ",\n\n"
           . "Recibimos un pedido para restablecer la contraseña de tu cuenta en " . $biz . ".\n"
-          . "Usá este enlace (válido por 1 hora):\n\n" . $link . "\n\n"
-          . "Si no lo pediste, ignorá este mensaje: tu contraseña no cambia.\n";
+          . "Usa este enlace (válido por 1 hora):\n\n" . $link . "\n\n"
+          . "Si no lo pediste, ignora este mensaje: tu contraseña no cambia.\n";
     $html = '<p>Hola ' . htmlspecialchars((string) $c['name']) . ',</p>'
           . '<p>Recibimos un pedido para restablecer tu contraseña en <strong>' . htmlspecialchars($biz) . '</strong>.</p>'
           . '<p><a href="' . htmlspecialchars($link) . '" style="display:inline-block;background:#22c55e;color:#fff;'
           . 'padding:.7rem 1.3rem;border-radius:8px;text-decoration:none;font-weight:600;">Restablecer contraseña</a></p>'
-          . '<p style="color:#64748b;font-size:.9rem;">Válido por 1 hora. Si no lo pediste, ignorá este mensaje.</p>';
+          . '<p style="color:#64748b;font-size:.9rem;">Válido por 1 hora. Si no lo pediste, ignora este mensaje.</p>';
 
     try {
         if (function_exists('sendMailDetailed')) sendMailDetailed($email, $subject, $text, $html);
@@ -349,7 +349,7 @@ function customerPerformReset(string $token, string $newPass): array {
     $st = getDB()->prepare('SELECT id FROM customers WHERE reset_token = ? AND reset_expires_at > NOW()');
     $st->execute([$token]);
     $c = $st->fetch();
-    if (!$c) return ['ok' => false, 'error' => 'El enlace expiró o no es válido. Pedí uno nuevo.'];
+    if (!$c) return ['ok' => false, 'error' => 'El enlace expiró o no es válido. Pide uno nuevo.'];
 
     getDB()->prepare(
         'UPDATE customers SET password_hash = ?, reset_token = NULL, reset_expires_at = NULL WHERE id = ?'

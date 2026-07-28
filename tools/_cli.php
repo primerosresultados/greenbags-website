@@ -13,7 +13,7 @@ if (PHP_SAPI !== 'cli') {
 $root = dirname(__DIR__);
 $config = $root . '/config.php';
 if (!file_exists($config)) {
-    fwrite(STDERR, "Falta config.php — corré la instalación primero.\n");
+    fwrite(STDERR, "Falta config.php — corre la instalación primero.\n");
     exit(1);
 }
 

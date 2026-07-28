@@ -20,7 +20,7 @@ if ($type === 'variable' && !$editorOptions) $editorOptions = [['name' => '', 'v
         <?php if (!$isNew): ?>
             <div class="admin-header__sub">/producto/<?= $v('slug') ?> · <a href="/producto/<?= $v('slug') ?>" target="_blank" rel="noopener">ver en el sitio →</a></div>
         <?php else: ?>
-            <div class="admin-header__sub">Completá los datos del producto. Los campos con * son obligatorios.</div>
+            <div class="admin-header__sub">Completa los datos del producto. Los campos con * son obligatorios.</div>
         <?php endif; ?>
     </div>
 </header>
@@ -340,7 +340,7 @@ select.form-control {
     <div class="card">
         <h3 class="card__title">🧩 Tipo de producto</h3>
         <div class="settings-section-hint">
-            Elegí <strong style="display:inline;">Simple</strong> para un único precio y stock, o <strong style="display:inline;">Variable</strong> si tiene talles/colores con stock por combinación.
+            Elige <strong style="display:inline;">Simple</strong> para un único precio y stock, o <strong style="display:inline;">Variable</strong> si tiene talles/colores con stock por combinación.
         </div>
         <div class="type-picker">
             <label class="type-card<?= $type !== 'variable' ? ' is-active' : '' ?>">
@@ -464,7 +464,7 @@ select.form-control {
     <div class="card when-variable">
         <h3 class="card__title">🎨 Opciones <small class="text-muted" style="font-weight:400;">(ej: Color, Talle — hasta 3)</small></h3>
         <div class="settings-section-hint">
-            Definí los atributos del producto y sus valores separados por coma. Al guardar se generan/actualizan las variaciones (cada combinación).
+            Define los atributos del producto y sus valores separados por coma. Al guardar se generan/actualizan las variaciones (cada combinación).
         </div>
 
         <div id="opt-rows">
@@ -484,7 +484,7 @@ select.form-control {
         <h3 class="card__title">🗂️ Categorías</h3>
         <?php if (!$allCategoryOptions): ?>
             <div class="settings-section-hint" style="background:#fef3c7;border-left-color:#d97706;">
-                No hay categorías aún. <a href="/admin/?view=category&id=new" style="color:#0f172a;font-weight:600;">Creá la primera →</a>
+                No hay categorías aún. <a href="/admin/?view=category&id=new" style="color:#0f172a;font-weight:600;">Crea la primera →</a>
             </div>
         <?php else: ?>
             <div class="shop-checkgrid">
@@ -510,8 +510,8 @@ select.form-control {
             <div class="pimg-uploader__cta">
                 <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                 <div>
-                    <strong>Arrastrá imágenes acá</strong>
-                    <span>o <button type="button" class="ml-link" id="pimg-uploader-pick">elegí desde tu equipo</button></span>
+                    <strong>Arrastra imágenes acá</strong>
+                    <span>o <button type="button" class="ml-link" id="pimg-uploader-pick">elige desde tu equipo</button></span>
                     <small>JPG · PNG · WebP · hasta 10MB c/u — se convierten a WebP optimizado y quedan tildadas para este producto.</small>
                 </div>
             </div>
@@ -527,7 +527,7 @@ select.form-control {
             <?php endforeach; ?>
         </div>
         <?php if (!$allMedia): ?>
-            <p class="text-muted pimg-empty" id="pimg-empty" style="margin:.8rem 0 0;">Aún no hay imágenes en la mediateca. Subí las primeras arrastrándolas arriba.</p>
+            <p class="text-muted pimg-empty" id="pimg-empty" style="margin:.8rem 0 0;">Aún no hay imágenes en la mediateca. Sube las primeras arrastrándolas arriba.</p>
         <?php endif; ?>
     </div>
 
@@ -658,11 +658,11 @@ select.form-control {
         <h3 class="card__title">🔀 Variaciones <small class="text-muted" style="font-weight:400;">(<?= count($productVariationsList) ?>)</small></h3>
         <?php if (!$productVariationsList): ?>
             <div class="settings-section-hint" style="background:#fef3c7;border-left-color:#d97706;">
-                Definí las opciones arriba y guardá el producto para generar las variaciones.
+                Define las opciones arriba y guarda el producto para generar las variaciones.
             </div>
         <?php else: ?>
         <div class="settings-section-hint">
-            Cada fila es una combinación de opciones. Editá precios, stock e imágenes individualmente.
+            Cada fila es una combinación de opciones. Edita precios, stock e imágenes individualmente.
         </div>
         <form method="post" action="/admin/?view=product&id=<?= (int) $product['id'] ?>">
             <input type="hidden" name="action" value="variations_save">
