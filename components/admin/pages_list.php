@@ -1,5 +1,8 @@
 <?php
 /** Requiere: $pages (array) */
+// Cuántos bloques tiene cada página, para distinguir de un vistazo las que ya
+// se editan con el editor visual de las que siguen con HTML crudo.
+$blkCounts = function_exists('blocksCountByPage') ? blocksCountByPage() : [];
 ?>
 <header class="admin-header">
     <div>
@@ -20,6 +23,7 @@
             <tr>
                 <th>Slug</th>
                 <th>Título</th>
+                <th style="width:130px;">Contenido</th>
                 <th style="width:120px;">Estado</th>
                 <th style="width:170px;">Actualizada</th>
                 <th style="width:120px;"></th>
@@ -30,6 +34,7 @@
             <tr style="background:#f8fafc;">
                 <td><code>/</code></td>
                 <td><strong>🏠 Inicio</strong><br><small class="text-muted">Página principal (hero, marca, clientes, cotización)</small></td>
+                <td class="text-muted">por campos</td>
                 <td><span class="badge badge--qualified">principal</span></td>
                 <td class="text-muted">—</td>
                 <td>
@@ -41,6 +46,14 @@
                 <tr>
                     <td><code><?= htmlspecialchars($p['slug']) ?></code></td>
                     <td><strong><?= htmlspecialchars($p['title']) ?></strong></td>
+                    <td>
+                        <?php $nb = (int) ($blkCounts[(int) $p['id']] ?? 0); ?>
+                        <?php if ($nb > 0): ?>
+                            <span class="badge badge--qualified"><?= $nb ?> bloque<?= $nb === 1 ? '' : 's' ?></span>
+                        <?php else: ?>
+                            <span class="text-muted" style="font-size:.85rem;">HTML</span>
+                        <?php endif; ?>
+                    </td>
                     <td>
                         <?php if ((int) $p['is_published']): ?>
                             <span class="badge badge--qualified">publicada</span>

@@ -35,7 +35,7 @@ if ($path !== '' && $_SERVER['REQUEST_METHOD'] === 'GET') {
     $slug = slugify($path);
     if ($slug === $path) {
         try {
-            $stmt = getDB()->prepare('SELECT title, body, meta_description, og_image, hide_chrome FROM pages WHERE slug = ? AND is_published = 1');
+            $stmt = getDB()->prepare('SELECT id, title, body, meta_description, og_image, hide_chrome FROM pages WHERE slug = ? AND is_published = 1');
             $stmt->execute([$slug]);
             $cms = $stmt->fetch();
         } catch (Throwable $e) {
@@ -50,6 +50,13 @@ if ($path !== '' && $_SERVER['REQUEST_METHOD'] === 'GET') {
             if ($slug === 'contacto' && function_exists('contactPageRender')) {
                 contactPageRender();
             }
+            // Contenido: si la página tiene bloques cargados (admin → Páginas →
+            // editor de bloques) se renderizan esos; si no, cae al HTML de
+            // pages.body de siempre. Así conviven las páginas ya migradas con
+            // las que todavía usan el body crudo.
+            $pageId     = (int) $cms['id'];
+            $blocksHtml = blocksRenderPage($pageId);
+
             layoutStart([
                 'title'        => (string) $cms['title'],
                 'description'  => (string) ($cms['meta_description'] ?? ''),
@@ -57,13 +64,26 @@ if ($path !== '' && $_SERVER['REQUEST_METHOD'] === 'GET') {
                 'current_slug' => $slug,
                 'hide_chrome'  => !empty($cms['hide_chrome']),
             ]);
+
+            if ($blocksHtml !== ''):
+                // El bloque de portada trae su propio <h1>; si el primero es
+                // otro tipo, el título de la página lo aporta el router.
+                $needsHeading = !blocksProvideHeading($pageId);
             ?>
+<main class="page-blocks">
+    <?php if ($needsHeading): ?>
+        <div class="container"><h1 class="blk-title"><?= htmlspecialchars($cms['title']) ?></h1></div>
+    <?php endif; ?>
+    <?= $blocksHtml ?>
+</main>
+<?php else: ?>
 <main class="container">
     <article class="page">
         <h1><?= htmlspecialchars($cms['title']) ?></h1>
         <?= pageBodyRender($cms['body']) /* HTML confiado: solo lo edita el admin autenticado. pageBodyRender resuelve tokens {{img:...}} editables por panel */ ?>
     </article>
 </main>
+<?php endif; ?>
 <?php
             layoutEnd();
             exit;
