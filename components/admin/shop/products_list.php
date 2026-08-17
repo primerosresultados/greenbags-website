@@ -5,11 +5,18 @@ $total = (int) ($shopProducts['total'] ?? 0);
 $pages = max(1, (int) ceil($total / max(1, $shopPerPage)));
 $msg   = flashGet('shop_msg');
 $err   = flashGet('shop_err');
+// El total de acá incluye borradores y archivados, que el visitante no ve. Se
+// muestra aparte cuántos están publicados para que el número del panel no se
+// lea como "los que hay en el sitio".
+// Sólo sin filtros: con búsqueda o estado, $total ya viene acotado y compararlo
+// contra el conteo global daría un número que no corresponde.
+$published = ($shopStatus === '' && $shopSearch === '' && function_exists('productsPublishedCount'))
+    ? productsPublishedCount(0) : null;
 $badge = fn(string $s) => '<span class="shop-badge shop-badge--' . $s . '">'
     . ['draft' => 'Borrador', 'published' => 'Publicado', 'archived' => 'Archivado'][$s] ?? $s . '</span>';
 ?>
 <header class="admin-header">
-    <div><h1>Productos</h1><div class="admin-header__sub"><?= $total ?> producto(s)</div></div>
+    <div><h1>Productos</h1><div class="admin-header__sub"><?= $total ?> producto(s)<?php if ($published !== null && $published !== $total): ?> · <?= $published ?> publicado(s) visibles en el sitio<?php endif; ?></div></div>
     <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
         <a class="btn btn--ghost" href="/admin/?view=products_upload">Carga masiva</a>
         <a class="btn btn--ghost" href="/admin/?view=products_bulk">Editar en tabla</a>
