@@ -936,7 +936,7 @@ if ($user) {
         $offset     = ($page - 1) * $perPage;
 
         $sql = "SELECT id, name, email, source, status, created_at
-                FROM leads $whereSql ORDER BY created_at DESC LIMIT ? OFFSET ?";
+                FROM leads $whereSql ORDER BY created_at DESC, id DESC LIMIT ? OFFSET ?";
         $stmt = $db->prepare($sql);
         $i = 1;
         foreach ($params as $p) $stmt->bindValue($i++, $p, PDO::PARAM_STR);

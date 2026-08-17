@@ -172,7 +172,7 @@ function productAdminList(array $o): array {
                    p.sale_starts_at, p.sale_ends_at, p.stock_qty, p.stock_status, p.manage_stock,
                    (SELECT m.thumb_path FROM product_images pi JOIN media_library m ON m.id = pi.media_id
                     WHERE pi.product_id = p.id ORDER BY pi.is_primary DESC, pi.sort_order LIMIT 1) AS thumb
-            FROM products p $whereSql ORDER BY p.created_at DESC LIMIT ? OFFSET ?";
+            FROM products p $whereSql ORDER BY p.created_at DESC, p.id DESC LIMIT ? OFFSET ?";
     $stmt = getDB()->prepare($sql);
     $i = 1;
     foreach ($params as $p) $stmt->bindValue($i++, $p, PDO::PARAM_STR);
@@ -382,7 +382,7 @@ function productBulkList(array $o = []): array {
                     ORDER BY pi.is_primary DESC, pi.sort_order LIMIT 1) AS primary_media_id,
                    (SELECT m.thumb_path FROM product_images pi JOIN media_library m ON m.id = pi.media_id
                     WHERE pi.product_id = p.id ORDER BY pi.is_primary DESC, pi.sort_order LIMIT 1) AS thumb
-            FROM products p $whereSql ORDER BY p.created_at DESC LIMIT ?";
+            FROM products p $whereSql ORDER BY p.created_at DESC, p.id DESC LIMIT ?";
     $stmt = getDB()->prepare($sql);
     $i = 1;
     foreach ($params as $p) $stmt->bindValue($i++, $p, PDO::PARAM_STR);
@@ -487,7 +487,7 @@ function productsPublished(array $o = []): array {
                     WHERE pi.product_id = p.id ORDER BY pi.is_primary DESC, pi.sort_order LIMIT 1) AS img,
                    (SELECT m.alt FROM product_images pi JOIN media_library m ON m.id = pi.media_id
                     WHERE pi.product_id = p.id ORDER BY pi.is_primary DESC, pi.sort_order LIMIT 1) AS img_alt
-            FROM products p $join $whereSql ORDER BY p.featured DESC, p.sort_order ASC, p.created_at DESC
+            FROM products p $join $whereSql ORDER BY p.featured DESC, p.sort_order ASC, p.created_at DESC, p.id DESC
             LIMIT ? OFFSET ?";
     $stmt = getDB()->prepare($sql);
     $i = 1;
