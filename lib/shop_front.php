@@ -739,54 +739,127 @@ function shopRenderPager(int $total, int $page, string $base): void {
     echo '</nav>';
 }
 
+/**
+ * Tarjeta de producto. La usan las tres grillas del sitio: /catalogo,
+ * /categoria/{slug} y los destacados del home.
+ *
+ * Vive acá y no duplicada en home.php porque las tres tienen que verse igual:
+ * mientras el markup estuvo en dos lados, el home quedó sin botón de compra ni
+ * corazón de favoritos y con otra jerarquía de precio.
+ *
+ * La acción NO es un "Agregar" universal. Un producto variable necesita que el
+ * cliente elija la variación (aroma, tamaño) y agregarlo a ciegas desde la
+ * grilla le mete al carrito una que no eligió; por eso ahí el botón lleva a la
+ * ficha. El resto de los casos:
+ *   - modo cotización activo → "Cotizar" (no hay precio que mostrar)
+ *   - simple sin stock       → botón inerte "Sin stock"
+ *   - simple con stock       → POST real a /carrito, interceptado a AJAX
+ *
+ * El <form> del carrito no puede ir adentro de un <a> (HTML inválido, y el
+ * click del link se come el del botón). Por eso la tarjeta es un <article> y el
+ * link se estira sobre ella con ::after; los controles suben por encima con
+ * z-index.
+ */
+function shopProductCard(array $p): void {
+    $hidePrices = function_exists('quotesEnabled') && quotesEnabled() && getSetting('quote_show_prices', '0') !== '1';
+    $eff        = productEffectivePrice($p);
+    $sale       = productIsOnSale($p);
+    $isVariable = ($p['type'] ?? 'simple') === 'variable';
+    $url        = '/producto/' . htmlspecialchars($p['slug']);
+    $name       = htmlspecialchars($p['name']);
+    // Mismo criterio que shopRenderProduct(): backorder sigue siendo vendible.
+    $soldOut    = !$isVariable
+        && (int) ($p['manage_stock'] ?? 0) === 1
+        && (int) ($p['stock_qty'] ?? 0) <= 0
+        && ($p['stock_status'] ?? '') !== 'backorder';
+
+    // Precio-snapshot para favoritos: el mismo texto que muestra la tarjeta.
+    if ($hidePrices)      $favPrice = 'Cotizar';
+    elseif ($isVariable)  $favPrice = 'Desde ' . shopFormatPrice($p['min_price'] ?: $eff);
+    else                  $favPrice = shopFormatPrice($eff);
+
+    echo '<article class="shop-card">';
+
+    /* ---------- Media ---------- */
+    echo '<div class="shop-card__media">';
+    if (!empty($p['img'])) {
+        // onerror: si la imagen 404ea, cae al placeholder rayado en vez del
+        // ícono de imagen rota del navegador.
+        echo '<img class="shop-card__img" src="' . htmlspecialchars($p['img']) . '" alt="'
+           . htmlspecialchars($p['img_alt'] ?? $p['name']) . '" loading="lazy"'
+           . ' onerror="this.closest(\'.shop-card__media\').classList.add(\'shop-card__media--empty\');this.remove();">';
+    } else {
+        echo '<span class="shop-card__noimg" aria-hidden="true"></span>';
+    }
+    if ($soldOut) {
+        echo '<span class="shop-card__badge shop-card__badge--out">Sin stock</span>';
+    } elseif ($sale && !$hidePrices && !$isVariable) {
+        echo '<span class="shop-card__badge shop-card__badge--sale">Oferta</span>';
+    }
+    echo '<button type="button" class="shop-favbtn" aria-label="Guardar ' . $name . ' en favoritos" aria-pressed="false"'
+       . ' data-fav-id="' . (int) $p['id'] . '"'
+       . ' data-fav-slug="' . htmlspecialchars($p['slug']) . '"'
+       . ' data-fav-name="' . $name . '"'
+       . ' data-fav-img="' . htmlspecialchars((string) ($p['img'] ?? '')) . '"'
+       . ' data-fav-price="' . htmlspecialchars($favPrice) . '">'
+       . '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'
+       . '</button>';
+    echo '</div>';
+
+    /* ---------- Cuerpo ---------- */
+    echo '<div class="shop-card__body">';
+    echo '<h3 class="shop-card__name"><a class="shop-card__link" href="' . $url . '">' . $name . '</a></h3>';
+
+    echo '<p class="shop-card__price">';
+    if ($hidePrices) {
+        echo '<span class="shop-price__now shop-price__quote">Cotizar</span>';
+    } elseif ($isVariable) {
+        echo '<span class="shop-price__from">Desde</span> '
+           . '<span class="shop-price__now">' . shopFormatPrice($p['min_price'] ?: $eff) . '</span>';
+    } else {
+        echo '<span class="shop-price__now">' . shopFormatPrice($eff) . '</span>';
+        if ($sale) echo ' <span class="shop-price__old">' . shopFormatPrice($p['price']) . '</span>';
+    }
+    echo '</p>';
+
+    echo shopCardAction($p, $url, $name, $hidePrices, $isVariable, $soldOut);
+    echo '</div></article>';
+}
+
+/** Botón de acción de la tarjeta. Separado para que shopProductCard() se lea. */
+function shopCardAction(array $p, string $url, string $name, bool $hidePrices, bool $isVariable, bool $soldOut): string {
+    $cartIcon = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.4 12.1a2 2 0 0 0 2 1.6h8.5a2 2 0 0 0 2-1.6L21.5 7H6"/></svg>';
+
+    if ($soldOut) {
+        return '<span class="shop-card__btn shop-card__btn--muted" aria-disabled="true">Sin stock</span>';
+    }
+    if ($hidePrices) {
+        return '<a class="shop-card__btn" href="' . $url . '">Pedir cotización'
+             . '<span class="visually-hidden"> de ' . $name . '</span></a>';
+    }
+    if ($isVariable) {
+        return '<a class="shop-card__btn shop-card__btn--ghost" href="' . $url . '">Elegir opciones'
+             . '<span class="visually-hidden"> de ' . $name . '</span></a>';
+    }
+
+    // return_to: sin JS, el POST redirige de vuelta a la grilla y el drawer se
+    // auto-abre por el flash cart_just_added.
+    $back = htmlspecialchars($_SERVER['REQUEST_URI'] ?? '/catalogo', ENT_QUOTES);
+    return '<form class="shop-card__form" method="post" action="/carrito" data-cart-ajax="1">'
+         . '<input type="hidden" name="csrf" value="' . csrfToken() . '">'
+         . '<input type="hidden" name="action" value="add_to_cart">'
+         . '<input type="hidden" name="product_id" value="' . (int) $p['id'] . '">'
+         . '<input type="hidden" name="qty" value="' . max(1, (int) ($p['min_order_qty'] ?? 1)) . '">'
+         . '<input type="hidden" name="return_to" value="' . $back . '">'
+         . '<button type="submit" class="shop-card__btn">' . $cartIcon
+         . '<span>Agregar</span><span class="visually-hidden"> ' . $name . ' al carrito</span>'
+         . '</button></form>';
+}
+
 function shopRenderGrid(array $products): void {
     if (!$products) { echo '<p class="shop-empty">No hay productos para mostrar.</p>'; return; }
-    $hidePrices = function_exists('quotesEnabled') && quotesEnabled() && getSetting('quote_show_prices', '0') !== '1';
     echo '<div class="shop-grid">';
-    foreach ($products as $p) {
-        $eff   = productEffectivePrice($p);
-        $sale  = productIsOnSale($p);
-        $url   = '/producto/' . htmlspecialchars($p['slug']);
-        // Precio-snapshot para el botón de favoritos (mismo criterio que la card).
-        if ($hidePrices) {
-            $cardFavPrice = 'Cotizar';
-        } elseif (($p['type'] ?? 'simple') === 'variable') {
-            $cardFavPrice = 'Desde ' . shopFormatPrice($p['min_price'] ?: $eff);
-        } else {
-            $cardFavPrice = shopFormatPrice($eff);
-        }
-        echo '<div class="shop-card-wrap">';
-        echo '<button type="button" class="shop-favbtn" aria-label="Guardar en favoritos" aria-pressed="false"'
-           . ' data-fav-id="' . (int) $p['id'] . '"'
-           . ' data-fav-slug="' . htmlspecialchars($p['slug']) . '"'
-           . ' data-fav-name="' . htmlspecialchars($p['name']) . '"'
-           . ' data-fav-img="' . htmlspecialchars((string) ($p['img'] ?? '')) . '"'
-           . ' data-fav-price="' . htmlspecialchars($cardFavPrice) . '">'
-           . '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'
-           . '</button>';
-        echo '<a class="shop-card" href="' . $url . '">';
-        if (!empty($p['img'])) {
-            // onerror: si la imagen 404ea, cae al placeholder rayado en vez del
-            // ícono de imagen rota del navegador.
-            echo '<div class="shop-card__img"><img src="' . htmlspecialchars($p['img']) . '" alt="'
-               . htmlspecialchars($p['img_alt'] ?? $p['name']) . '" loading="lazy"'
-               . ' onerror="this.closest(\'.shop-card__img\').classList.add(\'shop-card__img--empty\');this.remove();"></div>';
-        } else {
-            echo '<div class="shop-card__img shop-card__img--empty"></div>';
-        }
-        echo '<div class="shop-card__body"><h3 class="shop-card__name">' . htmlspecialchars($p['name']) . '</h3>';
-        echo '<p class="shop-card__price">';
-        if ($hidePrices) {
-            echo '<span class="shop-price__now shop-price__quote">Cotizar</span>';
-        } elseif (($p['type'] ?? 'simple') === 'variable') {
-            echo '<span class="shop-price__now">Desde ' . shopFormatPrice($p['min_price'] ?: $eff) . '</span>';
-        } else {
-            if ($sale) echo '<span class="shop-price__old">' . shopFormatPrice($p['price']) . '</span> ';
-            echo '<span class="shop-price__now">' . shopFormatPrice($eff) . '</span>';
-        }
-        echo '</p></div></a>';
-        echo '</div>';
-    }
+    foreach ($products as $p) shopProductCard($p);
     echo '</div>';
 }
 

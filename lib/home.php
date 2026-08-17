@@ -673,31 +673,9 @@ function homeRender(string $error = ''): void {
             <?php endif; ?>
         </header>
         <div class="shop-grid">
-            <?php foreach ($featured as $p):
-                $eff  = productEffectivePrice($p);
-                $sale = productIsOnSale($p);
-                $url  = '/producto/' . htmlspecialchars($p['slug']);
-            ?>
-                <a class="shop-card" href="<?= $url ?>">
-                    <div class="shop-card__img<?= empty($p['img']) ? ' shop-card__img--empty' : '' ?>">
-                        <?php if (!empty($p['img'])): ?>
-                            <img src="<?= htmlspecialchars($p['img']) ?>" alt="<?= htmlspecialchars($p['img_alt'] ?? $p['name']) ?>" loading="lazy">
-                        <?php endif; ?>
-                        <?php if ($sale): ?><span class="shop-card__badge">Oferta</span><?php endif; ?>
-                    </div>
-                    <div class="shop-card__body">
-                        <h3 class="shop-card__name"><?= htmlspecialchars($p['name']) ?></h3>
-                        <p class="shop-card__price">
-                            <?php if (($p['type'] ?? 'simple') === 'variable'): ?>
-                                <span class="shop-price__now">Desde <?= shopFormatPrice($p['min_price'] ?: $eff) ?></span>
-                            <?php else: ?>
-                                <?php if ($sale): ?><span class="shop-price__old"><?= shopFormatPrice($p['price']) ?></span> <?php endif; ?>
-                                <span class="shop-price__now"><?= shopFormatPrice($eff) ?></span>
-                            <?php endif; ?>
-                        </p>
-                    </div>
-                </a>
-            <?php endforeach; ?>
+            <?php // Misma tarjeta que /catalogo (shop_front.php): antes había una
+                  // copia acá y el home quedaba sin botón de compra ni favoritos.
+                  foreach ($featured as $p) shopProductCard($p); ?>
         </div>
     </section>
     <?php endif; ?>

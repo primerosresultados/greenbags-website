@@ -173,12 +173,21 @@ $ret    = $_SERVER['REQUEST_URI'] ?? '/';
         });
     }
 
-    // Intercepta submits de forms dentro del drawer → AJAX + reemplaza contenido.
+    // Intercepta submits → AJAX + reemplaza el contenido del drawer.
+    // Dos orígenes: los forms de qty/eliminar de adentro del drawer, y los
+    // "Agregar" de las tarjetas del catálogo (marcados con data-cart-ajax).
+    // Sin JS ambos siguen funcionando: son POST reales a /carrito.
     document.addEventListener('submit', function(e){
-        var form = e.target.closest('#cart-drawer form');
+        var form = e.target.closest('#cart-drawer form, form[data-cart-ajax]');
         if (!form) return;
         e.preventDefault();
         if (form.__busy) return; form.__busy = true;
+
+        var fromCard = form.hasAttribute('data-cart-ajax');
+        var btn = form.querySelector('.shop-card__btn');
+        var label = btn ? btn.querySelector('span') : null;
+        var prevLabel = label ? label.textContent : '';
+        if (btn) btn.classList.add('is-busy');
 
         var fd = new FormData(form);
         // Incluir el botón presionado si tiene name/value (para steppers +/-).
@@ -193,9 +202,32 @@ $ret    = $_SERVER['REQUEST_URI'] ?? '/';
                     if (d) d.innerHTML = j.innerHtml;
                 }
                 if (j && typeof j.count === 'number') refreshBadges(j.count);
+                if (!fromCard) return;
+                if (j && j.ok === false){
+                    // Stock insuficiente u otro rechazo: se dice en el botón, no
+                    // se abre el drawer como si hubiera entrado.
+                    if (label) label.textContent = 'No disponible';
+                    return;
+                }
+                // Confirmación en el botón + drawer abierto: el cliente ve qué pasó
+                // sin perder el lugar en la grilla.
+                if (btn) btn.classList.add('is-done');
+                if (label) label.textContent = 'Agregado';
+                open();
+                setTimeout(function(){
+                    if (btn) btn.classList.remove('is-done');
+                    if (label) label.textContent = prevLabel;
+                }, 1800);
             })
-            .catch(function(){})
-            .finally(function(){ form.__busy = false; });
+            .catch(function(){
+                // Se cayó el fetch: el form vuelve a quedar utilizable y el
+                // submit siguiente va por POST normal.
+                if (label) label.textContent = prevLabel;
+            })
+            .finally(function(){
+                form.__busy = false;
+                if (btn) btn.classList.remove('is-busy');
+            });
     });
 
     // Auto-abrir si venimos de un add_to_cart desde la ficha de producto

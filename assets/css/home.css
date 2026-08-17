@@ -342,8 +342,9 @@ main.home + .site-footer { margin-top: 0; }
 .btn.btn--lg { padding: .95rem 1.6rem; font-size: 1rem; border-radius: 12px; }
 .btn.btn--invert { background: #fff; color: var(--brand-primary, #0f172a); border: 0; }
 .btn.btn--invert:hover { background: #f1f5f9; }
-/* Acento de marca para badges/destacados en la home. */
-.shop-card__badge { background: var(--brand-primary, #51af3f) !important; box-shadow: 0 6px 14px color-mix(in srgb, var(--brand-primary, #51af3f) 45%, transparent) !important; }
+/* El badge de la tarjeta se define en shop.css con sus variantes (--sale /
+ * --out). Acá había un override con !important que pintaba de verde también el
+ * "Sin stock". */
 .home-hero .btn { font-weight: 600; box-shadow: 0 10px 28px rgba(0,0,0,.18); }
 .home-hero .btn--ghost { background: rgba(255, 255, 255, .08); color: #fff; border: 1px solid rgba(255,255,255,.25); box-shadow: none; }
 .home-hero .btn--ghost:hover { background: rgba(255, 255, 255, .16); }
@@ -754,16 +755,8 @@ main.home + .site-footer { margin-top: 0; }
 }
 
 /* ============ Productos destacados ============
- * Reutiliza .shop-grid / .shop-card de shop.css. Agregamos badge "Oferta". */
-.home-featured .shop-card { position: relative; }
-.shop-card__badge {
-    position: absolute; top: .7rem; left: .7rem;
-    background: #ef4444; color: #fff;
-    font-size: .72rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
-    padding: .25rem .55rem; border-radius: 999px;
-    box-shadow: 0 6px 14px rgba(239, 68, 68, .35);
-    z-index: 1;
-}
+ * Usa .shop-grid / .shop-card tal cual salen de shop.css — misma tarjeta que
+ * /catalogo, incluidos badge, favoritos y botón de compra. Sin overrides. */
 
 /* ============ Storytelling / marca ============
  * Panel de marca con banda verde suave, textura de puntos, foto con marco
