@@ -302,6 +302,35 @@ select.form-control {
   border-color: #0f172a;
 }
 
+/* Celda de imagen de la variación: miniatura (sube del equipo) + select
+ * (elige algo ya subido). Antes era sólo el select, así que para usar una foto
+ * nueva había que ir a la Mediateca, subirla y volver. */
+.varimg { display: flex; align-items: center; gap: .5rem; }
+.varimg__thumb {
+  position: relative; flex-shrink: 0;
+  width: 48px; height: 48px; padding: 0;
+  border: 1.5px dashed #cbd5e1; border-radius: 8px;
+  background: #f8fafc; cursor: pointer; overflow: hidden;
+  transition: border-color .15s, background .15s;
+}
+.varimg__thumb:hover { border-color: #0f172a; background: #f1f5f9; }
+.varimg__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.varimg__thumb:not(.is-empty) { border-style: solid; border-color: #e2e8f0; }
+/* El "+" sólo se ve cuando no hay imagen; con foto cargada estorbaría. */
+.varimg__plus { display: none; font-size: 1.3rem; line-height: 1; color: #94a3b8; font-weight: 400; }
+.varimg__thumb.is-empty .varimg__plus { display: block; }
+.varimg__thumb.is-busy { pointer-events: none; opacity: .6; }
+.varimg__spin {
+  position: absolute; inset: 0; margin: auto;
+  width: 18px; height: 18px; border-radius: 999px;
+  border: 2px solid #cbd5e1; border-top-color: #0f172a;
+  animation: varimg-spin .7s linear infinite;
+}
+@keyframes varimg-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .varimg__spin { animation-duration: 2s; } }
+.varimg__pick { width: 130px; }
+.varimg__err { color: #991b1b; font-size: .75rem; }
+
 /* Toggle simple/variable */
 .when-variable { display: none; }
 .ptype-variable .when-variable { display: block; }
@@ -479,6 +508,74 @@ select.form-control {
         <button type="button" class="btn btn--ghost dyn-add-btn" id="opt-add">+ Agregar opción</button>
     </div>
 
+    <!-- VARIACIONES (solo variable, y solo si el producto ya existe) -->
+    <?php
+    // id de media => miniatura, para pintar el preview de cada fila sin volver a
+    // recorrer $allMedia adentro del loop.
+    $mediaById = [];
+    foreach ($allMedia as $m) $mediaById[(int) $m['id']] = (string) ($m['thumb_path'] ?: $m['file_path']);
+    ?>
+    <?php if ($type === 'variable' && !$isNew): ?>
+    <div class="card when-variable">
+        <h3 class="card__title">🔀 Variaciones <small class="text-muted" style="font-weight:400;">(<?= count($productVariationsList) ?>)</small></h3>
+        <?php if (!$productVariationsList): ?>
+            <div class="settings-section-hint" style="background:#fef3c7;border-left-color:#d97706;">
+                Define las opciones arriba y guarda el producto para generar las variaciones.
+            </div>
+        <?php else: ?>
+        <div class="settings-section-hint">
+            Cada fila es una combinación de opciones. Edita precios, stock e imágenes individualmente.
+            La imagen se puede subir desde tu equipo o elegir de la mediateca.
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="shop-vartable">
+                <thead><tr><th>Variación</th><th>Imagen</th><th>Precio</th><th>Oferta</th><th>Stock</th><th>Estado</th><th>SKU</th><th>GTIN</th><th>Activa</th></tr></thead>
+                <tbody>
+                <?php foreach ($productVariationsList as $vr): $vid = (int) $vr['id']; $vimg = (int) ($vr['image_id'] ?? 0); ?>
+                    <tr>
+                        <td><strong><?= htmlspecialchars($vr['label'] ?: '—') ?></strong></td>
+                        <?php /* Miniatura clickeable = subir del equipo; el select de abajo sigue
+                                dejando elegir algo ya subido. El name no cambió, así que el
+                                handler (variationUpdateBulk) sigue igual. */ ?>
+                        <td>
+                            <div class="varimg" data-vid="<?= $vid ?>">
+                                <button type="button" class="varimg__thumb<?= $vimg ? '' : ' is-empty' ?>" title="Subir una imagen para esta variación">
+                                    <?php if ($vimg && isset($mediaById[$vimg])): ?>
+                                        <img src="<?= htmlspecialchars($mediaById[$vimg]) ?>" alt="">
+                                    <?php endif; ?>
+                                    <span class="varimg__plus" aria-hidden="true">+</span>
+                                    <span class="varimg__spin" hidden></span>
+                                </button>
+                                <input type="file" class="varimg__file" accept="image/jpeg,image/png,image/webp" hidden>
+                                <select class="varimg__pick" name="variations[<?= $vid ?>][image_id]" form="varform">
+                                    <option value="">— ninguna —</option>
+                                    <?php foreach ($allMedia as $m): ?>
+                                        <option value="<?= (int) $m['id'] ?>" <?= $vimg === (int) $m['id'] ? 'selected' : '' ?>><?= htmlspecialchars($m['alt'] ?: basename((string) $m['file_path'])) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </td>
+                        <td><input type="number" step="1" min="0" name="variations[<?= $vid ?>][price]" value="<?= htmlspecialchars((string) $vr['price']) ?>" style="width:100px;" form="varform"></td>
+                        <td><input type="number" step="1" min="0" name="variations[<?= $vid ?>][sale_price]" value="<?= $vr['sale_price'] !== null ? htmlspecialchars((string) $vr['sale_price']) : '' ?>" style="width:100px;" placeholder="—" form="varform"></td>
+                        <td><input type="number" step="1" name="variations[<?= $vid ?>][stock_qty]" value="<?= (int) $vr['stock_qty'] ?>" style="width:80px;" form="varform"></td>
+                        <td><select name="variations[<?= $vid ?>][stock_status]" form="varform">
+                            <?php foreach (['in_stock' => 'En stock', 'out_of_stock' => 'Sin stock', 'backorder' => 'Bajo pedido'] as $k => $lbl): ?>
+                                <option value="<?= $k ?>" <?= $vr['stock_status'] === $k ? 'selected' : '' ?>><?= $lbl ?></option>
+                            <?php endforeach; ?>
+                        </select></td>
+                        <td><input name="variations[<?= $vid ?>][sku]" value="<?= htmlspecialchars((string) ($vr['sku'] ?? '')) ?>" style="width:110px;" placeholder="SKU" form="varform"></td>
+                        <td><input name="variations[<?= $vid ?>][gtin]" value="<?= htmlspecialchars((string) ($vr['gtin'] ?? '')) ?>" style="width:110px;" placeholder="GTIN" form="varform"></td>
+                        <td style="text-align:center;"><input type="checkbox" name="variations[<?= $vid ?>][is_active]" value="1" <?= (int) $vr['is_active'] ? 'checked' : '' ?> style="width:20px;height:20px;accent-color:#0f172a;" form="varform"></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        <div style="margin-top:1.25rem;"><button type="submit" class="btn" form="varform">Guardar variaciones</button></div>
+        <?php endif; ?>
+    </div>
+    <?php endif; ?>
+
     <!-- CATEGORÍAS -->
     <div class="card">
         <h3 class="card__title">🗂️ Categorías</h3>
@@ -654,53 +751,16 @@ select.form-control {
 </form>
 
 <?php if ($type === 'variable' && !$isNew): ?>
-    <div class="card when-variable" style="margin-top:1.5rem;">
-        <h3 class="card__title">🔀 Variaciones <small class="text-muted" style="font-weight:400;">(<?= count($productVariationsList) ?>)</small></h3>
-        <?php if (!$productVariationsList): ?>
-            <div class="settings-section-hint" style="background:#fef3c7;border-left-color:#d97706;">
-                Define las opciones arriba y guarda el producto para generar las variaciones.
-            </div>
-        <?php else: ?>
-        <div class="settings-section-hint">
-            Cada fila es una combinación de opciones. Edita precios, stock e imágenes individualmente.
-        </div>
-        <form method="post" action="/admin/?view=product&id=<?= (int) $product['id'] ?>">
-            <input type="hidden" name="action" value="variations_save">
-            <input type="hidden" name="csrf" value="<?= csrfToken() ?>">
-            <input type="hidden" name="id" value="<?= (int) $product['id'] ?>">
-            <div style="overflow-x:auto;">
-                <table class="shop-vartable">
-                    <thead><tr><th>Variación</th><th>Imagen</th><th>Precio</th><th>Oferta</th><th>Stock</th><th>Estado</th><th>SKU</th><th>GTIN</th><th>Activa</th></tr></thead>
-                    <tbody>
-                    <?php foreach ($productVariationsList as $vr): $vid = (int) $vr['id']; ?>
-                        <tr>
-                            <td><strong><?= htmlspecialchars($vr['label'] ?: '—') ?></strong></td>
-                            <td><select name="variations[<?= $vid ?>][image_id]" style="width:140px;">
-                                <option value="">— ninguna —</option>
-                                <?php foreach ($allMedia as $m): ?>
-                                    <option value="<?= (int) $m['id'] ?>" <?= (int) ($vr['image_id'] ?? 0) === (int) $m['id'] ? 'selected' : '' ?>><?= htmlspecialchars($m['alt'] ?: basename((string) $m['file_path'])) ?></option>
-                                <?php endforeach; ?>
-                            </select></td>
-                            <td><input type="number" step="1" min="0" name="variations[<?= $vid ?>][price]" value="<?= htmlspecialchars((string) $vr['price']) ?>" style="width:100px;"></td>
-                            <td><input type="number" step="1" min="0" name="variations[<?= $vid ?>][sale_price]" value="<?= $vr['sale_price'] !== null ? htmlspecialchars((string) $vr['sale_price']) : '' ?>" style="width:100px;" placeholder="—"></td>
-                            <td><input type="number" step="1" name="variations[<?= $vid ?>][stock_qty]" value="<?= (int) $vr['stock_qty'] ?>" style="width:80px;"></td>
-                            <td><select name="variations[<?= $vid ?>][stock_status]">
-                                <?php foreach (['in_stock' => 'En stock', 'out_of_stock' => 'Sin stock', 'backorder' => 'Bajo pedido'] as $k => $lbl): ?>
-                                    <option value="<?= $k ?>" <?= $vr['stock_status'] === $k ? 'selected' : '' ?>><?= $lbl ?></option>
-                                <?php endforeach; ?>
-                            </select></td>
-                            <td><input name="variations[<?= $vid ?>][sku]" value="<?= htmlspecialchars((string) ($vr['sku'] ?? '')) ?>" style="width:110px;" placeholder="SKU"></td>
-                            <td><input name="variations[<?= $vid ?>][gtin]" value="<?= htmlspecialchars((string) ($vr['gtin'] ?? '')) ?>" style="width:110px;" placeholder="GTIN"></td>
-                            <td style="text-align:center;"><input type="checkbox" name="variations[<?= $vid ?>][is_active]" value="1" <?= (int) $vr['is_active'] ? 'checked' : '' ?> style="width:20px;height:20px;accent-color:#0f172a;"></td>
-                        </tr>
-                    <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-            <div style="margin-top:1.25rem;"><button type="submit" class="btn">Guardar variaciones</button></div>
-        </form>
-        <?php endif; ?>
-    </div>
+    <?php /* Form destino de la tabla de variaciones, que ahora se dibuja arriba,
+             junto a Opciones (que es donde se definen). No puede ir anidado en el
+             form del producto -- HTML lo prohibe y el navegador lo cierra solo --
+             asi que queda vacio aca y cada campo se le asocia con form="varform".
+             Con eso los campos de variaciones NO viajan en el submit del producto. */ ?>
+    <form id="varform" method="post" action="/admin/?view=product&id=<?= (int) $product['id'] ?>">
+        <input type="hidden" name="action" value="variations_save">
+        <input type="hidden" name="csrf" value="<?= csrfToken() ?>">
+        <input type="hidden" name="id" value="<?= (int) $product['id'] ?>">
+    </form>
 <?php endif; ?>
 </div>
 
@@ -825,6 +885,93 @@ select.form-control {
         pup.addEventListener('drop', function(e){ if (e.dataTransfer && e.dataTransfer.files) handleFiles(e.dataTransfer.files); });
         pup.addEventListener('click', function(e){
             if (e.target === pup || e.target.closest('.pimg-uploader__cta') && !e.target.closest('button,a,input')) pin.click();
+        });
+    }
+
+    // ---- Imagen por variación: subir desde el equipo ----
+    // Reusa media_upload_inline (el mismo endpoint del uploader de arriba). Al
+    // volver, mete la media nueva como <option selected> en el select de ESA
+    // fila y en el de las demás, para que quede elegible sin recargar.
+    // Delegación: el <select> también refresca el preview.
+    var varCells = document.querySelectorAll('.varimg');
+    if (varCells.length) {
+        var vcsrf = <?= json_encode(csrfToken()) ?>;
+        // id de media => miniatura. Se va llenando con lo que se sube, así el
+        // preview funciona igual para las imágenes viejas y las nuevas.
+        var VAR_MEDIA = <?= json_encode($mediaById, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>;
+        var allPicks = document.querySelectorAll('.varimg__pick');
+
+        function setThumb(cell, src){
+            var btn = cell.querySelector('.varimg__thumb');
+            var img = btn.querySelector('img');
+            if (src) {
+                if (!img) { img = document.createElement('img'); img.alt = ''; btn.insertBefore(img, btn.firstChild); }
+                img.src = src;
+                btn.classList.remove('is-empty');
+            } else {
+                if (img) img.remove();
+                btn.classList.add('is-empty');
+            }
+        }
+        function showErr(cell, msg){
+            var e = cell.querySelector('.varimg__err');
+            if (!e) { e = document.createElement('span'); e.className = 'varimg__err'; cell.appendChild(e); }
+            e.textContent = msg;
+        }
+        function clearErr(cell){
+            var e = cell.querySelector('.varimg__err');
+            if (e) e.remove();
+        }
+
+        varCells.forEach(function(cell){
+            var btn  = cell.querySelector('.varimg__thumb');
+            var file = cell.querySelector('.varimg__file');
+            var sel  = cell.querySelector('.varimg__pick');
+            if (!btn || !file || !sel) return;
+
+            btn.addEventListener('click', function(){ file.click(); });
+
+            file.addEventListener('change', function(){
+                var f = file.files && file.files[0];
+                if (!f) return;
+                clearErr(cell);
+                btn.classList.add('is-busy');
+                var spin = btn.querySelector('.varimg__spin');
+                if (spin) spin.hidden = false;
+
+                var fd = new FormData();
+                fd.append('action', 'media_upload_inline');
+                fd.append('csrf', vcsrf);
+                fd.append('file', f);
+                fetch(window.location.pathname || '/admin/', { method: 'POST', body: fd, credentials: 'same-origin' })
+                    .then(function(r){ return r.json(); })
+                    .then(function(j){
+                        if (!j || !j.ok || !j.id) { showErr(cell, (j && j.error) || 'No se pudo subir.'); return; }
+                        VAR_MEDIA[j.id] = j.path;
+                        // Alta en todos los selects: la imagen nueva queda
+                        // disponible para cualquier variación, no sólo ésta.
+                        allPicks.forEach(function(p){
+                            var o = document.createElement('option');
+                            o.value = j.id;
+                            o.textContent = j.name || ('media ' + j.id);
+                            p.appendChild(o);
+                        });
+                        sel.value = String(j.id);
+                        setThumb(cell, j.path);
+                    })
+                    .catch(function(err){ showErr(cell, err.message || 'No se pudo subir.'); })
+                    .finally(function(){
+                        btn.classList.remove('is-busy');
+                        if (spin) spin.hidden = true;
+                        file.value = '';
+                    });
+            });
+
+            // Elegir del select también actualiza el preview.
+            sel.addEventListener('change', function(){
+                clearErr(cell);
+                setThumb(cell, sel.value ? (VAR_MEDIA[sel.value] || '') : '');
+            });
         });
     }
 })();
