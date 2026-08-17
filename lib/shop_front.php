@@ -9,6 +9,13 @@
  * shopFrontRoute() devuelve true si manejó la URL (y ya renderizó la salida).
  */
 
+/**
+ * Productos por página en el catálogo público. Vive acá porque el listado y el
+ * paginador tienen que usar el mismo número: si se desincronizan, el paginador
+ * calcula mal la cantidad de páginas y quedan productos inalcanzables.
+ */
+const SHOP_PER_PAGE = 24;
+
 function shopAbsUrl(string $path): string {
     $host  = $_SERVER['HTTP_HOST'] ?? '';
     $proto = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
@@ -34,7 +41,10 @@ function shopFrontRoute(string $path): bool {
     if ($path === 'tienda') {
         // El landing comercial volvió a ser el home (/). /tienda queda como
         // alias legacy de la grilla de productos → redirige a /catalogo (301).
-        redirect('/catalogo', 301);
+        // Se conserva ?p= para que un link viejo a una página profunda no caiga
+        // siempre en la primera.
+        $page = max(1, (int) ($_GET['p'] ?? 1));
+        redirect('/catalogo' . ($page > 1 ? '?p=' . $page : ''), 301);
         return true;
     }
     if ($path === 'catalogo') {
@@ -54,15 +64,17 @@ function shopFrontRoute(string $path): bool {
 /* ===================== Render ===================== */
 
 function shopRenderShopIndex(): void {
-    $page     = max(1, (int) ($_GET['p'] ?? 1));
-    $products = productsPublished(['perPage' => 24, 'page' => $page]);
+    $total    = function_exists('productsPublishedCount') ? productsPublishedCount(0) : 0;
+    $page     = shopClampPage((int) ($_GET['p'] ?? 1), $total);
+    $products = productsPublished(['perPage' => SHOP_PER_PAGE, 'page' => $page]);
     $cats     = categoryList(true);
-    $total    = function_exists('productsPublishedCount') ? productsPublishedCount(0) : count($products);
     $intro    = trim((string) getSetting('business_description', ''));
     layoutStart([
-        'title'       => 'Catálogo',
+        'title'       => $page > 1 ? 'Catálogo — página ' . $page : 'Catálogo',
         'description' => $intro,
-        'canonical'   => '/catalogo',
+        // El canónico incluye la página: si apuntara siempre a /catalogo, Google
+        // trataría las páginas 2+ como duplicados y no indexaría esos productos.
+        'canonical'   => '/catalogo' . ($page > 1 ? '?p=' . $page : ''),
     ]);
     // Reusa el lenguaje visual de la página de categoría (.shop-catpage) para
     // heredar el header y las tarjetas pulidas; .shop-catalog agrega lo propio.
@@ -94,13 +106,15 @@ function shopRenderShopIndex(): void {
     }
 
     shopRenderGrid($products);
+    shopRenderPager($total, $page, '/catalogo');
     echo '</main>';
     layoutEnd();
 }
 
 function shopRenderCategory(array $c): void {
-    $page     = max(1, (int) ($_GET['p'] ?? 1));
-    $products = productsPublished(['category_id' => (int) $c['id'], 'perPage' => 24, 'page' => $page]);
+    $count    = function_exists('productsPublishedCount') ? productsPublishedCount((int) $c['id']) : 0;
+    $page     = shopClampPage((int) ($_GET['p'] ?? 1), $count);
+    $products = productsPublished(['category_id' => (int) $c['id'], 'perPage' => SHOP_PER_PAGE, 'page' => $page]);
     $title    = (string) ($c['meta_title'] ?: $c['name']);
 
     $breadcrumb = [
@@ -112,12 +126,11 @@ function shopRenderCategory(array $c): void {
         ],
     ];
     layoutStart([
-        'title'       => $title,
+        'title'       => $page > 1 ? $title . ' — página ' . $page : $title,
         'description' => (string) ($c['meta_description'] ?: $c['description']),
-        'canonical'   => '/categoria/' . $c['slug'],
+        'canonical'   => '/categoria/' . $c['slug'] . ($page > 1 ? '?p=' . $page : ''),
         'jsonld'      => [$breadcrumb],
     ]);
-    $count = function_exists('productsPublishedCount') ? productsPublishedCount((int) $c['id']) : count($products);
     $icon  = function_exists('homeCategoryIcon') ? homeCategoryIcon((string) $c['name']) : '';
     $desc  = trim((string) $c['description']);
 
@@ -142,6 +155,7 @@ function shopRenderCategory(array $c): void {
     echo '</div></header>';
 
     shopRenderGrid($products);
+    shopRenderPager($count, $page, '/categoria/' . $c['slug']);
     echo '</main>';
     layoutEnd();
 }
@@ -646,6 +660,83 @@ $varDisplay = getSetting('variations_display_mode', 'swatches') === 'select' ? '
 </main>
     <?php
     layoutEnd();
+}
+
+/**
+ * Acota ?p= al rango real de páginas. Sin esto, /catalogo?p=999 consulta un
+ * OFFSET vacío y muestra "No hay productos" con el paginador diciendo que esa
+ * página existe.
+ */
+function shopClampPage(int $page, int $total): int {
+    $pages = max(1, (int) ceil($total / SHOP_PER_PAGE));
+    return max(1, min($page, $pages));
+}
+
+/**
+ * Paginador del catálogo (/catalogo y /categoria/{slug}).
+ *
+ * El listado siempre trajo de a SHOP_PER_PAGE con ?p=N, pero no se renderizaba
+ * ningún control: el visitante veía la primera página y no tenía cómo avanzar,
+ * así que el catálogo público se leía como si tuviera 24 productos por
+ * categoría. Esto expone la navegación.
+ *
+ * En móvil se muestran sólo las flechas + "Página N de M" (los números no caben
+ * a 390px con área táctil de 44px); desde 640px aparecen los números con
+ * ventana ±1 alrededor de la actual y elipsis en los saltos.
+ */
+function shopRenderPager(int $total, int $page, string $base): void {
+    $pages = (int) ceil($total / SHOP_PER_PAGE);
+    if ($pages < 2) return;
+    $page = max(1, min($page, $pages));
+
+    $href = fn(int $n): string => htmlspecialchars($base . ($n > 1 ? '?p=' . $n : ''), ENT_QUOTES);
+
+    // Ventana de números: primera, última y las contiguas a la actual.
+    $show = [];
+    foreach ([1, $pages, $page - 1, $page, $page + 1] as $n) {
+        if ($n >= 1 && $n <= $pages) $show[$n] = true;
+    }
+    $show = array_keys($show);
+    sort($show);
+
+    $arrow = static fn(string $d): string => $d === 'prev'
+        ? '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>'
+        : '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>';
+
+    echo '<nav class="shop-pager" aria-label="Paginación del catálogo">';
+
+    if ($page > 1) {
+        echo '<a class="shop-pager__arrow" href="' . $href($page - 1) . '" rel="prev" aria-label="Página anterior">'
+           . $arrow('prev') . '</a>';
+    } else {
+        echo '<span class="shop-pager__arrow is-disabled" aria-hidden="true">' . $arrow('prev') . '</span>';
+    }
+
+    echo '<ol class="shop-pager__pages">';
+    $prev = 0;
+    foreach ($show as $n) {
+        if ($prev && $n > $prev + 1) {
+            echo '<li><span class="shop-pager__gap" aria-hidden="true">…</span></li>';
+        }
+        if ($n === $page) {
+            echo '<li><span class="shop-pager__num is-current" aria-current="page">' . $n . '</span></li>';
+        } else {
+            echo '<li><a class="shop-pager__num" href="' . $href($n) . '" aria-label="Ir a la página ' . $n . '">' . $n . '</a></li>';
+        }
+        $prev = $n;
+    }
+    echo '</ol>';
+
+    echo '<span class="shop-pager__status">Página ' . $page . ' de ' . $pages . '</span>';
+
+    if ($page < $pages) {
+        echo '<a class="shop-pager__arrow" href="' . $href($page + 1) . '" rel="next" aria-label="Página siguiente">'
+           . $arrow('next') . '</a>';
+    } else {
+        echo '<span class="shop-pager__arrow is-disabled" aria-hidden="true">' . $arrow('next') . '</span>';
+    }
+
+    echo '</nav>';
 }
 
 function shopRenderGrid(array $products): void {

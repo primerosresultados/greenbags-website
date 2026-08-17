@@ -56,6 +56,61 @@
 
 .shop-empty { color: #6b7280; padding: 3rem 0; text-align: center; }
 
+/* ============ Paginador del catálogo ============ */
+/* Mobile-first: a 390px sólo flechas + "Página N de M". Los números aparecen
+   desde 640px, donde entran sin bajar del área táctil de 44px. */
+.shop-pager {
+    display: flex; align-items: center; justify-content: center;
+    gap: .75rem;
+    margin: 2.5rem 0 1rem;
+}
+.shop-pager__arrow,
+.shop-pager__num {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 44px; height: 44px; padding: 0 .5rem;
+    border-radius: 999px;
+    text-decoration: none; color: #334155; background: #fff;
+    font-size: .95rem; font-weight: 600; font-variant-numeric: tabular-nums;
+    box-shadow: var(--shadow-sm, 0 1px 2px rgba(15,15,16,.04));
+    transition: background .15s, color .15s, box-shadow .15s;
+}
+.shop-pager__arrow:hover,
+.shop-pager__num:hover {
+    background: color-mix(in srgb, var(--brand-primary, #3f8f30) 10%, #fff);
+    color: var(--brand-primary, #3f8f30);
+}
+.shop-pager__arrow.is-disabled {
+    color: #cbd5e1; box-shadow: none; background: transparent;
+    pointer-events: none;
+}
+.shop-pager__num.is-current {
+    background: var(--brand-primary, #3f8f30); color: #fff;
+    box-shadow: 0 8px 18px -8px color-mix(in srgb, var(--brand-primary, #3f8f30) 70%, transparent);
+    cursor: default;
+}
+.shop-pager__pages {
+    display: none;
+    align-items: center; gap: .35rem;
+    list-style: none; margin: 0; padding: 0;
+}
+.shop-pager__gap {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 24px; height: 44px; color: #94a3b8;
+}
+.shop-pager__status {
+    font-size: .92rem; font-weight: 600; color: #475569;
+    font-variant-numeric: tabular-nums;
+}
+@supports not (background: color-mix(in srgb, red, blue)) {
+    .shop-pager__arrow:hover,
+    .shop-pager__num:hover { background: #eef7ec; color: #3f8f30; }
+    .shop-pager__num.is-current { box-shadow: 0 8px 18px -8px rgba(63, 143, 46, .5); }
+}
+@media (min-width: 640px) {
+    .shop-pager__pages { display: flex; }
+    .shop-pager__status { display: none; }
+}
+
 /* ============ Página de categoría: header + tarjetas pulidas ============ */
 .shop-catpage { padding-top: 1.5rem; }
 .shop-cathead {
