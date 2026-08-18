@@ -1497,3 +1497,39 @@ video.shop-video { width: 100%; height: auto; background: #000; }
 @media (max-width: 640px) {
     .lead-form__grid { grid-template-columns: 1fr; }
 }
+
+/* ============ /buscar — página de resultados ============
+ * Fallback del modal del header: misma grilla del catálogo, con el formulario
+ * arriba para poder afinar la búsqueda sin volver atrás.
+ * ======================================================== */
+.shop-search__form {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    max-width: 560px;
+    margin: 0 0 1.6rem;
+    padding: .5rem .5rem .5rem .9rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+    background: #fff;
+}
+.shop-search__form svg { color: #64748b; flex: none; }
+.shop-search__form input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font: inherit;
+    padding: .35rem 0;
+}
+.shop-search__form input::-webkit-search-cancel-button { display: none; }
+.shop-search__form .btn { flex: none; border-radius: 999px; padding: .5rem 1.1rem; }
+
+.shop-search__empty {
+    padding: 2rem 1rem;
+    text-align: center;
+    color: #475569;
+}
+.shop-search__empty p { margin: 0 0 .6rem; }
+.shop-search__empty-hint { color: #64748b; font-size: .92rem; }

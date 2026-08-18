@@ -509,3 +509,77 @@ function productsPublishedCount(int $catId = 0): int {
     }
     return (int) getDB()->query("SELECT COUNT(*) FROM products WHERE status = 'published'")->fetchColumn();
 }
+
+/* ===================== Búsqueda pública ===================== */
+
+/** Normaliza el término de búsqueda: colapsa espacios y acota el largo. */
+function productSearchNormalize(string $q): string {
+    $q = trim((string) preg_replace('/\s+/u', ' ', $q));
+    return mb_substr($q, 0, 80);
+}
+
+/**
+ * Arma el WHERE de la búsqueda: cada palabra tiene que aparecer en el nombre,
+ * el SKU o la descripción corta (AND entre palabras, OR entre columnas). Así
+ * "bolsa kraft" encuentra "Bolsa de papel kraft" y no todo lo que dice bolsa.
+ * Los comodines de LIKE se escapan para que un "%" tipeado no traiga todo.
+ */
+function productSearchClause(string $q, array &$params): string {
+    $words = array_slice(array_values(array_filter(explode(' ', $q), fn($w) => $w !== '')), 0, 6);
+    if (!$words) return '1 = 0';
+    $parts = [];
+    foreach ($words as $w) {
+        $like = '%' . str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $w) . '%';
+        $parts[] = '(p.name LIKE ? OR p.sku LIKE ? OR p.short_description LIKE ?)';
+        $params[] = $like; $params[] = $like; $params[] = $like;
+    }
+    return implode(' AND ', $parts);
+}
+
+/**
+ * Productos publicados que coinciden con $q, con su imagen principal (mismo
+ * shape que productsPublished() para poder reusar shopRenderGrid()).
+ * Orden: coincidencia al principio del nombre, luego SKU exacto, luego el
+ * orden habitual del catálogo.
+ */
+function productSearch(string $q, array $o = []): array {
+    $q = productSearchNormalize($q);
+    if ($q === '') return [];
+
+    $params = [];
+    $clause = productSearchClause($q, $params);
+    $perPage = max(1, (int) ($o['perPage'] ?? 8));
+    $page    = max(1, (int) ($o['page'] ?? 1));
+    $offset  = ($page - 1) * $perPage;
+
+    $sql = "SELECT p.*,
+                   (SELECT m.file_path FROM product_images pi JOIN media_library m ON m.id = pi.media_id
+                    WHERE pi.product_id = p.id ORDER BY pi.is_primary DESC, pi.sort_order LIMIT 1) AS img,
+                   (SELECT m.alt FROM product_images pi JOIN media_library m ON m.id = pi.media_id
+                    WHERE pi.product_id = p.id ORDER BY pi.is_primary DESC, pi.sort_order LIMIT 1) AS img_alt
+            FROM products p
+            WHERE p.status = 'published' AND ($clause)
+            ORDER BY (p.name LIKE ?) DESC, (p.sku = ?) DESC,
+                     p.featured DESC, p.sort_order ASC, p.created_at DESC, p.id DESC
+            LIMIT ? OFFSET ?";
+    $stmt = getDB()->prepare($sql);
+    $i = 1;
+    foreach ($params as $v) $stmt->bindValue($i++, $v, PDO::PARAM_STR);
+    $stmt->bindValue($i++, $q . '%', PDO::PARAM_STR);
+    $stmt->bindValue($i++, $q,       PDO::PARAM_STR);
+    $stmt->bindValue($i++, $perPage, PDO::PARAM_INT);
+    $stmt->bindValue($i++, $offset,  PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
+
+/** Total de resultados de $q (para el contador y el paginador de /buscar). */
+function productSearchCount(string $q): int {
+    $q = productSearchNormalize($q);
+    if ($q === '') return 0;
+    $params = [];
+    $clause = productSearchClause($q, $params);
+    $stmt = getDB()->prepare("SELECT COUNT(*) FROM products p WHERE p.status = 'published' AND ($clause)");
+    $stmt->execute($params);
+    return (int) $stmt->fetchColumn();
+}

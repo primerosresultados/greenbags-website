@@ -51,6 +51,10 @@ function shopFrontRoute(string $path): bool {
         shopRenderShopIndex();
         return true;
     }
+    if ($path === 'buscar') {
+        shopRenderSearch();
+        return true;
+    }
     if ($path === 'carrito') {
         shopRenderCart();
         return true;
@@ -689,7 +693,10 @@ function shopRenderPager(int $total, int $page, string $base): void {
     if ($pages < 2) return;
     $page = max(1, min($page, $pages));
 
-    $href = fn(int $n): string => htmlspecialchars($base . ($n > 1 ? '?p=' . $n : ''), ENT_QUOTES);
+    // El base puede venir con query propia (/buscar?q=bolsa): en ese caso la
+    // página se agrega con "&" y no con "?", que rompería el enlace.
+    $sep  = str_contains($base, '?') ? '&' : '?';
+    $href = fn(int $n): string => htmlspecialchars($base . ($n > 1 ? $sep . 'p=' . $n : ''), ENT_QUOTES);
 
     // Ventana de números: primera, última y las contiguas a la actual.
     $show = [];
@@ -788,6 +795,122 @@ function shopRenderGrid(array $products): void {
         echo '</div>';
     }
     echo '</div>';
+}
+
+/**
+ * /buscar — resultados de búsqueda de productos.
+ *
+ * Sirve dos consumidores con la misma consulta:
+ *   - ?ajax=1 → JSON para el modal del header (buscador incremental).
+ *   - sin ajax → página completa con grilla + paginador, que es también el
+ *     fallback cuando el visitante no tiene JS o llega desde un enlace.
+ */
+function shopRenderSearch(): void {
+    $q = productSearchNormalize((string) ($_GET['q'] ?? ''));
+
+    if (($_GET['ajax'] ?? '') === '1') {
+        shopSearchJson($q);
+        return;
+    }
+
+    $total    = $q !== '' ? productSearchCount($q) : 0;
+    $page     = shopClampPage((int) ($_GET['p'] ?? 1), $total);
+    $products = $q !== '' ? productSearch($q, ['perPage' => SHOP_PER_PAGE, 'page' => $page]) : [];
+
+    layoutStart([
+        'title'       => $q !== '' ? 'Resultados para "' . $q . '"' : 'Buscar productos',
+        'description' => 'Busca productos en el catálogo de ' . getSetting('site_name', ''),
+        // Los resultados de búsqueda no aportan nada al índice y generan URLs
+        // infinitas: se marcan noindex y el canónico apunta al catálogo.
+        'noindex'     => true,
+        'canonical'   => '/catalogo',
+    ]);
+
+    echo '<main class="container shop shop-catpage shop-search">';
+
+    echo '<header class="shop-cathead shop-cathead--catalog">';
+    echo '<span class="shop-cathead__icon" aria-hidden="true">'
+       . '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>'
+       . '</span>';
+    echo '<div class="shop-cathead__body">';
+    echo '<span class="shop-cathead__kicker">Búsqueda</span>';
+    echo '<h1 class="shop-cathead__title">'
+       . ($q !== '' ? 'Resultados para “' . htmlspecialchars($q) . '”' : 'Buscar productos')
+       . '</h1>';
+    if ($q !== '') {
+        echo '<p class="shop-cathead__count">'
+           . '<span class="shop-cathead__count-num">' . $total . '</span> '
+           . ($total === 1 ? 'producto encontrado' : 'productos encontrados') . '</p>';
+    }
+    echo '</div></header>';
+
+    echo '<form class="shop-search__form" action="/buscar" method="get" role="search">'
+       . '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>'
+       . '<input type="search" name="q" value="' . htmlspecialchars($q) . '" placeholder="¿Qué estás buscando?" aria-label="Buscar productos">'
+       . '<button type="submit" class="btn">Buscar</button>'
+       . '</form>';
+
+    if ($q === '') {
+        echo '<p class="shop-empty">Escribe el nombre de un producto para empezar.</p>';
+    } elseif (!$products) {
+        echo '<div class="shop-search__empty">'
+           . '<p>No encontramos productos para “' . htmlspecialchars($q) . '”.</p>'
+           . '<p class="shop-search__empty-hint">Prueba con menos palabras o revisa el catálogo completo.</p>'
+           . '<p><a href="/catalogo" class="btn">Ver todo el catálogo</a></p>'
+           . '</div>';
+    } else {
+        shopRenderGrid($products);
+        shopRenderPager($total, $page, '/buscar?q=' . rawurlencode($q));
+    }
+
+    echo '</main>';
+    layoutEnd();
+}
+
+/**
+ * Respuesta JSON del buscador del header. Devuelve los primeros resultados ya
+ * formateados (precio como string) para que el modal solo tenga que pintarlos.
+ */
+function shopSearchJson(string $q): void {
+    header('Content-Type: application/json; charset=utf-8');
+    header('Cache-Control: no-store');
+
+    $limit = 8;
+    $items = [];
+    $total = 0;
+
+    if ($q !== '') {
+        $total      = productSearchCount($q);
+        $hidePrices = function_exists('quotesEnabled') && quotesEnabled()
+                   && getSetting('quote_show_prices', '0') !== '1';
+        foreach (productSearch($q, ['perPage' => $limit]) as $p) {
+            $eff      = productEffectivePrice($p);
+            $variable = ($p['type'] ?? 'simple') === 'variable';
+            if ($hidePrices) {
+                $price = 'Cotizar';
+            } elseif ($variable) {
+                $price = 'Desde ' . shopFormatPrice($p['min_price'] ?: $eff);
+            } else {
+                $price = shopFormatPrice($eff);
+            }
+            $items[] = [
+                'name'  => (string) $p['name'],
+                'url'   => '/producto/' . (string) $p['slug'],
+                'img'   => (string) ($p['img'] ?? ''),
+                'sku'   => (string) ($p['sku'] ?? ''),
+                'price' => $price,
+                'old'   => (!$hidePrices && !$variable && productIsOnSale($p)) ? shopFormatPrice($p['price']) : '',
+            ];
+        }
+    }
+
+    echo json_encode([
+        'q'     => $q,
+        'total' => $total,
+        'items' => $items,
+        'url'   => '/buscar?q=' . rawurlencode($q),
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
 }
 
 function shopRenderCart(): void {

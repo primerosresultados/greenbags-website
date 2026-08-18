@@ -139,14 +139,20 @@ $renderMenu = function () use ($pagesMain, $pageContact, $cats, $currentSlug, $i
     echo '</nav>';
 };
 
-// SVGs reutilizables (favoritos + cuenta) — quedan a la izquierda del carrito.
+// SVGs reutilizables (buscador + favoritos + cuenta) — quedan a la izquierda del carrito.
+$searchSvg = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>';
 $favSvg = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
 $accSvg = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
 
 $acctLogged = function_exists('currentCustomer') && currentCustomer();
 
-$renderActions = function () use ($cartCount, $cartSvg, $cartHref, $cartBtnId, $cartLabel, $favSvg, $accSvg, $acctLogged) {
+$renderActions = function () use ($cartCount, $cartSvg, $cartHref, $cartBtnId, $cartLabel, $searchSvg, $favSvg, $accSvg, $acctLogged) {
     echo '<div class="site-navbar__actions">';
+    // Buscador: abre el modal (site_search.js). Sin JS el visitante igual llega
+    // a /buscar desde el enlace del drawer, que es un <a> real.
+    echo '<button type="button" class="site-navbar__iconbtn site-navbar__iconbtn--search" id="site-search-btn"'
+       . ' aria-label="Buscar productos" aria-haspopup="dialog" aria-expanded="false" aria-controls="site-search">'
+       . $searchSvg . '</button>';
     echo '<a href="/favoritos" class="site-navbar__iconbtn site-navbar__iconbtn--fav" aria-label="Mis favoritos">'
        . $favSvg
        . '<span class="site-navbar__fav-badge" hidden>0</span></a>';
@@ -286,6 +292,7 @@ $annFg    = trim((string) getSetting('announce_fg', '#ffffff'));
                     <?= htmlspecialchars($pageContact['title']) ?>
                 </a>
             <?php endif; ?>
+            <a href="/buscar" class="site-drawer__search" data-search-open>Buscar productos</a>
             <a href="/favoritos" class="<?= $currentSlug === 'favoritos' ? 'is-active' : '' ?>">Favoritos</a>
             <a href="/mi-cuenta" class="<?= $currentSlug === 'mi-cuenta' ? 'is-active' : '' ?>">Mi cuenta</a>
             <a href="<?= htmlspecialchars($cartHref) ?>" class="site-drawer__cart" id="<?= htmlspecialchars($drawerBtnId) ?>">
@@ -316,6 +323,33 @@ $annFg    = trim((string) getSetting('announce_fg', '#ffffff'));
         <?php endif; ?>
     </aside>
 </header>
+
+<!-- Buscador de productos: modal AJAX. Vive fuera de <header> a propósito: el
+     header es sticky (crea contexto de apilado) y el modal tiene que quedar por
+     encima de todo, incluido el botón flotante de WhatsApp. -->
+<div class="site-search" id="site-search" role="dialog" aria-modal="true" aria-labelledby="site-search-title" hidden>
+    <div class="site-search__backdrop" data-search-close></div>
+    <div class="site-search__panel">
+        <h2 class="sr-only" id="site-search-title">Buscar productos</h2>
+        <form class="site-search__form" action="/buscar" method="get" role="search">
+            <span class="site-search__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>
+            </span>
+            <input type="search" name="q" id="site-search-input" class="site-search__input"
+                   placeholder="Buscar productos..." autocomplete="off" spellcheck="false"
+                   aria-label="Buscar productos" aria-controls="site-search-results" aria-expanded="false"
+                   role="combobox" aria-autocomplete="list">
+            <button type="button" class="site-search__clear" id="site-search-clear" aria-label="Limpiar búsqueda" hidden>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <button type="button" class="site-search__close" data-search-close aria-label="Cerrar buscador">Esc</button>
+        </form>
+        <div class="site-search__results" id="site-search-results" role="listbox" aria-label="Resultados"></div>
+        <p class="site-search__status" id="site-search-status" role="status" aria-live="polite">
+            Escribe al menos 2 letras para ver resultados.
+        </p>
+    </div>
+</div>
 
 <script>
 (function(){
@@ -361,3 +395,5 @@ $annFg    = trim((string) getSetting('announce_fg', '#ffffff'));
     });
 })();
 </script>
+<?php $searchJsMt = @filemtime(__DIR__ . '/../assets/js/site_search.js'); ?>
+<script src="/assets/js/site_search.js<?= $searchJsMt ? '?v=' . $searchJsMt : '' ?>" defer></script>
