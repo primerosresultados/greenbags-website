@@ -10,6 +10,7 @@
  *       'canonical'    => '/servicios',    // path o URL absoluta
  *       'current_slug' => 'servicios',
  *       'hide_chrome'  => false,           // true = no header ni footer (landing)
+ *       'noindex'      => false,           // true = meta robots noindex (búsquedas)
  *       'jsonld'       => [...],           // arrays adicionales para inyectar
  *   ]);
  *   // ... contenido de la página ...
@@ -66,6 +67,9 @@ function layoutStart(array $opts = []): void {
 <meta name="description" content="<?= $h($description) ?>">
 <?php endif; ?>
 <link rel="canonical" href="<?= $h($canonical) ?>">
+<?php if (!empty($opts['noindex'])): ?>
+<meta name="robots" content="noindex, follow">
+<?php endif; ?>
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
