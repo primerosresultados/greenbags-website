@@ -10,7 +10,10 @@ const BUSINESS_KEYS = [
     'business_legal_name', 'business_tagline', 'business_description',
     'business_email', 'business_phone', 'business_whatsapp', 'business_whatsapp_text',
     'business_address', 'business_city', 'business_region', 'business_country', 'business_postal_code', 'business_maps_url',
-    'business_hours',
+    'business_hours', 'business_pickup_note',
+    // Contactos comerciales (personas) del footer y del home.
+    'contact_person_1_name', 'contact_person_1_role', 'contact_person_1_phone', 'contact_person_1_email',
+    'contact_person_2_name', 'contact_person_2_role', 'contact_person_2_phone', 'contact_person_2_email',
     'social_facebook', 'social_instagram', 'social_linkedin', 'social_youtube', 'social_tiktok', 'social_x',
     'business_seo_jsonld',
 ];
