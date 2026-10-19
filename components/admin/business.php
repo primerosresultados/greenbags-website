@@ -79,6 +79,32 @@ $g = fn(string $k) => htmlspecialchars((string) ($settings[$k] ?? ''));
     </div>
 
     <div class="card">
+        <h3 class="card__title">Contactos comerciales</h3>
+        <p class="text-muted" style="margin:0 0 1rem;font-size:.88rem;">
+            Las personas que aparecen en el pie de página y en el inicio. Deja el nombre vacío para ocultar un contacto.
+        </p>
+        <?php for ($i = 1; $i <= 2; $i++): ?>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;<?= $i === 1 ? 'margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border, #e5e7eb);' : '' ?>">
+                <p class="form__field" style="margin:0;"><label>Nombre (contacto <?= $i ?>)
+                    <input type="text" name="b[contact_person_<?= $i ?>_name]" value="<?= $g("contact_person_{$i}_name") ?>" placeholder="Nombre y apellido">
+                </label></p>
+                <p class="form__field" style="margin:0;"><label>Cargo / etiqueta
+                    <input type="text" name="b[contact_person_<?= $i ?>_role]" value="<?= $g("contact_person_{$i}_role") ?>" placeholder="Contacto comercial">
+                </label></p>
+                <p class="form__field" style="margin:0;"><label>Teléfono
+                    <input type="text" name="b[contact_person_<?= $i ?>_phone]" value="<?= $g("contact_person_{$i}_phone") ?>" placeholder="+56 9 1234 5678">
+                </label></p>
+                <p class="form__field" style="margin:0;"><label>Email
+                    <input type="email" name="b[contact_person_<?= $i ?>_email]" value="<?= $g("contact_person_{$i}_email") ?>" placeholder="nombre@greenbags.cl">
+                </label></p>
+            </div>
+        <?php endfor; ?>
+        <p class="form__field" style="margin:1rem 0 0;"><label>Nota de retiro en bodega <small class="text-muted">(opcional, se muestra en el pie)</small>
+            <input type="text" name="b[business_pickup_note]" value="<?= $g('business_pickup_note') ?>">
+        </label></p>
+    </div>
+
+    <div class="card">
         <h3 class="card__title">Redes sociales</h3>
         <p class="text-muted" style="margin:0 0 1rem;font-size:.88rem;">Pega la URL completa de cada perfil. Las que dejes vacías no se mostrarán.</p>
         <?php foreach (BUSINESS_SOCIAL_KEYS as $key => $label): ?>

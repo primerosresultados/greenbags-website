@@ -50,7 +50,8 @@ $exportQs = http_build_query(array_filter([
     </form>
 </div>
 <p class="text-muted" style="font-size:.8rem;margin:.2rem 0 1rem;">
-    El archivo de importación usa el mismo formato del export (columnas por <code>id</code>). Las fotos se editan solo desde esta tabla.
+    Para cambiar precios en Excel: <strong>Exportar</strong>, edita las columnas que necesites (no toques <code>id</code>),
+    guarda como <strong>CSV</strong> y súbelo con <strong>Importar</strong>. Las celdas vacías conservan el valor actual. Las fotos se editan solo desde esta tabla.
 </p>
 
 <?php if (!$rows): ?>
